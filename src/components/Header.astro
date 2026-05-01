@@ -4,58 +4,62 @@ import { site, navigation } from '../data/site';
 const currentPath = Astro.url.pathname;
 ---
 
-<header class="bg-white border-b border-gray-200" slot="header">
-  <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-    <a href="/" class="text-xl font-extrabold tracking-tight text-[var(--ballrz-dark)]">
-      Austin Ball'rz
-    </a>
+<header slot="header">
+  <div class="bg-[var(--ballrz-dark)]">
+    <div class="max-w-5xl mx-auto px-6 py-3 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2" style="font-family: var(--font-heading);">
+        <span class="text-2xl font-bold tracking-wide text-white uppercase">
+          Austin <span class="text-[var(--ballrz-purple-light)]">Ball'rz</span>
+        </span>
+      </a>
 
-    <!-- Desktop nav -->
-    <nav class="hidden md:flex items-center gap-6" aria-label="Main navigation">
-      {navigation.map(item => (
-        <a
-          href={item.href}
-          class:list={[
-            'text-sm font-semibold transition-colors',
-            currentPath === item.href
-              ? 'text-[var(--ballrz-purple)]'
-              : 'text-[var(--ballrz-gray-600)] hover:text-[var(--ballrz-purple)]',
-          ]}
-          aria-current={currentPath === item.href ? 'page' : undefined}
-        >
-          {item.label}
-        </a>
-      ))}
-    </nav>
+      <!-- Desktop nav -->
+      <nav class="hidden md:flex items-center gap-5" aria-label="Main navigation" style="font-family: var(--font-heading);">
+        {navigation.map(item => (
+          <a
+            href={item.href}
+            class:list={[
+              'text-sm font-semibold uppercase tracking-widest transition-colors',
+              currentPath === item.href
+                ? 'text-white'
+                : 'text-white/60 hover:text-white',
+            ]}
+            aria-current={currentPath === item.href ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
 
-    <!-- Mobile menu button -->
-    <button
-      id="mobile-menu-btn"
-      class="md:hidden p-2 text-[var(--ballrz-gray-600)]"
-      aria-label="Open menu"
-      aria-expanded="false"
-      aria-controls="mobile-menu"
-    >
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-      </svg>
-    </button>
+      <!-- Mobile menu button -->
+      <button
+        id="mobile-menu-btn"
+        class="md:hidden p-2 text-white/70 hover:text-white"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
   </div>
 
   <!-- Rainbow bar -->
   <div class="ballrz-rainbow h-1" aria-hidden="true"></div>
 
   <!-- Mobile nav -->
-  <nav id="mobile-menu" class="md:hidden hidden bg-white border-b border-gray-200" aria-label="Mobile navigation">
-    <div class="px-6 py-3 space-y-1">
+  <nav id="mobile-menu" class="md:hidden hidden bg-[var(--ballrz-dark)] border-t border-white/10" aria-label="Mobile navigation" style="font-family: var(--font-heading);">
+    <div class="px-6 py-3 space-y-0.5">
       {navigation.map(item => (
         <a
           href={item.href}
           class:list={[
-            'block text-sm font-semibold py-2.5',
+            'block text-sm font-semibold uppercase tracking-widest py-2.5',
             currentPath === item.href
-              ? 'text-[var(--ballrz-purple)]'
-              : 'text-[var(--ballrz-gray-600)]',
+              ? 'text-white'
+              : 'text-white/60',
           ]}
         >
           {item.label}

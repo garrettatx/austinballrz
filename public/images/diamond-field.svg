@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <!-- Baseball diamond / infield shape — decorative, architectural -->
+  <!-- Home plate at bottom, bases at corners -->
+  <g transform="translate(200,200) rotate(45)" opacity="0.06" fill="none" stroke="#42168A" stroke-width="2">
+    <!-- Infield square -->
+    <rect x="-90" y="-90" width="180" height="180" rx="4"/>
+    <!-- Pitcher's circle -->
+    <circle cx="0" cy="0" r="20"/>
+    <!-- Base paths (inner) -->
+    <rect x="-70" y="-70" width="140" height="140" rx="2" stroke-dasharray="8,6"/>
+  </g>
+  <!-- Home plate -->
+  <polygon points="200,340 188,328 188,318 212,318 212,328" fill="#42168A" opacity="0.04"/>
+</svg>

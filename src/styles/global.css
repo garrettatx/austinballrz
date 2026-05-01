@@ -1,19 +1,36 @@
 @import "tailwindcss";
 
 /*
- * Austin Ball'rz Design Tokens
+ * Austin Ball'rz Design System
  *
- * Clean, restrained palette. Purple is an accent color, not a surface color.
- * White and light gray lead. Dark navy for text and footer.
- * Purple appears in: buttons, links, stat numbers, mission border, stitch dividers.
+ * Typography: Barlow Condensed for headings/nav (sporty, condensed),
+ *             system sans-serif for body (clean, readable)
+ * Color: White-led. Purple as accent only. Navy for dark surfaces.
+ * Decorative: Baseball stitching patterns and diamond shapes, subtle.
  */
+
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/barlow-condensed-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/barlow-condensed-700.woff2') format('woff2');
+}
+
 :root {
-  /* Primary accent — deep purple, used sparingly */
+  /* Purple accent */
   --ballrz-purple: #42168A;
   --ballrz-purple-dark: #2E1065;
   --ballrz-purple-light: #5B21B6;
 
-  /* Dark — navy for text and footer */
+  /* Navy */
   --ballrz-dark: #0D1B2A;
 
   /* Neutrals */
@@ -24,16 +41,24 @@
   --ballrz-gray-600: #4b5563;
   --ballrz-gray-900: #111827;
 
-  /* Rainbow — richer complements of logo stripes */
+  /* Rainbow */
   --ballrz-red: #D92638;
   --ballrz-orange: #E08A00;
   --ballrz-yellow: #D4AD00;
   --ballrz-green: #3DA812;
   --ballrz-blue: #1094D4;
   --ballrz-violet: #6A2BE0;
+
+  /* Font families */
+  --font-heading: 'Barlow Condensed', 'Oswald', 'Impact', sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-/* Rainbow gradient bar */
+body {
+  font-family: var(--font-body);
+}
+
+/* Rainbow bar */
 .ballrz-rainbow {
   background: linear-gradient(
     90deg,
@@ -44,4 +69,11 @@
     var(--ballrz-blue),
     var(--ballrz-violet)
   );
+}
+
+/* Stitch pattern background — very subtle */
+.ballrz-stitch-bg {
+  background-image: url('/images/pattern-stitching.svg');
+  background-repeat: repeat;
+  background-size: 200px 200px;
 }
