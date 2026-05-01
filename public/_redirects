@@ -1,0 +1,5 @@
+# Redirects from old WordPress URLs that may have been indexed
+# Add any additional redirects here as needed
+
+/home/  /  301
+/contact-us/  /contact/  301

@@ -1,0 +1,85 @@
+---
+import '../styles/global.css';
+import { site, gtmId } from '../data/site';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogType?: string;
+  jsonLd?: object | object[];
+}
+
+const { title, description = site.description, ogType = 'website', jsonLd } = Astro.props;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+const isProduction = Astro.url.href.startsWith(site.url);
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+
+  <!-- Canonical -->
+  <link rel="canonical" href={canonicalUrl.href} />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content={ogType} />
+  <meta property="og:url" content={canonicalUrl.href} />
+  <meta property="og:site_name" content={site.name} />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+
+  <!-- Noindex non-production -->
+  {!isProduction && <meta name="robots" content="noindex, nofollow" />}
+
+  <!-- Structured data -->
+  {jsonLd && (
+    Array.isArray(jsonLd)
+      ? jsonLd.map(schema => <script type="application/ld+json" set:html={JSON.stringify(schema)} />)
+      : <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  )}
+
+  <!-- Per-page head injection -->
+  <slot name="head" />
+
+  <!-- GTM — production only, deferred until first interaction or 3s -->
+  {isProduction && gtmId && (
+    <script is:inline define:vars={{ gtmId }}>
+      (function(){
+        var d=false;
+        function g(){
+          if(d)return;d=true;clearTimeout(t);
+          window.dataLayer=window.dataLayer||[];
+          window.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+          var f=document.createElement('script');
+          f.async=true;f.src='https://www.googletagmanager.com/gtm.js?id='+gtmId;
+          document.head.appendChild(f);
+          e.forEach(function(v){document.removeEventListener(v,g,true);});
+        }
+        var e=['scroll','click','keydown','touchstart','mousemove'];
+        e.forEach(function(v){document.addEventListener(v,g,{capture:true,once:true,passive:true});});
+        var t=setTimeout(g,3000);
+      })();
+    </script>
+  )}
+</head>
+<body class="bg-white text-gray-900 font-sans antialiased">
+
+  <slot name="header" />
+
+  <main id="main-content">
+    <slot />
+  </main>
+
+  <slot name="footer" />
+
+</body>
+</html>

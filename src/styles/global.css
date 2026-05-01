@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+/* Design tokens — update when new brand assets arrive */
+:root {
+  --ballrz-navy: #272D64;
+  --ballrz-navy-dark: #1a1f45;
+  --ballrz-white: #ffffff;
+  --ballrz-gray-100: #f5f5f5;
+  --ballrz-gray-200: #e5e5e5;
+  --ballrz-gray-500: #6b7280;
+  --ballrz-gray-900: #1a1a1a;
+}

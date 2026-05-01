@@ -1,0 +1,53 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+import { organizationSchema } from '../lib/schema';
+---
+
+<Layout
+  title={`${site.name} — ${site.tagline}`}
+  jsonLd={organizationSchema()}
+>
+  <Header slot="header" />
+
+  <!-- Hero -->
+  <section class="bg-[var(--ballrz-navy)] text-white py-20">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">{site.name}</h1>
+      <p class="text-xl text-white/80 mb-8">{site.tagline}</p>
+      <div class="flex items-center justify-center gap-4 flex-wrap">
+        <a href="/history/" class="px-6 py-3 bg-white text-[var(--ballrz-navy)] font-semibold rounded-lg hover:bg-gray-100 transition-colors">
+          Our Story
+        </a>
+        <a href="/contact/" class="px-6 py-3 border border-white/30 text-white font-semibold rounded-lg hover:bg-white/10 transition-colors">
+          Get in Touch
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="py-16 bg-white">
+    <div class="max-w-3xl mx-auto px-6 text-center">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">About Us</h2>
+      <p class="text-gray-600 leading-relaxed">
+        Founded in 2013, Austin Ballrz is an LGBTQ+ inclusive softball team competing in Softball Austin. We welcome players of all ages, races, genders, and backgrounds. Whether you're a seasoned player or picking up a bat for the first time, there's a place for you here.
+      </p>
+    </div>
+  </section>
+
+  <!-- Sponsors CTA -->
+  <section class="py-16 bg-[var(--ballrz-gray-100)]">
+    <div class="max-w-3xl mx-auto px-6 text-center">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">Become a Sponsor</h2>
+      <p class="text-gray-600 mb-6">Support LGBTQ+ athletics in Austin. Sponsorship packages start at $250.</p>
+      <a href="/sponsors/" class="px-6 py-3 bg-[var(--ballrz-navy)] text-white font-semibold rounded-lg hover:bg-[var(--ballrz-navy-dark)] transition-colors">
+        View Packages
+      </a>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Layout>

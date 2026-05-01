@@ -1,0 +1,43 @@
+---
+import { site, navigation } from '../data/site';
+---
+
+<footer class="bg-[var(--ballrz-navy-dark)] text-white/70" slot="footer">
+  <div class="max-w-5xl mx-auto px-6 py-10">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+      <!-- Brand -->
+      <div>
+        <p class="text-white font-bold text-lg mb-2">{site.name}</p>
+        <p class="text-sm leading-relaxed mb-4">{site.tagline}</p>
+        {site.social.facebook && (
+          <a
+            href={site.social.facebook}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sm text-white/60 hover:text-white transition-colors"
+          >
+            Facebook
+          </a>
+        )}
+      </div>
+
+      <!-- Links -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wider text-white/50 mb-3">Pages</p>
+        <ul class="space-y-2">
+          {navigation.map(item => (
+            <li>
+              <a href={item.href} class="text-sm text-white/70 hover:text-white transition-colors">
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="border-t border-white/10 mt-8 pt-6 text-xs text-white/40">
+      <p>&copy; {new Date().getFullYear()} {site.name}. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
