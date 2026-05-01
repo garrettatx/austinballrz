@@ -5,7 +5,7 @@ const currentPath = Astro.url.pathname;
 ---
 
 <header slot="header">
-  <div class="bg-[var(--ballrz-dark)]">
+  <div class="bg-[#263a5a]">
     <div class="max-w-5xl mx-auto px-6 py-3 flex items-center justify-between">
       <a href="/" class="flex items-center gap-2" style="font-family: var(--font-heading);">
         <span class="text-2xl font-bold tracking-wide text-white uppercase">
@@ -50,7 +50,7 @@ const currentPath = Astro.url.pathname;
   <div class="ballrz-rainbow h-1" aria-hidden="true"></div>
 
   <!-- Mobile nav -->
-  <nav id="mobile-menu" class="md:hidden hidden bg-[var(--ballrz-dark)] border-t border-white/10" aria-label="Mobile navigation" style="font-family: var(--font-heading);">
+  <nav id="mobile-menu" class="md:hidden hidden bg-[#263a5a] border-t border-white/10" aria-label="Mobile navigation" style="font-family: var(--font-heading);">
     <div class="px-6 py-3 space-y-0.5">
       {navigation.map(item => (
         <a
