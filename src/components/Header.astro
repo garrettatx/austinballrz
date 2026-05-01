@@ -19,7 +19,7 @@ const currentPath = Astro.url.pathname;
           <a
             href={item.href}
             class:list={[
-              'text-sm font-semibold uppercase tracking-widest transition-colors',
+              'text-base font-semibold uppercase tracking-widest transition-colors',
               currentPath === item.href
                 ? 'text-white'
                 : 'text-white/60 hover:text-white',
