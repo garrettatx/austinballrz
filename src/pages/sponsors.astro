@@ -2,25 +2,77 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import Breadcrumbs from '../components/Breadcrumbs.astro';
+import PageHeader from '../components/PageHeader.astro';
 import { site } from '../data/site';
 import { breadcrumbSchema } from '../lib/schema';
 
-const pageName = 'Sponsors';
-const breadcrumbs = [{ label: pageName }];
+const breadcrumbs = [{ label: 'Sponsors' }];
 ---
 
 <Layout
-  title={`${pageName} | ${site.name}`}
+  title={`Sponsors | ${site.name}`}
+  description="Sponsor the Austin Ball'rz LGBTQ+ softball team. Packages from $250 to $2,500."
   jsonLd={breadcrumbSchema(breadcrumbs)}
 >
   <Header slot="header" />
 
-  <section class="py-12">
-    <div class="max-w-3xl mx-auto px-6">
-      <Breadcrumbs items={breadcrumbs} />
-      <h1 class="text-3xl font-bold text-gray-900 mb-6">{pageName}</h1>
-      <p class="text-gray-600">Content coming soon.</p>
+  <PageHeader
+    title="Become a Sponsor"
+    description="Support LGBTQ+ athletics in Austin. Your sponsorship helps cover league fees, tournament travel, uniforms, and equipment."
+    breadcrumbs={breadcrumbs}
+  />
+
+  <section class="pb-12">
+    <div class="max-w-5xl mx-auto px-6">
+
+      <!-- Sponsorship diamond -->
+      <div class="flex justify-center mb-10">
+        <div class="relative" style="width: 280px; height: 280px;">
+          <!-- Outer diamond frame -->
+          <div class="absolute inset-0 border-2 border-[var(--ballrz-purple)]/20 rounded-sm" style="transform: rotate(45deg);"></div>
+          <!-- 4 tier diamonds -->
+          <div class="absolute bg-[#3d4466] text-white text-center p-3 rounded-sm" style="width: 120px; height: 120px; top: 10px; left: 50%; transform: translateX(-50%) rotate(45deg);">
+            <div style="transform: rotate(-45deg);" class="pt-3">
+              <p class="text-xl font-bold" style="font-family: var(--font-heading);">$500</p>
+              <p class="text-[9px] uppercase tracking-widest text-white/60" style="font-family: var(--font-heading);">Team Captain</p>
+            </div>
+          </div>
+          <div class="absolute bg-[#3d4466] text-white text-center p-3 rounded-sm" style="width: 120px; height: 120px; top: 50%; left: 10px; transform: translateY(-50%) rotate(45deg);">
+            <div style="transform: rotate(-45deg);" class="pt-3">
+              <p class="text-xl font-bold" style="font-family: var(--font-heading);">$1,000</p>
+              <p class="text-[9px] uppercase tracking-widest text-white/60" style="font-family: var(--font-heading);">MVP</p>
+            </div>
+          </div>
+          <div class="absolute bg-[#3d4466] text-white text-center p-3 rounded-sm" style="width: 120px; height: 120px; top: 50%; right: 10px; transform: translateY(-50%) rotate(45deg);">
+            <div style="transform: rotate(-45deg);" class="pt-3">
+              <p class="text-xl font-bold" style="font-family: var(--font-heading);">$250</p>
+              <p class="text-[9px] uppercase tracking-widest text-white/60" style="font-family: var(--font-heading);">Slugger</p>
+            </div>
+          </div>
+          <div class="absolute bg-[var(--ballrz-purple)] text-white text-center p-3 rounded-sm" style="width: 120px; height: 120px; bottom: 10px; left: 50%; transform: translateX(-50%) rotate(45deg);">
+            <div style="transform: rotate(-45deg);" class="pt-3">
+              <p class="text-xl font-bold" style="font-family: var(--font-heading);">$2,500</p>
+              <p class="text-[9px] uppercase tracking-widest text-white/60" style="font-family: var(--font-heading);">Champion</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Details -->
+      <div class="max-w-2xl space-y-6">
+        <p class="text-[var(--ballrz-gray-600)] leading-relaxed text-[0.95rem]">
+          All sponsors receive recognition on the team's dugout banner at tournaments, plus visibility on the website and social media. Higher tiers include logo placement on team jerseys and VIP seating.
+        </p>
+
+        <div>
+          <h2 class="text-lg font-bold text-[var(--ballrz-dark)] mb-2" style="font-family: var(--font-heading);">Interested?</h2>
+          <p class="text-[var(--ballrz-gray-600)] text-[0.95rem] mb-4">We'd love to hear from you. Reach out and we'll send over the full sponsorship packet.</p>
+          <a href="/contact/" class="inline-block px-5 py-2.5 bg-[var(--ballrz-purple)] text-white text-sm font-semibold rounded-lg hover:bg-[var(--ballrz-purple-dark)] transition-colors" style="font-family: var(--font-heading); letter-spacing: 0.04em;">
+            Contact Us
+          </a>
+        </div>
+      </div>
+
     </div>
   </section>
 

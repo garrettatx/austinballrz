@@ -2,27 +2,105 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import Breadcrumbs from '../components/Breadcrumbs.astro';
+import PageHeader from '../components/PageHeader.astro';
 import { site } from '../data/site';
 import { breadcrumbSchema } from '../lib/schema';
 
-const pageName = 'Photos';
-const breadcrumbs = [{ label: pageName }];
+const breadcrumbs = [{ label: 'Photos' }];
+
+const photoYears = [
+  { year: '2023', photos: [
+    { src: '/images/team/gsws-2023.jpg', alt: 'GSWS Minneapolis 2023' },
+    { src: '/images/team/team-2023.jpg', alt: 'Ball\'rz 2023 team' },
+  ]},
+  { year: '2022', photos: [
+    { src: '/images/team/team-2022.jpg', alt: 'Ball\'rz Fall 2022 team' },
+  ]},
+  { year: '2021', photos: [
+    { src: '/images/team/team-2021.jpg', alt: 'Ball\'rz 2021 team' },
+  ]},
+  { year: '2020', photos: [
+    { src: '/images/team/team-2020.jpg', alt: 'EZ Ball\'rz and Blue Ball\'rz Spring 2020' },
+  ]},
+  { year: '2019', photos: [
+    { src: '/images/team/team-2019.jpg', alt: 'Ball\'rz 2019 team' },
+  ]},
+  { year: '2017', photos: [
+    { src: '/images/team/team-2017.jpg', alt: 'Ball\'rz 2017 team' },
+  ]},
+  { year: '2015', photos: [
+    { src: '/images/team/team-2015.jpg', alt: 'Ball\'rz Houston 2015' },
+  ]},
+  { year: '2013', photos: [
+    { src: '/images/team/team-2013.jpg', alt: 'Ball\'rz founding team 2013' },
+  ]},
+];
 ---
 
 <Layout
-  title={`${pageName} | ${site.name}`}
+  title={`Photos | ${site.name}`}
+  description="Austin Ball'rz team photos from 2013 to present."
   jsonLd={breadcrumbSchema(breadcrumbs)}
 >
   <Header slot="header" />
 
-  <section class="py-12">
-    <div class="max-w-3xl mx-auto px-6">
-      <Breadcrumbs items={breadcrumbs} />
-      <h1 class="text-3xl font-bold text-gray-900 mb-6">{pageName}</h1>
-      <p class="text-gray-600">Content coming soon.</p>
+  <PageHeader
+    title="Photos"
+    description="Team photos from the present back to our founding in 2013."
+    breadcrumbs={breadcrumbs}
+  />
+
+  <section class="pb-12">
+    <div class="max-w-5xl mx-auto px-6 space-y-10">
+      {photoYears.map(group => (
+        <div>
+          <h2 class="text-lg font-bold text-[var(--ballrz-dark)] mb-3" style="font-family: var(--font-heading);">{group.year}</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {group.photos.map(photo => (
+              <button class="overflow-hidden rounded-lg cursor-pointer photo-open" data-src={photo.src} data-alt={photo.alt}>
+                <img src={photo.src} alt={photo.alt} class="w-full h-auto hover:scale-105 transition-transform duration-300" loading="lazy" />
+              </button>
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
   </section>
+
+  <!-- Photo modal -->
+  <div id="photo-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/85 p-4" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <button id="photo-close" class="absolute top-4 right-4 text-white/70 hover:text-white text-3xl leading-none z-10" aria-label="Close">&times;</button>
+    <button id="photo-prev" class="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors z-10" aria-label="Previous photo">
+      <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+    </button>
+    <button id="photo-next" class="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors z-10" aria-label="Next photo">
+      <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+    </button>
+    <img id="photo-modal-img" src="" alt="" class="max-w-full max-h-[90vh] rounded-lg shadow-2xl" />
+  </div>
+  <script is:inline>
+  (function() {
+    var modal = document.getElementById('photo-modal');
+    var modalImg = document.getElementById('photo-modal-img');
+    var btnClose = document.getElementById('photo-close');
+    var btnPrev = document.getElementById('photo-prev');
+    var btnNext = document.getElementById('photo-next');
+    if (!modal || !modalImg) return;
+    var photos = [];
+    var currentIndex = 0;
+    document.querySelectorAll('.photo-open').forEach(function(btn, i) {
+      photos.push({ src: btn.dataset.src, alt: btn.dataset.alt });
+      btn.addEventListener('click', function() { currentIndex = i; show(i); });
+    });
+    function show(i) { currentIndex = i; modalImg.src = photos[i].src; modalImg.alt = photos[i].alt; modal.classList.remove('hidden'); modal.classList.add('flex'); }
+    function close() { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+    btnClose.addEventListener('click', close);
+    btnPrev.addEventListener('click', function(e) { e.stopPropagation(); show((currentIndex - 1 + photos.length) % photos.length); });
+    btnNext.addEventListener('click', function(e) { e.stopPropagation(); show((currentIndex + 1) % photos.length); });
+    modal.addEventListener('click', function(e) { if (e.target === modal) close(); });
+    document.addEventListener('keydown', function(e) { if (modal.classList.contains('hidden')) return; if (e.key === 'Escape') close(); if (e.key === 'ArrowLeft') show((currentIndex - 1 + photos.length) % photos.length); if (e.key === 'ArrowRight') show((currentIndex + 1) % photos.length); });
+  })();
+  </script>
 
   <Footer slot="footer" />
 </Layout>

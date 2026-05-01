@@ -2,25 +2,62 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import Breadcrumbs from '../components/Breadcrumbs.astro';
+import PageHeader from '../components/PageHeader.astro';
 import { site } from '../data/site';
 import { breadcrumbSchema } from '../lib/schema';
 
-const pageName = 'Achievements';
-const breadcrumbs = [{ label: pageName }];
+const breadcrumbs = [{ label: 'Achievements' }];
+
+const years = [
+  { year: '2025', season: ['D Division Spring — 3rd Place', 'E Division Spring — 2nd Place'], tournaments: ['Coming soon'] },
+  { year: '2024', season: ['D Division Spring', 'E Division Spring'], tournaments: ['iPride World Series — Las Vegas'] },
+  { year: '2023', season: ['E Division Spring — 2nd Place'], tournaments: ['Vegas — E Division 3rd Place', 'Dallas — E Division 2nd Place', 'Austin — E Division 4th Place', 'iPride World Series — Minneapolis'] },
+  { year: '2022', season: ['E Division Fall — 1st Place', 'E Division Spring — 1st Place'], tournaments: ['Houston — E Division 4th Place', 'NAGAAA GSWS Dallas — 13th of 33 teams'] },
+  { year: '2021', season: ['E Division Fall — 2nd Place', 'E Division Spring — 2nd Place'], tournaments: ['NAGAAA GSWS Columbus — 13th of 30 teams'] },
+  { year: '2019', season: ['D Division Fall — 1st Place', 'E Division Spring'], tournaments: ['NAGAAA World Series Kansas City — EZ Ball\'rz 4th Place'] },
+];
 ---
 
 <Layout
-  title={`${pageName} | ${site.name}`}
+  title={`Achievements | ${site.name}`}
+  description="Austin Ball'rz softball team achievements, tournament results, and league standings from 2013 to present."
   jsonLd={breadcrumbSchema(breadcrumbs)}
 >
   <Header slot="header" />
 
-  <section class="py-12">
-    <div class="max-w-3xl mx-auto px-6">
-      <Breadcrumbs items={breadcrumbs} />
-      <h1 class="text-3xl font-bold text-gray-900 mb-6">{pageName}</h1>
-      <p class="text-gray-600">Content coming soon.</p>
+  <PageHeader
+    title="Achievements"
+    description="League standings and tournament results."
+    breadcrumbs={breadcrumbs}
+  />
+
+  <section class="pb-12">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="max-w-3xl space-y-8">
+        {years.map(y => (
+          <div class="border-b border-[var(--ballrz-gray-200)] pb-6 last:border-b-0">
+            <h2 class="text-xl font-bold text-[var(--ballrz-dark)] mb-3" style="font-family: var(--font-heading);">{y.year}</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <p class="text-xs uppercase tracking-widest text-[var(--ballrz-gray-400)] mb-2" style="font-family: var(--font-heading);">Regular Season</p>
+                <ul class="space-y-1">
+                  {y.season.map(s => (
+                    <li class="text-sm text-[var(--ballrz-gray-600)]">{s}</li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <p class="text-xs uppercase tracking-widest text-[var(--ballrz-gray-400)] mb-2" style="font-family: var(--font-heading);">Tournaments</p>
+                <ul class="space-y-1">
+                  {y.tournaments.map(t => (
+                    <li class="text-sm text-[var(--ballrz-gray-600)]">{t}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   </section>
 
