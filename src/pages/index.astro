@@ -80,21 +80,58 @@ import { organizationSchema } from '../lib/schema';
   <section class="py-8 bg-white">
     <div class="max-w-5xl mx-auto px-6">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-        <div class="aspect-[4/3] overflow-hidden rounded-lg">
+        <button class="aspect-[4/3] overflow-hidden rounded-lg cursor-pointer photo-open" data-src="/images/team/team-2023.jpg" data-alt="Ball'rz 2023 team">
           <img src="/images/team/team-2023.jpg" alt="Ball'rz 2023 team" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" />
-        </div>
-        <div class="aspect-[4/3] overflow-hidden rounded-lg">
+        </button>
+        <button class="aspect-[4/3] overflow-hidden rounded-lg cursor-pointer photo-open" data-src="/images/team/team-2022.jpg" data-alt="Ball'rz Fall 2022">
           <img src="/images/team/team-2022.jpg" alt="Ball'rz Fall 2022" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" />
-        </div>
-        <div class="aspect-[4/3] overflow-hidden rounded-lg">
+        </button>
+        <button class="aspect-[4/3] overflow-hidden rounded-lg cursor-pointer photo-open" data-src="/images/team/gsws-2023.jpg" data-alt="GSWS Minneapolis 2023">
           <img src="/images/team/gsws-2023.jpg" alt="GSWS Minneapolis 2023" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" />
-        </div>
-        <div class="aspect-[4/3] overflow-hidden rounded-lg">
+        </button>
+        <button class="aspect-[4/3] overflow-hidden rounded-lg cursor-pointer photo-open" data-src="/images/team/team-2019.jpg" data-alt="Ball'rz 2019 team">
           <img src="/images/team/team-2019.jpg" alt="Ball'rz 2019 team" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" />
-        </div>
+        </button>
       </div>
     </div>
   </section>
+
+  <!-- Photo modal -->
+  <div id="photo-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/85 p-4 cursor-pointer" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <button class="absolute top-4 right-4 text-white/70 hover:text-white text-3xl leading-none" aria-label="Close">&times;</button>
+    <img id="photo-modal-img" src="" alt="" class="max-w-full max-h-[90vh] rounded-lg shadow-2xl" />
+  </div>
+
+  <script is:inline>
+  (function() {
+    var modal = document.getElementById('photo-modal');
+    var modalImg = document.getElementById('photo-modal-img');
+    if (!modal || !modalImg) return;
+
+    document.querySelectorAll('.photo-open').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        modalImg.src = btn.dataset.src;
+        modalImg.alt = btn.dataset.alt;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      });
+    });
+
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal || e.target.tagName === 'BUTTON') {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    });
+  })();
+  </script>
 
   <!-- Mission — pull-quote style -->
   <section class="py-12 bg-white">
@@ -108,26 +145,26 @@ import { organizationSchema } from '../lib/schema';
     </div>
   </section>
 
-  <!-- Achievements -->
-  <section class="py-12 ballrz-stitch-bg bg-[var(--ballrz-gray-50)]">
-    <div class="max-w-4xl mx-auto px-6 relative z-10">
-      <h2 class="text-xl font-bold text-[var(--ballrz-dark)] mb-6 text-center" style="font-family: var(--font-heading); letter-spacing: 0.03em;">On the Field</h2>
-      <div class="grid grid-cols-3 gap-3 text-center">
-        <div class="bg-white rounded-lg p-5 border border-[var(--ballrz-gray-200)] border-t-3 border-t-[var(--ballrz-purple)]">
-          <p class="text-2xl md:text-3xl font-bold text-[var(--ballrz-purple)]" style="font-family: var(--font-heading);">5</p>
-          <p class="text-xs text-[var(--ballrz-gray-600)] mt-1">World Series</p>
+  <!-- Achievements — scoreboard style -->
+  <section class="py-12 bg-[var(--ballrz-dark)]">
+    <div class="max-w-4xl mx-auto px-6">
+      <h2 class="text-xl font-bold text-white/90 mb-6 text-center uppercase tracking-widest" style="font-family: var(--font-heading);">On the Field</h2>
+      <div class="grid grid-cols-3 gap-3 md:gap-4 text-center">
+        <div class="bg-[#162033] rounded-lg p-5 md:p-6">
+          <p class="text-3xl md:text-4xl font-bold text-white" style="font-family: var(--font-heading); letter-spacing: 0.02em;">5</p>
+          <p class="text-xs text-white/50 mt-1.5 uppercase tracking-wider" style="font-family: var(--font-heading);">World Series</p>
         </div>
-        <div class="bg-white rounded-lg p-5 border border-[var(--ballrz-gray-200)] border-t-3 border-t-[var(--ballrz-purple)]">
-          <p class="text-2xl md:text-3xl font-bold text-[var(--ballrz-purple)]" style="font-family: var(--font-heading);">4th</p>
-          <p class="text-xs text-[var(--ballrz-gray-600)] mt-1">Best Finish (2019)</p>
+        <div class="bg-[#162033] rounded-lg p-5 md:p-6">
+          <p class="text-3xl md:text-4xl font-bold text-white" style="font-family: var(--font-heading); letter-spacing: 0.02em;">4th</p>
+          <p class="text-xs text-white/50 mt-1.5 uppercase tracking-wider" style="font-family: var(--font-heading);">Best Finish '19</p>
         </div>
-        <div class="bg-white rounded-lg p-5 border border-[var(--ballrz-gray-200)] border-t-3 border-t-[var(--ballrz-purple)]">
-          <p class="text-2xl md:text-3xl font-bold text-[var(--ballrz-purple)]" style="font-family: var(--font-heading);">2013</p>
-          <p class="text-xs text-[var(--ballrz-gray-600)] mt-1">Founded</p>
+        <div class="bg-[#162033] rounded-lg p-5 md:p-6">
+          <p class="text-3xl md:text-4xl font-bold text-white" style="font-family: var(--font-heading); letter-spacing: 0.02em;">2013</p>
+          <p class="text-xs text-white/50 mt-1.5 uppercase tracking-wider" style="font-family: var(--font-heading);">Founded</p>
         </div>
       </div>
       <p class="text-center mt-5">
-        <a href="/achievements/" class="text-sm font-semibold text-[var(--ballrz-purple)] hover:underline" style="font-family: var(--font-heading); letter-spacing: 0.03em;">
+        <a href="/achievements/" class="text-sm font-semibold text-[#9b5de5] hover:text-white transition-colors uppercase tracking-wider" style="font-family: var(--font-heading);">
           View All Achievements &rarr;
         </a>
       </p>
@@ -135,13 +172,7 @@ import { organizationSchema } from '../lib/schema';
   </section>
 
   <!-- Sponsors -->
-  <section class="py-12 bg-white">
-    <div class="max-w-5xl mx-auto px-6 mb-8">
-      <svg viewBox="0 0 800 20" class="w-full h-5" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M0,10 Q200,0 400,10 T800,10" fill="none" stroke="#42168A" stroke-width="1.5" opacity="0.1" />
-        <path d="M0,10 Q200,20 400,10 T800,10" fill="none" stroke="#42168A" stroke-width="1.5" opacity="0.1" />
-      </svg>
-    </div>
+  <section class="py-12 bg-[var(--ballrz-gray-50)]">
     <div class="max-w-2xl mx-auto px-6 text-center">
       <h2 class="text-xl font-bold text-[var(--ballrz-dark)] mb-3" style="font-family: var(--font-heading); letter-spacing: 0.03em;">Become a Sponsor</h2>
       <p class="text-[var(--ballrz-gray-600)] text-[0.95rem] mb-5">Support LGBTQ+ athletics in Austin. Sponsorship packages start at $250.</p>
