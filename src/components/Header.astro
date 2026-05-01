@@ -4,10 +4,10 @@ import { site, navigation } from '../data/site';
 const currentPath = Astro.url.pathname;
 ---
 
-<header class="bg-[var(--ballrz-dark)] text-white" slot="header">
-  <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
-    <a href="/" class="flex items-center gap-3">
-      <img src="/images/logo.svg" alt={site.name} width="120" height="60" class="h-12 w-auto" />
+<header class="bg-[var(--ballrz-purple-dark)] text-white" slot="header">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="/" class="text-xl font-extrabold tracking-tight">
+      Austin Ball'rz
     </a>
 
     <!-- Desktop nav -->
@@ -16,7 +16,7 @@ const currentPath = Astro.url.pathname;
         <a
           href={item.href}
           class:list={[
-            'text-sm font-semibold uppercase tracking-wide transition-colors',
+            'text-sm font-semibold tracking-wide transition-colors',
             currentPath === item.href
               ? 'text-[var(--ballrz-gold-light)]'
               : 'text-white/75 hover:text-white',
@@ -46,13 +46,13 @@ const currentPath = Astro.url.pathname;
   <div class="ballrz-rainbow h-1" aria-hidden="true"></div>
 
   <!-- Mobile nav -->
-  <nav id="mobile-menu" class="md:hidden hidden bg-[var(--ballrz-dark-light)]" aria-label="Mobile navigation">
+  <nav id="mobile-menu" class="md:hidden hidden bg-[var(--ballrz-purple)]" aria-label="Mobile navigation">
     <div class="px-6 py-4 space-y-1">
       {navigation.map(item => (
         <a
           href={item.href}
           class:list={[
-            'block text-sm font-semibold uppercase tracking-wide py-2.5',
+            'block text-sm font-semibold tracking-wide py-2.5',
             currentPath === item.href
               ? 'text-[var(--ballrz-gold-light)]'
               : 'text-white/70 hover:text-white',
