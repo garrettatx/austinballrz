@@ -4,35 +4,41 @@
  *
  * Usage: Include once per page. Any element with class="photo-open"
  * and data-src / data-alt attributes will trigger the modal.
- * Supports keyboard: Escape to close, Arrow keys to navigate.
+ * Supports: keyboard (Escape, arrows), touch swipe, click outside.
  */
 ---
 
 <div id="photo-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/85" style={`padding: var(--space-4);`} role="dialog" aria-modal="true" aria-label="Photo viewer">
-  <button id="photo-close" class="absolute top-4 right-4 text-white/70 hover:text-white text-3xl leading-none z-10" aria-label="Close">&times;</button>
-  <button id="photo-prev" class="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors z-10" aria-label="Previous photo">
-    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+  <button id="photo-close" class="absolute top-4 right-4 text-white/70 hover:text-white text-3xl leading-none z-10" style="padding: 0.5rem;" aria-label="Close">&times;</button>
+  <button id="photo-prev" class="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors z-10" style="padding: 0.5rem;" aria-label="Previous photo">
+    <svg class="w-8 h-8 md:w-10 md:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
   </button>
-  <button id="photo-next" class="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors z-10" aria-label="Next photo">
-    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+  <button id="photo-next" class="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors z-10" style="padding: 0.5rem;" aria-label="Next photo">
+    <svg class="w-8 h-8 md:w-10 md:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
   </button>
-  <img id="photo-modal-img" src="" alt="" class="max-w-full max-h-[90vh] rounded-lg shadow-2xl" />
+  <img id="photo-modal-img" src="" alt="" class="max-w-full max-h-[85vh] md:max-h-[90vh] rounded-lg shadow-2xl" style="user-select: none; -webkit-user-select: none;" />
 </div>
 
 <script is:inline>
 (function() {
+  if (window.__photoModalInit) return;
+  window.__photoModalInit = true;
+
   var modal = document.getElementById('photo-modal');
   var modalImg = document.getElementById('photo-modal-img');
   var btnClose = document.getElementById('photo-close');
   var btnPrev = document.getElementById('photo-prev');
   var btnNext = document.getElementById('photo-next');
   if (!modal || !modalImg) return;
+
   var photos = [];
   var currentIndex = 0;
+
   document.querySelectorAll('.photo-open').forEach(function(btn, i) {
     photos.push({ src: btn.dataset.src, alt: btn.dataset.alt });
-    btn.addEventListener('click', function() { currentIndex = i; show(i); });
+    btn.addEventListener('click', function() { show(i); });
   });
+
   function show(i) {
     currentIndex = i;
     modalImg.src = photos[i].src;
@@ -40,21 +46,49 @@
     modal.classList.remove('hidden');
     modal.classList.add('flex');
     document.body.style.overflow = 'hidden';
+    // Show/hide arrows for single photo
+    var multi = photos.length > 1;
+    btnPrev.style.display = multi ? '' : 'none';
+    btnNext.style.display = multi ? '' : 'none';
   }
+
   function close() {
     modal.classList.add('hidden');
     modal.classList.remove('flex');
     document.body.style.overflow = '';
   }
+
+  function prev() { show((currentIndex - 1 + photos.length) % photos.length); }
+  function next() { show((currentIndex + 1) % photos.length); }
+
   btnClose.addEventListener('click', close);
-  btnPrev.addEventListener('click', function(e) { e.stopPropagation(); show((currentIndex - 1 + photos.length) % photos.length); });
-  btnNext.addEventListener('click', function(e) { e.stopPropagation(); show((currentIndex + 1) % photos.length); });
+  btnPrev.addEventListener('click', function(e) { e.stopPropagation(); prev(); });
+  btnNext.addEventListener('click', function(e) { e.stopPropagation(); next(); });
   modal.addEventListener('click', function(e) { if (e.target === modal) close(); });
+
+  // Keyboard
   document.addEventListener('keydown', function(e) {
     if (modal.classList.contains('hidden')) return;
     if (e.key === 'Escape') close();
-    if (e.key === 'ArrowLeft') show((currentIndex - 1 + photos.length) % photos.length);
-    if (e.key === 'ArrowRight') show((currentIndex + 1) % photos.length);
+    if (e.key === 'ArrowLeft') prev();
+    if (e.key === 'ArrowRight') next();
   });
+
+  // Touch swipe
+  var touchStartX = 0;
+  var touchStartY = 0;
+  modal.addEventListener('touchstart', function(e) {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+  }, { passive: true });
+  modal.addEventListener('touchend', function(e) {
+    var dx = e.changedTouches[0].screenX - touchStartX;
+    var dy = e.changedTouches[0].screenY - touchStartY;
+    // Only swipe if horizontal movement is greater than vertical
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+      if (dx < 0) next();
+      else prev();
+    }
+  }, { passive: true });
 })();
 </script>

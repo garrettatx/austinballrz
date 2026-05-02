@@ -148,9 +148,15 @@ export async function onRequestPost(context) {
     const jsonData = await jsonRes.json();
     const currentJson = JSON.parse(atob(jsonData.content.replace(/\n/g, '')));
 
-    // 5. Add the new photo entry
-    const newPhoto = { src: filename, alt: alt.trim() };
-    if (caption) newPhoto.caption = caption;
+    // 5. Add the new photo entry (sanitize smart quotes/dashes)
+    function cleanText(s) {
+      return s.replace(/[\u2018\u2019\u201A]/g, "'")
+              .replace(/[\u201C\u201D\u201E]/g, '"')
+              .replace(/[\u2013\u2014]/g, '-')
+              .replace(/\u2026/g, '...');
+    }
+    const newPhoto = { src: filename, alt: cleanText(alt.trim()) };
+    if (caption) newPhoto.caption = cleanText(caption);
     if (team) newPhoto.team = team;
     if (hero) newPhoto.hero = true;
     if (featured === false) newPhoto.featured = false;
