@@ -28,13 +28,13 @@ const breadcrumbs = [{ label: 'Sponsors' }];
       <!-- Sponsorship diamond — baseball diamond layout -->
       <div class="flex justify-center mb-10">
         <div class="relative" style="width: 460px; height: 460px;">
-          <!-- Outer diamond frame — visible lavender border -->
-          <div class="absolute" style="width: 330px; height: 330px; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(45deg); border: 2.5px solid rgba(160,150,210,0.5); border-radius: 4px;"></div>
-          <!-- Base dots at corners of the outer diamond -->
-          <div class="absolute rounded-full" style="width: 22px; height: 22px; background: rgba(160,150,210,0.55); top: -5px; left: 50%; transform: translateX(-50%);"></div>
-          <div class="absolute rounded-full" style="width: 22px; height: 22px; background: rgba(160,150,210,0.55); bottom: -5px; left: 50%; transform: translateX(-50%);"></div>
-          <div class="absolute rounded-full" style="width: 22px; height: 22px; background: rgba(160,150,210,0.55); top: 50%; left: -5px; transform: translateY(-50%);"></div>
-          <div class="absolute rounded-full" style="width: 22px; height: 22px; background: rgba(160,150,210,0.55); top: 50%; right: -5px; transform: translateY(-50%);"></div>
+          <!-- Outer diamond frame — wraps around the 4 tiles, slightly larger -->
+          <div class="absolute" style="width: 350px; height: 350px; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(45deg); border: 2px solid rgba(160,155,210,0.45); border-radius: 4px;"></div>
+          <!-- Base dots at the 4 corners of the outer frame -->
+          <div class="absolute rounded-full" style="width: 22px; height: 22px; background: rgba(160,155,210,0.5); top: -11px; left: 50%; transform: translateX(-50%);"></div>
+          <div class="absolute rounded-full" style="width: 22px; height: 22px; background: rgba(160,155,210,0.5); bottom: -11px; left: 50%; transform: translateX(-50%);"></div>
+          <div class="absolute rounded-full" style="width: 22px; height: 22px; background: rgba(160,155,210,0.5); top: 50%; left: -11px; transform: translateY(-50%);"></div>
+          <div class="absolute rounded-full" style="width: 22px; height: 22px; background: rgba(160,155,210,0.5); top: 50%; right: -11px; transform: translateY(-50%);"></div>
 
           <!-- 2nd base — Team Captain $500 (top) -->
           <div class="absolute text-white text-center" style="width: 165px; height: 165px; top: 16px; left: 50%; transform: translateX(-50%) rotate(45deg);">
