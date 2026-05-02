@@ -17,10 +17,10 @@ const currentPath = Astro.url.pathname;
           <a
             href={item.href}
             class:list={[
-              'text-base font-semibold uppercase tracking-widest transition-colors',
+              'text-lg font-bold uppercase tracking-wide transition-colors py-4 border-b-2',
               currentPath === item.href
-                ? 'text-white'
-                : 'text-white/60 hover:text-white',
+                ? 'text-white border-[#9b5de5]'
+                : 'text-white/60 hover:text-white border-transparent hover:border-white/30',
             ]}
             aria-current={currentPath === item.href ? 'page' : undefined}
           >
