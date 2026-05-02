@@ -10,6 +10,19 @@ import { photoYears } from '../data/photos';
 import { breadcrumbSchema } from '../lib/schema';
 
 const breadcrumbs = [{ label: 'Photos' }];
+
+/**
+ * Pick a grid layout class based on photo count.
+ * Ensures any number of photos looks intentional, not accidental.
+ */
+function gridClass(count: number): string {
+  if (count === 1) return 'gallery-1';
+  if (count === 2) return 'gallery-2';
+  if (count === 3) return 'gallery-3';
+  if (count === 4) return 'gallery-4';
+  if (count === 5) return 'gallery-5';
+  return 'gallery-multi'; // 6+
+}
 ---
 
 <Layout
@@ -26,15 +39,20 @@ const breadcrumbs = [{ label: 'Photos' }];
   />
 
   <section class="section-sm">
-    <div class="container" style="display: flex; flex-direction: column; gap: var(--space-8);">
+    <div class="container" style="display: flex; flex-direction: column; gap: var(--space-10);">
       {photoYears.map(group => (
         <div>
           <h2 class="heading h4" style="margin-bottom: var(--space-2);">{group.heading || group.year}</h2>
           {group.description && <p class="mb-3" style="color: var(--color-muted); font-size: var(--text-sm);">{group.description}</p>}
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {group.photos.map(photo => (
-              <button class="overflow-hidden rounded-lg cursor-pointer photo-open" data-src={photo.src} data-alt={photo.alt}>
-                <img src={photo.src} alt={photo.alt} class="w-full h-auto hover:scale-105 transition-transform duration-300" loading="lazy" />
+          <div class={`gallery ${gridClass(group.photos.length)}`}>
+            {group.photos.map((photo, i) => (
+              <button
+                class={`gallery-item overflow-hidden rounded-lg cursor-pointer photo-open ${i === 0 && group.photos.length >= 3 ? 'gallery-feature' : ''}`}
+                data-src={photo.src}
+                data-alt={photo.alt}
+              >
+                <img src={photo.src} alt={photo.alt} class="gallery-img" loading="lazy" />
+                {photo.caption && <span class="gallery-caption">{photo.caption}</span>}
               </button>
             ))}
           </div>
@@ -49,3 +67,154 @@ const breadcrumbs = [{ label: 'Photos' }];
 
   <Footer slot="footer" />
 </Layout>
+
+<style>
+  /* Base gallery */
+  .gallery {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .gallery-item {
+    position: relative;
+    border: none;
+    padding: 0;
+    background: none;
+  }
+
+  .gallery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  .gallery-item:hover .gallery-img {
+    transform: scale(1.04);
+  }
+
+  .gallery-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: var(--space-2) var(--space-3);
+    background: linear-gradient(transparent, rgba(0,0,0,0.6));
+    color: white;
+    font-size: var(--text-sm);
+    font-family: var(--font-heading);
+    letter-spacing: 0.02em;
+    text-align: left;
+  }
+
+  /* 1 photo — full width, capped height */
+  .gallery-1 {
+    grid-template-columns: 1fr;
+  }
+  .gallery-1 .gallery-item {
+    aspect-ratio: 16/9;
+    max-height: 400px;
+  }
+
+  /* 2 photos — side by side */
+  .gallery-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+  .gallery-2 .gallery-item {
+    aspect-ratio: 4/3;
+  }
+
+  /* 3 photos — one large + two small */
+  .gallery-3 {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+  }
+  .gallery-3 .gallery-feature {
+    grid-column: 1 / -1;
+    aspect-ratio: 16/9;
+    max-height: 360px;
+  }
+  .gallery-3 .gallery-item:not(.gallery-feature) {
+    aspect-ratio: 4/3;
+  }
+
+  /* 4 photos — 2x2 grid */
+  .gallery-4 {
+    grid-template-columns: 1fr 1fr;
+  }
+  .gallery-4 .gallery-item {
+    aspect-ratio: 4/3;
+  }
+
+  /* 5 photos — one featured + 2x2 */
+  .gallery-5 {
+    grid-template-columns: 1fr 1fr;
+  }
+  .gallery-5 .gallery-feature {
+    grid-column: 1 / -1;
+    aspect-ratio: 16/9;
+    max-height: 360px;
+  }
+  .gallery-5 .gallery-item:not(.gallery-feature) {
+    aspect-ratio: 4/3;
+  }
+
+  /* 6+ photos — responsive auto-fill grid */
+  .gallery-multi {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .gallery-multi .gallery-feature {
+    grid-column: 1 / -1;
+    aspect-ratio: 16/9;
+    max-height: 360px;
+  }
+  .gallery-multi .gallery-item:not(.gallery-feature) {
+    aspect-ratio: 4/3;
+  }
+
+  /* Desktop: wider grids for larger sets */
+  @media (min-width: 768px) {
+    .gallery-3 {
+      grid-template-columns: 2fr 1fr;
+      grid-template-rows: auto;
+    }
+    .gallery-3 .gallery-feature {
+      grid-row: 1 / 3;
+      grid-column: 1;
+      max-height: none;
+      aspect-ratio: auto;
+      height: 100%;
+    }
+    .gallery-3 .gallery-item:not(.gallery-feature) {
+      aspect-ratio: 4/3;
+    }
+
+    .gallery-5 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .gallery-5 .gallery-feature {
+      grid-column: 1 / 3;
+      grid-row: 1 / 3;
+      max-height: none;
+      aspect-ratio: auto;
+      height: 100%;
+    }
+
+    .gallery-multi {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .gallery-multi .gallery-feature {
+      grid-column: 1 / 3;
+      grid-row: 1 / 3;
+      max-height: none;
+      aspect-ratio: auto;
+      height: 100%;
+    }
+  }
+
+  /* Mobile: stack single column for 2-photo groups */
+  @media (max-width: 479px) {
+    .gallery-2 {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
