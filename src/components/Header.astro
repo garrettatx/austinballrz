@@ -1,5 +1,8 @@
 ---
-import { site, navigation } from '../data/site';
+import { site, navigation, allPages } from '../data/site';
+
+// Secondary pages: in allPages but not in main navigation
+const secondaryPages = allPages.filter(p => !navigation.some(n => n.href === p.href));
 
 const currentPath = Astro.url.pathname;
 ---
@@ -69,6 +72,23 @@ const currentPath = Astro.url.pathname;
           {item.label}
         </a>
       ))}
+      {secondaryPages.length > 0 && (
+        <>
+          <div style={`border-top: 1px solid rgba(255,255,255,0.1); margin-block: var(--space-2);`} aria-hidden="true"></div>
+          {secondaryPages.map(item => (
+            <a
+              href={item.href}
+              class:list={[
+                'block font-semibold',
+                currentPath === item.href ? 'text-white' : 'text-[var(--color-nav-inactive)]',
+              ]}
+              style={`font-size: var(--text-xs); letter-spacing: 0.06em; padding-block: var(--space-2);`}
+            >
+              {item.label}
+            </a>
+          ))}
+        </>
+      )}
     </div>
   </nav>
 </header>

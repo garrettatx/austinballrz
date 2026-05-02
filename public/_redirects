@@ -1,5 +1,8 @@
-# Redirects from old WordPress URLs that may have been indexed
-# Add any additional redirects here as needed
-
+# Redirects from old WordPress URLs
 /home/  /  301
 /contact-us/  /contact/  301
+
+# Pages moved to drafts or removed — redirect to homepage
+/scorekeeping/  /  301
+/info/  /  301
+/softball-cheers/  /  301

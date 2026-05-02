@@ -42,8 +42,5 @@ export const allPages = [
   { label: 'Sponsors', href: '/sponsors/' },
   { label: 'Contact', href: '/contact/' },
   { label: 'Gear & Equipment', href: '/gear/' },
-  { label: 'Softball Cheers', href: '/softball-cheers/' },
-  { label: 'iPride Softball Guide', href: '/info/' },
-  { label: 'Scorekeeping', href: '/scorekeeping/' },
   { label: 'GoPro Guide', href: '/gopro/' },
 ] as const;

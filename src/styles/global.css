@@ -104,7 +104,7 @@
   --space-16: 4rem;     /* 64px */
 
   /* --- Layout --- */
-  --container-max: 72rem;  /* 1152px */
+  --container-max: 64rem;  /* 1024px — tighter than 72rem, keeps content focused */
   --prose-max:     68ch;   /* ~65-70 characters — comfortable reading measure */
   --content-max:   48rem;  /* 768px — wider content (grids, cards) */
 }
