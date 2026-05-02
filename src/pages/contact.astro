@@ -79,11 +79,12 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
             </div>
 
             <div>
-              <label for="phone" class="label mb-1" style="display: block; color: var(--color-dark);">Phone <span style="font-weight: 400; text-transform: none; letter-spacing: normal;">(optional)</span></label>
+              <label for="phone" class="label mb-1" style="display: block; color: var(--color-dark);">Phone</label>
               <input
                 type="tel"
                 id="phone"
                 name="phone"
+                required
                 autocomplete="tel"
                 class="w-full rounded-lg transition-colors"
                 style={`padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); font-size: var(--text-base); font-family: var(--font-body);`}

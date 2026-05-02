@@ -1,14 +1,12 @@
 ---
 import { site } from '../../data/site';
 
-// Get existing years for dropdown
-import fs from 'node:fs';
-import path from 'node:path';
-const jsonPath = path.resolve('public/images/team/photos.json');
-const raw = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
-const existingYears = raw.map((g: { year: string }) => g.year);
-const currentYear = new Date().getFullYear().toString();
-if (!existingYears.includes(currentYear)) existingYears.unshift(currentYear);
+// All years from current back to 2013
+const currentYear = new Date().getFullYear();
+const allYears: string[] = [];
+for (let y = currentYear; y >= 2013; y--) {
+  allYears.push(y.toString());
+}
 
 const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
 ---
@@ -139,7 +137,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
       <div class="form-group">
         <label class="required">Photo</label>
         <div class="upload-area" id="upload-area">
-          <input type="file" id="photo-file" accept="image/jpeg,image/png,image/webp" capture="environment" required />
+          <input type="file" id="photo-file" accept="image/jpeg,image/png,image/webp" required />
           <div id="upload-placeholder">
             <div class="upload-icon">📷</div>
             <p class="upload-text"><strong>Tap to choose a photo</strong></p>
@@ -162,10 +160,9 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
         <div class="form-group">
           <label for="year" class="required">Year</label>
           <select id="year" required>
-            {existingYears.map((y: string) => (
-              <option value={y} selected={y === currentYear}>{y}</option>
+            {allYears.map((y: string) => (
+              <option value={y} selected={y === allYears[0]}>{y}</option>
             ))}
-            <option value="__new">Other...</option>
           </select>
         </div>
         <div class="form-group">
@@ -178,10 +175,6 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
         </div>
       </div>
 
-      <div class="form-group" id="new-year-group" style="display:none;">
-        <label for="new-year" class="required">Year</label>
-        <input type="text" id="new-year" placeholder="2027" inputmode="numeric" pattern="[0-9]{4}" />
-      </div>
 
       {/* Your name */}
       <div class="form-group">
@@ -213,8 +206,6 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
     var preview = document.getElementById('upload-preview');
     var metaEl = document.getElementById('upload-meta');
     var yearSelect = document.getElementById('year');
-    var newYearGroup = document.getElementById('new-year-group');
-    var newYearInput = document.getElementById('new-year');
     var submitBtn = document.getElementById('submit-btn');
     var msgSuccess = document.getElementById('msg-success');
     var msgError = document.getElementById('msg-error');
@@ -301,18 +292,6 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
       }
     });
 
-    // Year dropdown
-    yearSelect.addEventListener('change', function() {
-      if (this.value === '__new') {
-        newYearGroup.style.display = 'block';
-        newYearInput.required = true;
-        newYearInput.focus();
-      } else {
-        newYearGroup.style.display = 'none';
-        newYearInput.required = false;
-      }
-    });
-
     // Submit another
     anotherBtn.addEventListener('click', function() {
       msgSuccess.classList.remove('visible');
@@ -351,7 +330,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
       submitBtn.disabled = true;
       submitBtn.textContent = 'Uploading...';
 
-      var year = yearSelect.value === '__new' ? newYearInput.value.trim() : yearSelect.value;
+      var year = yearSelect.value;
 
       // Use original filename
       var originalName = fileInput.files[0].name.replace(/\.[^.]+$/, '') + '.jpg';

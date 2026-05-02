@@ -31,6 +31,7 @@ export async function onRequestPost(context) {
     const errors = [];
     if (!name?.trim()) errors.push('Name is required.');
     if (!email?.trim()) errors.push('Email is required.');
+    if (!phone?.trim()) errors.push('Phone number is required.');
     if (!message?.trim()) errors.push('Message is required.');
 
     if (email?.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
