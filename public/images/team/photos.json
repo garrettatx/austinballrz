@@ -1,13 +1,18 @@
 [
   {
-    "year": "2025",
+    "year": "2026",
     "photos": [
       {
         "src": "6fe0069d31acd3dfdad1ea2c6ebf31e8-2026.jpg",
-        "alt": "E Ball'rz Fall 2025",
-        "caption": "E Ball'rz Fall 2025",
+        "alt": "E Ball'rz Spring 2026",
+        "caption": "E Ball'rz Spring 2026",
         "team": "e"
-      },
+      }
+    ]
+  },
+  {
+    "year": "2025",
+    "photos": [
       {
         "src": "4443401028175671495_heic-2026.jpg",
         "alt": "E Team Fall 2025",
