@@ -67,7 +67,7 @@ const currentPath = Astro.url.pathname;
             'block uppercase font-semibold',
             currentPath === item.href ? 'text-white' : 'text-[var(--color-nav-inactive)]',
           ]}
-          style={`font-size: var(--text-sm); letter-spacing: 0.08em; padding-block: var(--space-2);`}
+          style={`font-size: var(--text-base); letter-spacing: 0.06em; padding-block: var(--space-3);`}
         >
           {item.label}
         </a>
@@ -82,7 +82,7 @@ const currentPath = Astro.url.pathname;
                 'block font-semibold',
                 currentPath === item.href ? 'text-white' : 'text-[var(--color-nav-inactive)]',
               ]}
-              style={`font-size: var(--text-xs); letter-spacing: 0.06em; padding-block: var(--space-2);`}
+              style={`font-size: var(--text-sm); letter-spacing: 0.06em; padding-block: var(--space-3);`}
             >
               {item.label}
             </a>
