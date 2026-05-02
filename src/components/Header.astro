@@ -62,7 +62,7 @@ const currentPath = Astro.url.pathname;
           href={item.href}
           class:list={[
             'block uppercase font-semibold',
-            currentPath === item.href ? 'text-white' : 'text-white/60',
+            currentPath === item.href ? 'text-white' : 'text-[var(--color-nav-inactive)]',
           ]}
           style={`font-size: var(--text-sm); letter-spacing: 0.08em; padding-block: var(--space-2);`}
         >
