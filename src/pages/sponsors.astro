@@ -7,6 +7,13 @@ import { site } from '../data/site';
 import { breadcrumbSchema } from '../lib/schema';
 
 const breadcrumbs = [{ label: 'Sponsors' }];
+
+const tiers = [
+  { name: 'Champion', price: '$2,500', benefit: 'Logo on jerseys, banner, website, and social media. VIP seating.', highlight: true },
+  { name: 'MVP', price: '$1,000', benefit: 'Logo on dugout banner, website, and social media.' },
+  { name: 'Team Captain', price: '$500', benefit: 'Social media recognition and name on website.' },
+  { name: 'Slugger', price: '$250', benefit: 'Social media recognition and name on website.' },
+];
 ---
 
 <Layout
@@ -18,82 +25,95 @@ const breadcrumbs = [{ label: 'Sponsors' }];
 
   <PageHeader
     title="Become a Sponsor"
-    description="Support LGBTQ+ athletics in Austin. Your sponsorship helps cover league fees, tournament travel, uniforms, and equipment."
+    description="Your sponsorship helps cover league fees, tournament travel, uniforms, and equipment."
     breadcrumbs={breadcrumbs}
   />
 
-  <section class="pb-12">
+  <section class="section-sm">
     <div class="container">
+      <div class="grid grid-cols-1 lg:grid-cols-[auto_1fr] items-start" style={`gap: var(--space-12);`}>
 
-      <!-- Sponsorship diamond — baseball diamond layout -->
-      <div class="flex justify-center mb-10">
-        <div class="relative" style="width: 520px; height: 520px;">
-          <!-- Outer diamond frame + base dots (SVG for pixel-perfect alignment) -->
-          <svg class="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 520 520" fill="none" aria-hidden="true">
-            <rect x="75" y="75" width="370" height="370" rx="3" transform="rotate(45 260 260)" stroke="rgba(160,155,210,0.4)" stroke-width="2.5" />
-            <circle cx="260" cy="0" r="13" fill="rgba(160,155,210,0.5)" />
-            <circle cx="260" cy="520" r="13" fill="rgba(160,155,210,0.5)" />
-            <circle cx="0" cy="260" r="13" fill="rgba(160,155,210,0.5)" />
-            <circle cx="520" cy="260" r="13" fill="rgba(160,155,210,0.5)" />
-          </svg>
+        {/* Diamond graphic — desktop only */}
+        <div class="hidden lg:block">
+          <div class="relative" style="width: 420px; height: 420px;">
+            <svg class="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 420 420" fill="none" aria-hidden="true">
+              <rect x="60" y="60" width="300" height="300" rx="3" transform="rotate(45 210 210)" stroke="rgba(160,155,210,0.4)" stroke-width="2.5" />
+              <circle cx="210" cy="0" r="12" fill="rgba(160,155,210,0.5)" />
+              <circle cx="210" cy="420" r="12" fill="rgba(160,155,210,0.5)" />
+              <circle cx="0" cy="210" r="12" fill="rgba(160,155,210,0.5)" />
+              <circle cx="420" cy="210" r="12" fill="rgba(160,155,210,0.5)" />
+            </svg>
 
-          <!-- 2nd base — Team Captain $500 (top) -->
-          <div class="absolute text-white text-center" style="width: 165px; height: 165px; top: 50px; left: 50%; transform: translateX(-50%) rotate(45deg);">
-            <div class="w-full h-full bg-[#3d4466] rounded flex items-center justify-center">
-              <div style="transform: rotate(-45deg);">
-                <p class="text-2xl font-bold leading-tight" style="font-family: var(--font-heading);">$500</p>
-                <p class="text-sm uppercase tracking-wider text-white/60 mt-1" style="font-family: var(--font-heading);">Team Captain Level</p>
+            {/* Top — Team Captain $500 */}
+            <div class="absolute text-white text-center" style="width: 135px; height: 135px; top: 35px; left: 50%; transform: translateX(-50%) rotate(45deg);">
+              <div class="w-full h-full rounded flex items-center justify-center" style="background: var(--color-primary);">
+                <div style="transform: rotate(-45deg);">
+                  <p class="heading" style="font-size: 1.25rem; font-weight: 700; color: white;">$500</p>
+                  <p class="label" style="color: rgba(255,255,255,0.6); margin-top: 2px; font-size: 0.65rem;">Team Captain</p>
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- 3rd base — MVP $1,000 (left) -->
-          <div class="absolute text-white text-center" style="width: 165px; height: 165px; top: 50%; left: 50px; transform: translateY(-50%) rotate(45deg);">
-            <div class="w-full h-full bg-[#3d4466] rounded flex items-center justify-center">
-              <div style="transform: rotate(-45deg);">
-                <p class="text-2xl font-bold leading-tight" style="font-family: var(--font-heading);">$1,000</p>
-                <p class="text-sm uppercase tracking-wider text-white/60 mt-1" style="font-family: var(--font-heading);">MVP Level</p>
+            {/* Left — MVP $1,000 */}
+            <div class="absolute text-white text-center" style="width: 135px; height: 135px; top: 50%; left: 35px; transform: translateY(-50%) rotate(45deg);">
+              <div class="w-full h-full rounded flex items-center justify-center" style="background: var(--color-primary);">
+                <div style="transform: rotate(-45deg);">
+                  <p class="heading" style="font-size: 1.25rem; font-weight: 700; color: white;">$1,000</p>
+                  <p class="label" style="color: rgba(255,255,255,0.6); margin-top: 2px; font-size: 0.65rem;">MVP</p>
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- 1st base — Slugger $250 (right) -->
-          <div class="absolute text-white text-center" style="width: 165px; height: 165px; top: 50%; right: 50px; transform: translateY(-50%) rotate(45deg);">
-            <div class="w-full h-full bg-[#3d4466] rounded flex items-center justify-center">
-              <div style="transform: rotate(-45deg);">
-                <p class="text-2xl font-bold leading-tight" style="font-family: var(--font-heading);">$250</p>
-                <p class="text-sm uppercase tracking-wider text-white/60 mt-1" style="font-family: var(--font-heading);">Slugger Level</p>
+            {/* Right — Slugger $250 */}
+            <div class="absolute text-white text-center" style="width: 135px; height: 135px; top: 50%; right: 35px; transform: translateY(-50%) rotate(45deg);">
+              <div class="w-full h-full rounded flex items-center justify-center" style="background: var(--color-primary);">
+                <div style="transform: rotate(-45deg);">
+                  <p class="heading" style="font-size: 1.25rem; font-weight: 700; color: white;">$250</p>
+                  <p class="label" style="color: rgba(255,255,255,0.6); margin-top: 2px; font-size: 0.65rem;">Slugger</p>
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- Home plate — Champion $2,500 (bottom, highlighted) -->
-          <div class="absolute text-white text-center" style="width: 165px; height: 165px; bottom: 50px; left: 50%; transform: translateX(-50%) rotate(45deg);">
-            <div class="w-full h-full bg-[#3d4466] rounded flex items-center justify-center">
-              <div style="transform: rotate(-45deg);">
-                <p class="text-2xl font-bold leading-tight" style="font-family: var(--font-heading);">$2,500</p>
-                <p class="text-sm uppercase tracking-wider text-white/60 mt-1" style="font-family: var(--font-heading);">Championship Level</p>
+            {/* Bottom — Champion $2,500 (highlighted) */}
+            <div class="absolute text-white text-center" style="width: 135px; height: 135px; bottom: 35px; left: 50%; transform: translateX(-50%) rotate(45deg);">
+              <div class="w-full h-full rounded flex items-center justify-center" style="background: var(--color-accent);">
+                <div style="transform: rotate(-45deg);">
+                  <p class="heading" style="font-size: 1.25rem; font-weight: 700; color: white;">$2,500</p>
+                  <p class="label" style="color: rgba(255,255,255,0.7); margin-top: 2px; font-size: 0.65rem;">Champion</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Details -->
-      <div class="max-w-2xl space-y-6">
-        <p class="text-[var(--color-body)] leading-relaxed ">
-          All sponsors receive recognition on the team's dugout banner at tournaments, plus visibility on the website and social media. Higher tiers include logo placement on team jerseys and VIP seating.
-        </p>
-
+        {/* Tier details + CTA */}
         <div>
-          <h2 class="heading h4" style="margin-bottom: var(--space-2);">Interested?</h2>
-          <p class="text-[var(--color-body)]  mb-4">Drop us a line and we'll send over the full sponsorship packet.</p>
-          <a href="/contact/" class="btn btn-primary">
-            Contact Us
-          </a>
-        </div>
-      </div>
+          <h2 class="heading h3" style={`margin-bottom: var(--space-6);`}>Sponsorship Levels</h2>
 
+          <div style={`display: flex; flex-direction: column; gap: var(--space-4);`}>
+            {tiers.map(tier => (
+              <div
+                class="rounded-lg"
+                style={`padding: var(--space-4) var(--space-6); border: 1px solid var(--color-border); border-left: 4px solid ${tier.highlight ? 'var(--color-accent)' : 'var(--color-primary)'};`}
+              >
+                <div class="flex items-baseline justify-between" style={`margin-bottom: var(--space-1);`}>
+                  <h3 class="heading h4">{tier.name}</h3>
+                  <span class="heading" style={`font-size: var(--text-xl); color: ${tier.highlight ? 'var(--color-accent)' : 'var(--color-primary)'};`}>{tier.price}</span>
+                </div>
+                <p style="font-size: var(--text-sm);">{tier.benefit}</p>
+              </div>
+            ))}
+          </div>
+
+          <div style={`margin-top: var(--space-8);`}>
+            <p style={`margin-bottom: var(--space-4);`}>
+              All sponsors get recognition on our dugout banner at tournaments plus visibility on the website and social media.
+            </p>
+            <a href="/contact/" class="btn btn-primary">Get in Touch</a>
+          </div>
+        </div>
+
+      </div>
     </div>
   </section>
 
