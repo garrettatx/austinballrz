@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { site, gtmId } from '../data/site';
+import { site } from '../data/site';
 
 interface Props {
   title: string;
@@ -12,8 +12,22 @@ interface Props {
 const { title, description = site.description, ogType = 'website', jsonLd } = Astro.props;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
 const isProduction = Astro.url.href.startsWith(site.url);
+const ga4Id = 'G-LEV5K76WRK';
 ---
 
+<!--
+
+     ███████████
+      █████████
+       ███████
+        █████
+         ███
+          █
+
+     Built by Pride & Prairie
+     prideandprairie.com
+
+-->
 <!doctype html>
 <html lang="en">
 <head>
@@ -51,17 +65,20 @@ const isProduction = Astro.url.href.startsWith(site.url);
   <!-- Per-page head injection -->
   <slot name="head" />
 
-  <!-- GTM — production only, deferred until first interaction or 3s -->
-  {isProduction && gtmId && (
-    <script is:inline define:vars={{ gtmId }}>
+  <!-- GA4 — production only, deferred until first interaction or 3s -->
+  {isProduction && (
+    <script is:inline define:vars={{ ga4Id }}>
       (function(){
         var d=false;
         function g(){
           if(d)return;d=true;clearTimeout(t);
           window.dataLayer=window.dataLayer||[];
-          window.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+          function gtag(){window.dataLayer.push(arguments);}
+          window.gtag=gtag;
+          gtag('js',new Date());
+          gtag('config',ga4Id,{send_page_view:true});
           var f=document.createElement('script');
-          f.async=true;f.src='https://www.googletagmanager.com/gtm.js?id='+gtmId;
+          f.async=true;f.src='https://www.googletagmanager.com/gtag/js?id='+ga4Id;
           document.head.appendChild(f);
           e.forEach(function(v){document.removeEventListener(v,g,true);});
         }
@@ -85,6 +102,11 @@ const isProduction = Astro.url.href.startsWith(site.url);
   </main>
 
   <slot name="footer" />
+
+  <!-- Analytics events (navigation, clicks, conversions) -->
+  <script>
+    import '../scripts/analytics';
+  </script>
 
 </body>
 </html>

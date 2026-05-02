@@ -236,6 +236,15 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
           successEl.classList.remove('hidden');
           form.classList.add('hidden');
           successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+          // Track conversion
+          if (typeof window.gtag === 'function') {
+            window.gtag('event', 'generate_lead', {
+              currency: 'USD',
+              value: 0,
+              lead_type: form.reason.value,
+            });
+          }
         } else {
           errorText.textContent = data.error || 'Something went wrong. Please try again.';
           errorEl.classList.remove('hidden');
