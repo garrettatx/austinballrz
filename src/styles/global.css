@@ -25,10 +25,13 @@
 }
 
 :root {
-  /* Purple accent — darkened for buttons and CTAs */
-  --ballrz-purple: #371272;
-  --ballrz-purple-dark: #28105a;
-  --ballrz-purple-light: #4c1d95;
+  /* Primary — team navy (matches diamond tiles, jerseys) */
+  --ballrz-primary: #3d4466;
+  --ballrz-primary-dark: #2d3350;
+
+  /* Secondary — purple accent */
+  --ballrz-purple: #42168A;
+  --ballrz-purple-dark: #2E1065;
 
   /* Navy */
   --ballrz-dark: #0D1B2A;
