@@ -1,21 +1,15 @@
 # Team Photos
 
-**To add or update photos, edit `photos.json` in this folder.** That's the only file you need to touch.
+There are two ways to add photos:
 
----
-
-## How to add a photo
-
-1. Drop the image file in this folder (`public/images/team/`)
-2. Open `photos.json` and add an entry under the right year
-
-That's it. The site reads from `photos.json` at build time.
+1. **Photo form** — Go to [austinballrz.com/admin/photo/](https://www.austinballrz.com/admin/photo/) and submit. It creates a pull request for review. Merge to publish.
+2. **Manual** — Edit `photos.json` in this folder and push.
 
 ---
 
 ## photos.json format
 
-The file is an array of year groups. Each group has a year and a list of photos:
+Array of year groups. Each group has a year and a list of photos:
 
 ```json
 {
@@ -24,8 +18,7 @@ The file is an array of year groups. Each group has a year and a list of photos:
   "photos": [
     {
       "src": "my-photo.jpg",
-      "alt": "Describe what's in the photo",
-      "caption": "Short label for carousels",
+      "alt": "D team after the Dallas tournament",
       "team": "d",
       "hero": true
     }
@@ -33,34 +26,27 @@ The file is an array of year groups. Each group has a year and a list of photos:
 }
 ```
 
----
-
 ## Fields
 
 | Field | Required | Default | What it does |
 |-------|----------|---------|--------------|
-| `src` | Yes | — | Just the filename (e.g. `my-photo.jpg`) |
-| `alt` | Yes | — | Description for screen readers — be specific |
-| `caption` | No | — | Short text shown below the photo in carousels |
-| `team` | No | — | `"d"` or `"e"` — leave out for whole-team photos |
+| `src` | Yes | — | Just the filename |
+| `alt` | Yes | — | Description — shown as caption and used for accessibility |
+| `team` | No | — | `"d"` or `"e"` — omit for whole-team photos |
 | `featured` | No | `true` | Set `false` to hide from carousels on other pages |
 | `hero` | No | `false` | Set `true` for homepage hero rotation |
-
----
 
 ## Where photos show up
 
 | Location | Which photos |
 |----------|-------------|
 | Photos page (`/photos/`) | All photos, grouped by year |
-| Carousels (homepage, etc.) | All unless `"featured": false` |
-| Homepage hero | Randomly picks from `"hero": true` photos (if only one, it stays fixed) |
-
----
+| Carousels (all other pages) | All unless `"featured": false` |
+| Homepage hero | Randomly picks from `"hero": true` (if only one, stays fixed) |
 
 ## Image tips
 
-- Use `.jpg` for photos
-- Aim for 1200-1600px wide
-- Landscape orientation (4:3 or 16:9) works best
-- Name files clearly: `gsws-2024-group.jpg` not `IMG_4532.jpg`
+- JPG format, 1200-1600px wide
+- Landscape (4:3 or 16:9) works best in carousels
+- Name clearly: `dallas-2024-d-team.jpg` not `IMG_4532.jpg`
+- Photos submitted via the form are automatically resized
