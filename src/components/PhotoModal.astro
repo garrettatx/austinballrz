@@ -19,6 +19,7 @@
   <div class="relative">
     <img id="photo-modal-img" src="" alt="" class="max-w-full max-h-[80vh] md:max-h-[85vh] rounded-lg shadow-2xl" style="user-select: none; -webkit-user-select: none;" />
     <p id="photo-modal-caption" class="text-center text-white/90 mt-2" style="font-family: var(--font-heading, sans-serif); font-size: 0.9375rem; letter-spacing: 0.02em;"></p>
+    <p id="photo-modal-counter" class="text-center text-white/50 mt-1" style="font-size: 0.75rem;"></p>
   </div>
 </div>
 
@@ -30,6 +31,7 @@
   var modal = document.getElementById('photo-modal');
   var modalImg = document.getElementById('photo-modal-img');
   var captionEl = document.getElementById('photo-modal-caption');
+  var counterEl = document.getElementById('photo-modal-counter');
   var btnClose = document.getElementById('photo-close');
   var btnPrev = document.getElementById('photo-prev');
   var btnNext = document.getElementById('photo-next');
@@ -48,6 +50,7 @@
     modalImg.src = photos[i].src;
     modalImg.alt = photos[i].alt;
     captionEl.textContent = photos[i].caption;
+    counterEl.textContent = photos.length > 1 ? (i + 1) + ' of ' + photos.length : '';
     modal.classList.remove('hidden');
     modal.classList.add('flex');
     document.body.style.overflow = 'hidden';
