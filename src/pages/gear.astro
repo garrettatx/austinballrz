@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import PageNav from '../components/PageNav.astro';
 import PageHeader from '../components/PageHeader.astro';
 import { site } from '../data/site';
 import { breadcrumbSchema } from '../lib/schema';
@@ -10,15 +11,15 @@ const breadcrumbs = [{ label: 'Gear' }];
 ---
 
 <Layout
-  title={`Gear | ${site.name}`}
-  description="Approved bats and equipment for iPride Softball."
+  title={`Gear & Equipment | ${site.name}`}
+  description="What you need for league play: bats, shoes, and jerseys."
   jsonLd={breadcrumbSchema(breadcrumbs)}
 >
   <Header slot="header" />
 
   <PageHeader
-    title="Gear"
-    description="What you need to know about bats, equipment, and what's approved for league play."
+    title="Gear & Equipment"
+    description="What you need to know for league play."
     breadcrumbs={breadcrumbs}
   />
 
@@ -27,29 +28,41 @@ const breadcrumbs = [{ label: 'Gear' }];
       <div class="prose-width" style={`display: flex; flex-direction: column; gap: var(--space-8);`}>
 
         <div>
-          <h2 class="heading h4" style={`margin-bottom: var(--space-3);`}>Approved Bats</h2>
+          <h2 class="heading h4" style={`margin-bottom: var(--space-3);`}>Bats</h2>
           <p style={`margin-bottom: var(--space-3);`}>
-            Bats must have a USA Softball or ASA stamp and not be on the <a href="https://usa.asasoftball.com/e/BB1P2000.asp" class="text-[var(--color-accent)] hover:underline">non-approved bat list</a>.
+            Bats must have a USA Softball (ASA) stamp and not appear on the <a href="https://usa.asasoftball.com/e/BB1P2000.asp" class="text-[var(--color-accent)] hover:underline">non-approved bat list</a>. If your bat has the stamp and isn't on the list, you're good to go.
           </p>
           <p style={`margin-bottom: var(--space-3);`}>Some examples of approved bats:</p>
-          <ul style={`display: flex; flex-direction: column; gap: var(--space-2); padding-left: var(--space-6);`} class="list-disc">
-            <li><a href="https://amzn.to/3EXbLkM" class="text-[var(--color-accent)] hover:underline">Easton Rebel Slowpitch Softball Bat Loaded</a></li>
-            <li><a href="https://amzn.to/3RAoBNr" class="text-[var(--color-accent)] hover:underline">2023 Miken FREAK PRIMO Slowpitch Bat (Balanced)</a></li>
-            <li><a href="https://amzn.to/45akbjp" class="text-[var(--color-accent)] hover:underline">2022 DeMarini Ultimate Weapon Slowpitch Bat</a></li>
-            <li><a href="https://amzn.to/3tlczgw" class="text-[var(--color-accent)] hover:underline">2023 DeMarini Nihilist OG Slowpitch Bat</a></li>
+          <ul style={`display: flex; flex-direction: column; gap: var(--space-2); padding-left: var(--space-6); margin-bottom: var(--space-3);`} class="list-disc">
+            <li><a href="https://amzn.to/3EXbLkM" class="text-[var(--color-accent)] hover:underline">Easton Rebel Slowpitch Bat (Loaded)</a></li>
+            <li><a href="https://amzn.to/3RAoBNr" class="text-[var(--color-accent)] hover:underline">Miken FREAK PRIMO Slowpitch Bat (Balanced)</a></li>
+            <li><a href="https://amzn.to/45akbjp" class="text-[var(--color-accent)] hover:underline">DeMarini Ultimate Weapon Slowpitch Bat</a></li>
+            <li><a href="https://amzn.to/3tlczgw" class="text-[var(--color-accent)] hover:underline">DeMarini Nihilist OG Slowpitch Bat</a></li>
           </ul>
+          <p style="font-size: var(--text-sm); color: var(--color-muted);">
+            Not sure about your bat? Look for the USA Softball or ASA stamp on the barrel.
+          </p>
         </div>
 
         <div>
-          <h2 class="heading h4" style={`margin-bottom: var(--space-3);`}>Check Your Bat</h2>
+          <h2 class="heading h4" style={`margin-bottom: var(--space-3);`}>Shoes</h2>
           <p>
-            If you're not sure whether your bat is approved, look for the USA Softball or ASA stamp. Older bats may still be approved if they have the stamp and aren't on the <a href="https://usa.asasoftball.com/e/BB1P2000.asp" class="text-[var(--color-accent)] hover:underline">non-approved list</a>.
+            Rubber or plastic cleats are required. Metal cleats are not allowed. Regular athletic shoes or turf shoes also work. Just make sure you have something with traction for dirt and grass.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="heading h4" style={`margin-bottom: var(--space-3);`}>Jerseys</h2>
+          <p>
+            We provide team jerseys. Your team fee covers the cost. Just show up and we'll get you set up.
           </p>
         </div>
 
       </div>
     </div>
   </section>
+
+  <PageNav currentPath="/gear/" />
 
   <Footer slot="footer" />
 </Layout>

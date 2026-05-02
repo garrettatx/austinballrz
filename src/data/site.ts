@@ -31,6 +31,19 @@ export const navigation = [
   { label: 'Achievements', href: '/achievements/' },
   { label: 'Photos', href: '/photos/' },
   { label: 'Sponsors', href: '/sponsors/' },
-  { label: 'Gear', href: '/gear/' },
   { label: 'Contact', href: '/contact/' },
+] as const;
+
+/** All pages in site order — used for footer links and prev/next navigation */
+export const allPages = [
+  { label: 'History', href: '/history/' },
+  { label: 'Achievements', href: '/achievements/' },
+  { label: 'Photos', href: '/photos/' },
+  { label: 'Sponsors', href: '/sponsors/' },
+  { label: 'Contact', href: '/contact/' },
+  { label: 'Gear & Equipment', href: '/gear/' },
+  { label: 'Softball Cheers', href: '/softball-cheers/' },
+  { label: 'iPride Softball Guide', href: '/info/' },
+  { label: 'Scorekeeping', href: '/scorekeeping/' },
+  { label: 'GoPro Guide', href: '/gopro/' },
 ] as const;

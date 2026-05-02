@@ -1,0 +1,35 @@
+---
+/**
+ * Previous/Next page navigation.
+ * Shows at the bottom of inner pages for sequential browsing.
+ */
+import { allPages } from '../data/site';
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+const currentIndex = allPages.findIndex(p => p.href === currentPath);
+const prev = currentIndex > 0 ? allPages[currentIndex - 1] : null;
+const next = currentIndex < allPages.length - 1 ? allPages[currentIndex + 1] : null;
+---
+
+{(prev || next) && (
+  <nav class="container" style={`padding-block: var(--space-6); border-top: 1px solid var(--color-border);`} aria-label="Page navigation">
+    <div class="flex justify-between items-center">
+      {prev ? (
+        <a href={prev.href} class="group" style={`display: flex; flex-direction: column; gap: var(--space-1);`}>
+          <span class="label">&larr; Previous</span>
+          <span class="heading" style={`font-size: var(--text-sm); font-weight: 600; color: var(--color-accent);`}>{prev.label}</span>
+        </a>
+      ) : <div></div>}
+      {next ? (
+        <a href={next.href} class="group text-right" style={`display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-1);`}>
+          <span class="label">Next &rarr;</span>
+          <span class="heading" style={`font-size: var(--text-sm); font-weight: 600; color: var(--color-accent);`}>{next.label}</span>
+        </a>
+      ) : <div></div>}
+    </div>
+  </nav>
+)}

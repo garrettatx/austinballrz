@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import PageNav from '../components/PageNav.astro';
 import PhotoModal from '../components/PhotoModal.astro';
 import PageHeader from '../components/PageHeader.astro';
 import { site } from '../data/site';
@@ -79,6 +80,8 @@ const breadcrumbs = [{ label: 'History' }];
   </section>
 
   <PhotoModal />
+
+  <PageNav currentPath="/history/" />
 
   <Footer slot="footer" />
 </Layout>

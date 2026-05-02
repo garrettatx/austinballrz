@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import PageNav from '../components/PageNav.astro';
 import PageHeader from '../components/PageHeader.astro';
 import { site } from '../data/site';
 import { breadcrumbSchema } from '../lib/schema';
@@ -116,6 +117,8 @@ const tiers = [
       </div>
     </div>
   </section>
+
+  <PageNav currentPath="/sponsors/" />
 
   <Footer slot="footer" />
 </Layout>

@@ -1,0 +1,76 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PageNav from '../components/PageNav.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { site } from '../data/site';
+import { breadcrumbSchema } from '../lib/schema';
+
+const breadcrumbs = [{ label: 'GoPro Guide' }];
+---
+
+<Layout
+  title={`GoPro Guide | ${site.name}`}
+  description="How to use the team GoPro Hero 7 to record games."
+  jsonLd={breadcrumbSchema(breadcrumbs)}
+>
+  <Header slot="header" />
+
+  <PageHeader
+    title="GoPro Hero 7 Guide"
+    description="Quick reference for recording games with the team camera."
+    breadcrumbs={breadcrumbs}
+  />
+
+  <section class="section-sm">
+    <div class="container">
+      <div class="prose-width" style={`display: flex; flex-direction: column; gap: var(--space-8);`}>
+
+        <div>
+          <p style={`margin-bottom: var(--space-4);`}>The diagrams below are labeled HERO8, but the buttons and functions are the same on our HERO7.</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2" style={`gap: var(--space-4);`}>
+            <img src="/images/gopro/buttons1.png" alt="GoPro Hero 7 button layout — front and top view" class="w-full h-auto rounded-lg" loading="lazy" />
+            <img src="/images/gopro/buttons2.png" alt="GoPro Hero 7 button layout — back and side view" class="w-full h-auto rounded-lg" loading="lazy" />
+          </div>
+        </div>
+
+        <div>
+          <h2 class="heading h4" style={`margin-bottom: var(--space-3);`}>Power On</h2>
+          <ul style={`display: flex; flex-direction: column; gap: var(--space-2); padding-left: var(--space-6);`} class="list-disc">
+            <li>Press the <strong>Mode Button (11)</strong> on the side to power on.</li>
+            <li>Press the <strong>Red Shutter Button (1)</strong> on top to power on and start recording immediately with the last used settings.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="heading h4" style={`margin-bottom: var(--space-3);`}>Power Off</h2>
+          <ul style={`display: flex; flex-direction: column; gap: var(--space-2); padding-left: var(--space-6);`} class="list-disc">
+            <li>Press the <strong>Red Shutter Button (1)</strong> on top.</li>
+            <li>Or press and hold the <strong>Mode Button (11)</strong> for 3 seconds.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="heading h4" style={`margin-bottom: var(--space-3);`}>Connect to Your Phone</h2>
+          <p style={`margin-bottom: var(--space-3);`}>
+            Connect the camera to the GoPro app on your phone before mounting it on the fence. The small screen is hard to see in bright sun, and the app lets you preview the shot, zoom, change settings, and start/stop recording from your phone.
+          </p>
+          <p style={`margin-bottom: var(--space-3);`}>
+            The wireless connection works best within about 20 feet of the camera.
+          </p>
+          <p>
+            <strong>Download the GoPro App:</strong>
+            <a href="https://apps.apple.com/us/app/gopro-quik/id561350520" class="text-[var(--color-accent)] hover:underline">iPhone</a> &middot;
+            <a href="https://play.google.com/store/apps/details?id=com.gopro.smarty" class="text-[var(--color-accent)] hover:underline">Android</a>
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <PageNav currentPath="/gopro/" />
+
+  <Footer slot="footer" />
+</Layout>

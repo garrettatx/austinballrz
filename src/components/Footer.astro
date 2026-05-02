@@ -1,5 +1,5 @@
 ---
-import { site, navigation } from '../data/site';
+import { site, allPages } from '../data/site';
 ---
 
 <footer slot="footer">
@@ -20,13 +20,16 @@ import { site, navigation } from '../data/site';
           />
           <p style="font-size: var(--text-sm); line-height: 1.6;">{site.tagline}</p>
           <p style="font-size: var(--text-sm); margin-top: var(--space-1);">Est. {site.founded} &middot; {site.location}</p>
+          <p style="font-size: var(--text-sm); margin-top: var(--space-1);">
+            Games: Sundays at <a href="https://maps.google.com/?q=Krieg+Field+Austin+TX" class="text-[var(--color-nav-inactive)] hover:text-white transition-colors underline">Krieg Field</a>
+          </p>
         </div>
 
         {/* Links */}
         <div>
           <p class="label" style="margin-bottom: var(--space-3); color: rgba(255,255,255,0.4);">Pages</p>
           <ul style="display: flex; flex-direction: column; gap: var(--space-2);">
-            {navigation.map(item => (
+            {allPages.map(item => (
               <li>
                 <a href={item.href} class="text-sm text-[var(--color-nav-inactive)] hover:text-white transition-colors">
                   {item.label}
@@ -53,7 +56,7 @@ import { site, navigation } from '../data/site';
             {site.social.facebook && (
               <li>
                 <a href={site.social.facebook} class="text-sm text-[var(--color-nav-inactive)] hover:text-white transition-colors">
-                  Facebook
+                  Ball'rz on Facebook
                 </a>
               </li>
             )}
