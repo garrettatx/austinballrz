@@ -25,14 +25,14 @@ import { organizationSchema } from '../lib/schema';
           <p class="prose-width" style={`margin-bottom: var(--space-6);`}>
             We're an LGBTQ+ softball team in Austin, Texas. Since 2013, we've been showing up to play hard, have fun, and make room for everybody. All skill levels, all backgrounds, all welcome.
           </p>
-          <div class="flex items-center" style={`gap: var(--space-3);`}>
-            <a href="/history/" class="btn btn-primary">See Our Story</a>
-            <a href="/contact/" class="btn btn-secondary">Say Hi</a>
+          <div class="flex items-center flex-wrap" style={`gap: var(--space-3);`}>
+            <a href="/contact/" class="btn btn-primary">Come Play With Us</a>
+            <a href="/history/" class="btn btn-secondary">See Our Story</a>
           </div>
         </div>
 
         <div class="relative">
-          <div class="absolute w-full h-full rounded-xl" style={`top: var(--space-2); left: var(--space-2); background: var(--color-accent); opacity: 0.12;`} aria-hidden="true"></div>
+          <div class="absolute w-full h-full rounded-xl hidden md:block" style={`top: var(--space-2); left: var(--space-2); background: var(--color-accent); opacity: 0.12;`} aria-hidden="true"></div>
           <div class="relative rounded-xl overflow-hidden shadow-lg">
             <img
               src="/images/team/gsws-2023.jpg"
@@ -61,7 +61,7 @@ import { organizationSchema } from '../lib/schema';
   </section>
 
   {/* ── Photos ── */}
-  <section style={`padding-block: var(--space-6); background: var(--color-bg-alt);`}>
+  <section style={`padding-block: var(--space-6);`}>
     <div class="container">
       <p class="label" style={`margin-bottom: var(--space-3);`}>Photos</p>
       <div class="grid grid-cols-2 md:grid-cols-4" style={`gap: var(--space-2);`}>
@@ -90,9 +90,10 @@ import { organizationSchema } from '../lib/schema';
       <div class="prose-width">
         <div style={`border-left: 4px solid var(--color-accent); padding-left: var(--space-6);`}>
           <h2 class="heading h3" style={`margin-bottom: var(--space-3);`}>Our Mission</h2>
-          <p>
+          <p style={`margin-bottom: var(--space-4);`}>
             Softball is for everyone. We play with people of all ages, races, genders, and skill levels. Never swung a bat? Been playing for years? Either way, there's a spot for you.
           </p>
+          <a href="/contact/" class="link-accent">Want to play? Reach out &rarr;</a>
         </div>
       </div>
     </div>

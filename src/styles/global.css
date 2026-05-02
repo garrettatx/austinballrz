@@ -204,7 +204,7 @@ body {
 .btn {
   display: inline-block;
   font-family: var(--font-heading);
-  font-size: var(--text-sm);
+  font-size: var(--text-base);
   font-weight: 600;
   letter-spacing: 0.04em;
   padding: var(--space-3) var(--space-6);
