@@ -65,7 +65,7 @@
   --color-bg-alt:        #f7f7f8;
 
   /* Scoreboard */
-  --color-scoreboard:    #4ADE80;   /* 10.76:1 on surface-deep */
+  --color-scoreboard:    #FFD633;   /* softball yellow from logo */
 
   /* Navigation (on --color-surface background) */
   --color-nav-inactive:  #a8b4c4;   /* 5.44:1 on surface — readable inactive links */
@@ -247,4 +247,56 @@ body {
   background-image: url('/images/pattern-stitching.svg');
   background-repeat: repeat;
   background-size: 200px 200px;
+}
+
+/* ── Spacing Utilities ────────────────────────────────────────────── */
+
+.mb-1 { margin-bottom: var(--space-1); }
+.mb-2 { margin-bottom: var(--space-2); }
+.mb-3 { margin-bottom: var(--space-3); }
+.mb-4 { margin-bottom: var(--space-4); }
+.mb-6 { margin-bottom: var(--space-6); }
+.mb-8 { margin-bottom: var(--space-8); }
+.mt-2 { margin-top: var(--space-2); }
+.mt-3 { margin-top: var(--space-3); }
+.mt-4 { margin-top: var(--space-4); }
+.mt-6 { margin-top: var(--space-6); }
+
+/* ── Background Utilities ─────────────────────────────────────────── */
+
+.bg-alt { background: var(--color-bg-alt); }
+.bg-surface { background: var(--color-surface); }
+
+/* ── Stack Layout (vertical flex with gap) ────────────────────────── */
+
+.stack { display: flex; flex-direction: column; }
+.stack-sm { gap: var(--space-2); }
+.stack-md { gap: var(--space-4); }
+.stack-lg { gap: var(--space-8); }
+
+/* ── List with disc markers ───────────────────────────────────────── */
+
+.list-spaced {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-left: var(--space-6);
+  list-style: disc;
+}
+
+/* ── Scoreboard ───────────────────────────────────────────────────── */
+
+.scoreboard-stat {
+  font-family: var(--font-heading);
+  font-size: var(--text-stat);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.scoreboard-label {
+  font-family: var(--font-heading);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
