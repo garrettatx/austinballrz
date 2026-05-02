@@ -12,30 +12,26 @@ import { organizationSchema } from '../lib/schema';
 >
   <Header slot="header" />
 
-  <!-- Hero -->
-  <section class="bg-white">
-    <div class="max-w-5xl mx-auto px-6 py-8 md:py-10">
-      <div class="grid grid-cols-1 md:grid-cols-[1fr_1.2fr] gap-6 md:gap-10 items-center">
+  {/* ── Hero ── */}
+  <section>
+    <div class="container" style={`padding-block: var(--space-8); padding-block-end: var(--space-10);`}>
+      <div class="grid grid-cols-1 md:grid-cols-[1fr_1.2fr] items-center" style={`gap: var(--space-6);`}>
 
         <div>
-          <h1 class="text-3xl md:text-4xl font-bold leading-tight text-[var(--ballrz-dark)] mb-3" style="font-family: var(--font-heading);">
-            PLAY BOLD, <span class="text-[var(--ballrz-purple)]">PLAY PROUD.</span>
+          <h1 class="heading" style={`font-size: var(--text-2xl); font-weight: 700; margin-bottom: var(--space-3);`}>
+            PLAY BOLD, <span style="color: var(--color-accent);">PLAY PROUD.</span>
           </h1>
-          <p class="text-[var(--ballrz-gray-600)] leading-relaxed mb-5 text-[0.95rem]">
+          <p style={`color: var(--color-body); line-height: 1.6; margin-bottom: var(--space-6); max-width: 22rem;`}>
             LGBTQ+ inclusive softball in Austin, TX. Since 2013, we've built a team where everyone belongs — on the field and off.
           </p>
-          <div class="flex items-center gap-3">
-            <a href="/history/" class="px-5 py-2.5 bg-[var(--ballrz-primary)] text-white text-sm font-semibold rounded-lg hover:bg-[var(--ballrz-primary-dark)] transition-colors" style="font-family: var(--font-heading); letter-spacing: 0.04em;">
-              Our Story
-            </a>
-            <a href="/contact/" class="px-5 py-2.5 border-2 border-[var(--ballrz-gray-200)] text-[var(--ballrz-gray-600)] text-sm font-semibold rounded-lg hover:border-[var(--ballrz-purple)] hover:text-[var(--ballrz-purple)] transition-colors" style="font-family: var(--font-heading); letter-spacing: 0.04em;">
-              Get in Touch
-            </a>
+          <div class="flex items-center" style={`gap: var(--space-3);`}>
+            <a href="/history/" class="btn btn-primary">Our Story</a>
+            <a href="/contact/" class="btn btn-secondary">Get in Touch</a>
           </div>
         </div>
 
         <div class="relative">
-          <div class="absolute top-2 left-2 w-full h-full rounded-xl bg-[var(--ballrz-purple)] opacity-12" aria-hidden="true"></div>
+          <div class="absolute w-full h-full rounded-xl" style={`top: var(--space-2); left: var(--space-2); background: var(--color-accent); opacity: 0.12;`} aria-hidden="true"></div>
           <div class="relative rounded-xl overflow-hidden shadow-lg">
             <img
               src="/images/team/gsws-2023.jpg"
@@ -51,23 +47,23 @@ import { organizationSchema } from '../lib/schema';
     </div>
   </section>
 
-  <!-- About -->
-  <section class="py-8 bg-[var(--ballrz-gray-50)]">
-    <div class="max-w-5xl mx-auto px-6">
-      <div class="max-w-2xl">
-        <h2 class="text-lg font-bold text-[var(--ballrz-dark)] mb-2" style="font-family: var(--font-heading); letter-spacing: 0.03em;">About Us</h2>
-        <p class="text-[var(--ballrz-gray-600)] leading-relaxed text-[0.95rem]">
+  {/* ── About ── */}
+  <section class="section-sm" style="background: var(--color-bg-alt);">
+    <div class="container">
+      <div class="prose-width">
+        <h2 class="heading" style={`font-size: var(--text-lg); font-weight: 700; margin-bottom: var(--space-2);`}>About Us</h2>
+        <p>
           Since our founding in 2013, the Austin Ball'rz have become a vibrant part of Softball Austin. Originally named the Austin Aardvarks, we rebranded in 2014 and haven't looked back. We compete in league play and travel to regional and national tournaments — including multiple iPride World Series appearances.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- Photos -->
-  <section class="py-6 bg-white">
-    <div class="max-w-5xl mx-auto px-6">
-      <p class="text-xs uppercase tracking-widest text-[var(--ballrz-gray-400)] mb-3" style="font-family: var(--font-heading);">Photos</p>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+  {/* ── Photos ── */}
+  <section style={`padding-block: var(--space-6);`}>
+    <div class="container">
+      <p class="label" style={`margin-bottom: var(--space-3);`}>Photos</p>
+      <div class="grid grid-cols-2 md:grid-cols-4" style={`gap: var(--space-2);`}>
         <button class="aspect-[4/3] overflow-hidden rounded-lg cursor-pointer photo-open" data-src="/images/team/team-2023.jpg" data-alt="Ball'rz 2023 team">
           <img src="/images/team/team-2023.jpg" alt="Ball'rz 2023 team" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" />
         </button>
@@ -81,11 +77,11 @@ import { organizationSchema } from '../lib/schema';
           <img src="/images/team/team-2019.jpg" alt="Ball'rz 2019 team" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" />
         </button>
       </div>
-      <p class="mt-2"><a href="/photos/" class="text-xs font-semibold text-[var(--ballrz-purple)] hover:underline" style="font-family: var(--font-heading); letter-spacing: 0.03em;">View All Photos &rarr;</a></p>
+      <p style={`margin-top: var(--space-2);`}><a href="/photos/" class="link-accent">View All Photos &rarr;</a></p>
     </div>
   </section>
 
-  <!-- Photo modal -->
+  {/* ── Photo modal ── */}
   <div id="photo-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/85 p-4" role="dialog" aria-modal="true" aria-label="Photo viewer">
     <button id="photo-close" class="absolute top-4 right-4 text-white/70 hover:text-white text-3xl leading-none z-10" aria-label="Close">&times;</button>
     <button id="photo-prev" class="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors z-10" aria-label="Previous photo">
@@ -120,13 +116,13 @@ import { organizationSchema } from '../lib/schema';
   })();
   </script>
 
-  <!-- Mission -->
-  <section class="py-8 bg-[var(--ballrz-gray-50)]">
-    <div class="max-w-5xl mx-auto px-6">
-      <div class="max-w-2xl">
-        <div class="border-l-4 border-[var(--ballrz-purple)] pl-5">
-          <h2 class="text-lg font-bold text-[var(--ballrz-dark)] mb-2" style="font-family: var(--font-heading); letter-spacing: 0.03em;">Our Mission</h2>
-          <p class="text-[var(--ballrz-gray-600)] leading-relaxed text-[0.95rem]">
+  {/* ── Mission ── */}
+  <section class="section-sm" style="background: var(--color-bg-alt);">
+    <div class="container">
+      <div class="prose-width">
+        <div style={`border-left: 4px solid var(--color-accent); padding-left: var(--space-6);`}>
+          <h2 class="heading" style={`font-size: var(--text-lg); font-weight: 700; margin-bottom: var(--space-2);`}>Our Mission</h2>
+          <p>
             We believe softball is for everyone. Our team welcomes players of all ages, races, genders, and backgrounds. Whether you're a seasoned player or picking up a bat for the first time, you belong here.
           </p>
         </div>
@@ -134,48 +130,52 @@ import { organizationSchema } from '../lib/schema';
     </div>
   </section>
 
-  <!-- Achievements — scoreboard -->
-  <section class="py-10 bg-[#263a5a]">
-    <div class="max-w-5xl mx-auto px-6">
-      <h2 class="text-lg font-bold text-white/90 mb-5 text-center uppercase tracking-widest" style="font-family: var(--font-heading);">On the Field</h2>
-      <div class="max-w-3xl mx-auto">
-        <div class="bg-[#0a1220] rounded-xl border border-white/8 p-1">
+  {/* ── Achievements — scoreboard ── */}
+  <section class="section" style="background: var(--color-surface);">
+    <div class="container">
+      <h2 class="heading text-center uppercase" style={`font-size: var(--text-lg); font-weight: 700; color: rgba(255,255,255,0.9); letter-spacing: 0.08em; margin-bottom: var(--space-6);`}>On the Field</h2>
+      <div class="content-width mx-auto">
+        <div class="rounded-xl" style={`background: var(--color-surface-deep); border: 1px solid rgba(255,255,255,0.08); padding: var(--space-1);`}>
           <div class="grid grid-cols-3 divide-x divide-white/8">
-            <div class="py-5 md:py-7 text-center">
-              <p class="text-4xl md:text-5xl font-bold text-[#4ADE80]" style="font-family: var(--font-heading); text-shadow: 0 0 20px rgba(74,222,128,0.15);">5</p>
-              <p class="text-[10px] md:text-xs text-white/45 mt-2 uppercase tracking-widest" style="font-family: var(--font-heading);">World Series</p>
+            <div class="text-center" style={`padding-block: var(--space-6);`}>
+              <p class="heading font-bold" style={`font-size: var(--text-stat); color: var(--color-scoreboard); text-shadow: 0 0 20px rgba(74,222,128,0.15);`}>5</p>
+              <p class="label" style={`color: rgba(255,255,255,0.45); margin-top: var(--space-2);`}>World Series</p>
             </div>
-            <div class="py-5 md:py-7 text-center">
-              <p class="text-4xl md:text-5xl font-bold text-[#4ADE80]" style="font-family: var(--font-heading); text-shadow: 0 0 20px rgba(74,222,128,0.15);">4th</p>
-              <p class="text-[10px] md:text-xs text-white/45 mt-2 uppercase tracking-widest" style="font-family: var(--font-heading);">Best Finish '19</p>
+            <div class="text-center" style={`padding-block: var(--space-6);`}>
+              <p class="heading font-bold" style={`font-size: var(--text-stat); color: var(--color-scoreboard); text-shadow: 0 0 20px rgba(74,222,128,0.15);`}>4th</p>
+              <p class="label" style={`color: rgba(255,255,255,0.45); margin-top: var(--space-2);`}>Best Finish '19</p>
             </div>
-            <div class="py-5 md:py-7 text-center">
-              <p class="text-4xl md:text-5xl font-bold text-[#4ADE80]" style="font-family: var(--font-heading); text-shadow: 0 0 20px rgba(74,222,128,0.15);">2013</p>
-              <p class="text-[10px] md:text-xs text-white/45 mt-2 uppercase tracking-widest" style="font-family: var(--font-heading);">Founded</p>
+            <div class="text-center" style={`padding-block: var(--space-6);`}>
+              <p class="heading font-bold" style={`font-size: var(--text-stat); color: var(--color-scoreboard); text-shadow: 0 0 20px rgba(74,222,128,0.15);`}>2013</p>
+              <p class="label" style={`color: rgba(255,255,255,0.45); margin-top: var(--space-2);`}>Founded</p>
             </div>
           </div>
         </div>
       </div>
-      <p class="text-center mt-4">
-        <a href="/achievements/" class="text-sm font-semibold text-[#9b5de5] hover:text-white transition-colors uppercase tracking-wider" style="font-family: var(--font-heading);">
+      <p class="text-center" style={`margin-top: var(--space-4);`}>
+        <a href="/achievements/" class="link-accent uppercase" style="color: var(--color-accent-light); letter-spacing: 0.06em;">
           View All Achievements &rarr;
         </a>
       </p>
     </div>
   </section>
 
-  <!-- Sponsors -->
-  <section class="py-8 bg-white">
-    <div class="max-w-5xl mx-auto px-6">
-      <div class="max-w-2xl">
-        <h2 class="text-lg font-bold text-[var(--ballrz-dark)] mb-2" style="font-family: var(--font-heading); letter-spacing: 0.03em;">Become a Sponsor</h2>
-        <p class="text-[var(--ballrz-gray-600)] text-[0.95rem] mb-4">Support LGBTQ+ athletics in Austin. Sponsorship packages start at $250.</p>
-        <a href="/sponsors/" class="inline-block px-5 py-2.5 bg-[var(--ballrz-primary)] text-white text-sm font-semibold rounded-lg hover:bg-[var(--ballrz-primary-dark)] transition-colors" style="font-family: var(--font-heading); letter-spacing: 0.04em;">
-          View Packages
-        </a>
+  {/* ── Sponsors ── */}
+  <section class="section-sm">
+    <div class="container">
+      <div class="prose-width">
+        <h2 class="heading" style={`font-size: var(--text-lg); font-weight: 700; margin-bottom: var(--space-2);`}>Become a Sponsor</h2>
+        <p style={`margin-bottom: var(--space-4);`}>Support LGBTQ+ athletics in Austin. Sponsorship packages start at $250.</p>
+        <a href="/sponsors/" class="btn btn-primary">View Packages</a>
       </div>
     </div>
   </section>
 
   <Footer slot="footer" />
 </Layout>
+
+<style>
+  @media (min-width: 768px) {
+    h1 { font-size: var(--text-3xl) !important; }
+  }
+</style>

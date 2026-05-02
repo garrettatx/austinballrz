@@ -3,23 +3,29 @@ import { site, navigation } from '../data/site';
 ---
 
 <footer slot="footer">
-  <!-- Rainbow bar at top of footer -->
-  <div class="ballrz-rainbow h-1" aria-hidden="true"></div>
+  <div class="ballrz-rainbow" style="height: 4px;" aria-hidden="true"></div>
 
-  <div class="bg-[#263a5a] text-white/70">
-    <div class="max-w-5xl mx-auto px-6 py-10">
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
-        <!-- Brand -->
+  <div style="background: var(--color-surface); color: rgba(255,255,255,0.7);">
+    <div class="container section">
+      <div class="grid grid-cols-1 sm:grid-cols-3" style="gap: var(--space-8);">
+        {/* Brand */}
         <div>
-          <img src="/images/logo.svg" alt={site.name} width="250" height="180" class="mb-3" style="width: 250px; filter: drop-shadow(0 0 4px rgba(255,255,255,0.3)) drop-shadow(0 0 8px rgba(255,255,255,0.15));" />
-          <p class="text-sm leading-relaxed">{site.tagline}</p>
-          <p class="text-sm mt-1">Est. {site.founded} &middot; {site.location}</p>
+          <img
+            src="/images/logo.svg"
+            alt={site.name}
+            width="250"
+            height="180"
+            style="width: 250px; filter: drop-shadow(0 0 4px rgba(255,255,255,0.3)) drop-shadow(0 0 8px rgba(255,255,255,0.15));"
+            class="mb-3"
+          />
+          <p style="font-size: var(--text-sm); line-height: 1.6;">{site.tagline}</p>
+          <p style="font-size: var(--text-sm); margin-top: var(--space-1);">Est. {site.founded} &middot; {site.location}</p>
         </div>
 
-        <!-- Links -->
+        {/* Links */}
         <div>
-          <p class="text-xs font-semibold uppercase tracking-wider text-white/40 mb-3">Pages</p>
-          <ul class="space-y-2">
+          <p class="label" style="margin-bottom: var(--space-3); color: rgba(255,255,255,0.4);">Pages</p>
+          <ul style="display: flex; flex-direction: column; gap: var(--space-2);">
             {navigation.map(item => (
               <li>
                 <a href={item.href} class="text-sm text-white/70 hover:text-white transition-colors">
@@ -30,10 +36,10 @@ import { site, navigation } from '../data/site';
           </ul>
         </div>
 
-        <!-- Connect -->
+        {/* Connect */}
         <div>
-          <p class="text-xs font-semibold uppercase tracking-wider text-white/40 mb-3">Connect</p>
-          <ul class="space-y-2">
+          <p class="label" style="margin-bottom: var(--space-3); color: rgba(255,255,255,0.4);">Connect</p>
+          <ul style="display: flex; flex-direction: column; gap: var(--space-2);">
             <li>
               <a href="https://www.softballaustin.org/" target="_blank" rel="noopener noreferrer" class="text-sm text-white/70 hover:text-white transition-colors">
                 Softball Austin
@@ -50,10 +56,10 @@ import { site, navigation } from '../data/site';
         </div>
       </div>
 
-      <div class="border-t border-white/10 mt-8 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-white/40">
+      <div class="flex flex-col sm:flex-row justify-between items-center" style={`border-top: 1px solid rgba(255,255,255,0.1); margin-top: var(--space-8); padding-top: var(--space-6); gap: var(--space-4); font-size: var(--text-xs); color: rgba(255,255,255,0.4);`}>
         <p>&copy; {new Date().getFullYear()} {site.name}. All rights reserved.</p>
         <p>
-          Website by <a href="https://www.garrettdigital.com" target="_blank" rel="noopener noreferrer" class="text-white/60 hover:text-white transition-colors">Garrett Digital</a>
+          Website by <a href="https://prideandprairie.com/" target="_blank" rel="noopener noreferrer" class="text-white/60 hover:text-white transition-colors">Pride &amp; Prairie</a>
         </p>
       </div>
     </div>
