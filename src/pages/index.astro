@@ -16,7 +16,7 @@ import { organizationSchema } from '../lib/schema';
   {/* ── Hero ── */}
   <section>
     <div class="container" style={`padding-block: var(--space-8);`}>
-      <div class="grid grid-cols-1 md:grid-cols-[1fr_1.2fr] items-center" style={`gap: var(--space-6);`}>
+      <div class="grid grid-cols-1 md:grid-cols-[1fr_1.2fr] items-center" style={`gap: var(--space-8);`}>
 
         <div>
           <h1 class="heading h1" style={`margin-bottom: var(--space-3);`}>
@@ -61,7 +61,7 @@ import { organizationSchema } from '../lib/schema';
   </section>
 
   {/* ── Photos ── */}
-  <section style={`padding-block: var(--space-6);`}>
+  <section class="section-sm">
     <div class="container">
       <p class="label" style={`margin-bottom: var(--space-3);`}>Photos</p>
       <div class="grid grid-cols-2 md:grid-cols-4" style={`gap: var(--space-2);`}>
@@ -78,7 +78,7 @@ import { organizationSchema } from '../lib/schema';
           <img src="/images/team/team-2019.jpg" alt="Austin Ball'rz 2019 team photo" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" />
         </button>
       </div>
-      <p style={`margin-top: var(--space-2);`}><a href="/photos/" class="link-accent">View All Photos &rarr;</a></p>
+      <p style={`margin-top: var(--space-3);`}><a href="/photos/" class="link-accent">View All Photos &rarr;</a></p>
     </div>
   </section>
 
@@ -108,21 +108,21 @@ import { organizationSchema } from '../lib/schema';
           <div class="grid grid-cols-3 divide-x divide-white/8">
             <div class="text-center" style={`padding-block: var(--space-6);`}>
               <p class="heading" style={`font-size: var(--text-stat); font-weight: 700; color: var(--color-scoreboard); text-shadow: 0 0 20px rgba(74,222,128,0.15);`}>5</p>
-              <p class="label" style={`color: rgba(255,255,255,0.45); margin-top: var(--space-2);`}>World Series</p>
+              <p class="label" style={`color: var(--color-nav-inactive); margin-top: var(--space-2);`}>World Series</p>
             </div>
             <div class="text-center" style={`padding-block: var(--space-6);`}>
               <p class="heading" style={`font-size: var(--text-stat); font-weight: 700; color: var(--color-scoreboard); text-shadow: 0 0 20px rgba(74,222,128,0.15);`}>4th</p>
-              <p class="label" style={`color: rgba(255,255,255,0.45); margin-top: var(--space-2);`}>Best Finish '19</p>
+              <p class="label" style={`color: var(--color-nav-inactive); margin-top: var(--space-2);`}>Best Finish '19</p>
             </div>
             <div class="text-center" style={`padding-block: var(--space-6);`}>
               <p class="heading" style={`font-size: var(--text-stat); font-weight: 700; color: var(--color-scoreboard); text-shadow: 0 0 20px rgba(74,222,128,0.15);`}>2013</p>
-              <p class="label" style={`color: rgba(255,255,255,0.45); margin-top: var(--space-2);`}>Founded</p>
+              <p class="label" style={`color: var(--color-nav-inactive); margin-top: var(--space-2);`}>Founded</p>
             </div>
           </div>
         </div>
       </div>
       <p class="text-center" style={`margin-top: var(--space-4);`}>
-        <a href="/achievements/" class="link-accent uppercase" style="color: var(--color-accent-light); letter-spacing: 0.06em;" /* 5.44:1 on surface */>
+        <a href="/achievements/" class="link-accent uppercase" style="color: var(--color-accent-light); letter-spacing: 0.06em;">
           View All Achievements &rarr;
         </a>
       </p>
