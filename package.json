@@ -12,7 +12,6 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^13.3.0",
     "@astrojs/sitemap": "^3.7.2",
     "@fontsource/barlow-condensed": "^5.2.8",
     "@fontsource/oswald": "^5.2.8",
