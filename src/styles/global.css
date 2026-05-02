@@ -113,11 +113,17 @@
 
 body {
   font-family: var(--font-body);
-  font-size: var(--text-base);
+  font-size: 1.0625rem; /* 17px on mobile — slightly larger for touch screens */
   line-height: 1.6;
   color: var(--color-body);
   background: var(--color-bg);
   -webkit-font-smoothing: antialiased;
+}
+
+@media (min-width: 1024px) {
+  body {
+    font-size: var(--text-base); /* 16px on desktop */
+  }
 }
 
 /* ── Layout Classes ───────────────────────────────────────────────── */
