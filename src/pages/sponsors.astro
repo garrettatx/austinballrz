@@ -25,34 +25,55 @@ const breadcrumbs = [{ label: 'Sponsors' }];
   <section class="pb-12">
     <div class="max-w-5xl mx-auto px-6">
 
-      <!-- Sponsorship diamond -->
+      <!-- Sponsorship diamond — baseball diamond layout -->
+      <!-- Home plate (champion) at bottom, 2nd base (captain) at top, 1st/3rd on sides -->
       <div class="flex justify-center mb-10">
-        <div class="relative" style="width: 280px; height: 280px;">
-          <!-- Outer diamond frame -->
-          <div class="absolute inset-0 border-2 border-[var(--ballrz-purple)]/20 rounded-sm" style="transform: rotate(45deg);"></div>
-          <!-- 4 tier diamonds -->
-          <div class="absolute bg-[#3d4466] text-white text-center p-3 rounded-sm" style="width: 120px; height: 120px; top: 10px; left: 50%; transform: translateX(-50%) rotate(45deg);">
-            <div style="transform: rotate(-45deg);" class="pt-3">
-              <p class="text-xl font-bold" style="font-family: var(--font-heading);">$500</p>
-              <p class="text-[9px] uppercase tracking-widest text-white/60" style="font-family: var(--font-heading);">Team Captain</p>
+        <div class="relative" style="width: 320px; height: 320px;">
+          <!-- Outer diamond frame with base dots -->
+          <div class="absolute" style="width: 226px; height: 226px; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(45deg); border: 2px solid rgba(66,22,138,0.15); border-radius: 4px;"></div>
+          <!-- Base dots -->
+          <div class="absolute w-2.5 h-2.5 rounded-full bg-[var(--ballrz-purple)]/30" style="top: 4px; left: 50%; transform: translateX(-50%);"></div>
+          <div class="absolute w-2.5 h-2.5 rounded-full bg-[var(--ballrz-purple)]/30" style="bottom: 4px; left: 50%; transform: translateX(-50%);"></div>
+          <div class="absolute w-2.5 h-2.5 rounded-full bg-[var(--ballrz-purple)]/30" style="top: 50%; left: 4px; transform: translateY(-50%);"></div>
+          <div class="absolute w-2.5 h-2.5 rounded-full bg-[var(--ballrz-purple)]/30" style="top: 50%; right: 4px; transform: translateY(-50%);"></div>
+
+          <!-- 2nd base — Team Captain $500 (top) -->
+          <div class="absolute text-white text-center" style="width: 120px; height: 120px; top: 18px; left: 50%; transform: translateX(-50%) rotate(45deg);">
+            <div class="w-full h-full bg-[#3d4466] rounded-sm flex items-center justify-center">
+              <div style="transform: rotate(-45deg);">
+                <p class="text-lg font-bold leading-tight" style="font-family: var(--font-heading);">$500</p>
+                <p class="text-[8px] uppercase tracking-widest text-white/50 mt-0.5" style="font-family: var(--font-heading);">Team Captain</p>
+              </div>
             </div>
           </div>
-          <div class="absolute bg-[#3d4466] text-white text-center p-3 rounded-sm" style="width: 120px; height: 120px; top: 50%; left: 10px; transform: translateY(-50%) rotate(45deg);">
-            <div style="transform: rotate(-45deg);" class="pt-3">
-              <p class="text-xl font-bold" style="font-family: var(--font-heading);">$1,000</p>
-              <p class="text-[9px] uppercase tracking-widest text-white/60" style="font-family: var(--font-heading);">MVP</p>
+
+          <!-- 3rd base — MVP $1,000 (left) -->
+          <div class="absolute text-white text-center" style="width: 120px; height: 120px; top: 50%; left: 18px; transform: translateY(-50%) rotate(45deg);">
+            <div class="w-full h-full bg-[#3d4466] rounded-sm flex items-center justify-center">
+              <div style="transform: rotate(-45deg);">
+                <p class="text-lg font-bold leading-tight" style="font-family: var(--font-heading);">$1,000</p>
+                <p class="text-[8px] uppercase tracking-widest text-white/50 mt-0.5" style="font-family: var(--font-heading);">MVP</p>
+              </div>
             </div>
           </div>
-          <div class="absolute bg-[#3d4466] text-white text-center p-3 rounded-sm" style="width: 120px; height: 120px; top: 50%; right: 10px; transform: translateY(-50%) rotate(45deg);">
-            <div style="transform: rotate(-45deg);" class="pt-3">
-              <p class="text-xl font-bold" style="font-family: var(--font-heading);">$250</p>
-              <p class="text-[9px] uppercase tracking-widest text-white/60" style="font-family: var(--font-heading);">Slugger</p>
+
+          <!-- 1st base — Slugger $250 (right) -->
+          <div class="absolute text-white text-center" style="width: 120px; height: 120px; top: 50%; right: 18px; transform: translateY(-50%) rotate(45deg);">
+            <div class="w-full h-full bg-[#3d4466] rounded-sm flex items-center justify-center">
+              <div style="transform: rotate(-45deg);">
+                <p class="text-lg font-bold leading-tight" style="font-family: var(--font-heading);">$250</p>
+                <p class="text-[8px] uppercase tracking-widest text-white/50 mt-0.5" style="font-family: var(--font-heading);">Slugger</p>
+              </div>
             </div>
           </div>
-          <div class="absolute bg-[var(--ballrz-purple)] text-white text-center p-3 rounded-sm" style="width: 120px; height: 120px; bottom: 10px; left: 50%; transform: translateX(-50%) rotate(45deg);">
-            <div style="transform: rotate(-45deg);" class="pt-3">
-              <p class="text-xl font-bold" style="font-family: var(--font-heading);">$2,500</p>
-              <p class="text-[9px] uppercase tracking-widest text-white/60" style="font-family: var(--font-heading);">Champion</p>
+
+          <!-- Home plate — Champion $2,500 (bottom, highlighted) -->
+          <div class="absolute text-white text-center" style="width: 120px; height: 120px; bottom: 18px; left: 50%; transform: translateX(-50%) rotate(45deg);">
+            <div class="w-full h-full bg-[var(--ballrz-purple)] rounded-sm flex items-center justify-center">
+              <div style="transform: rotate(-45deg);">
+                <p class="text-lg font-bold leading-tight" style="font-family: var(--font-heading);">$2,500</p>
+                <p class="text-[8px] uppercase tracking-widest text-white/50 mt-0.5" style="font-family: var(--font-heading);">Champion</p>
+              </div>
             </div>
           </div>
         </div>
