@@ -31,19 +31,19 @@
 
 :root {
   /* --- Colors --- */
-  --color-primary:      #3d4466;   /* team navy — buttons, CTAs, tiles */
-  --color-primary-dark:  #2d3350;   /* hover state */
-  --color-accent:       #42168A;   /* purple — highlights, borders, text links */
-  --color-accent-light: #9b5de5;   /* lighter purple for dark backgrounds */
-  --color-surface:      #263a5a;   /* header, footer, scoreboard background */
-  --color-surface-deep: #0a1220;   /* scoreboard inner panel */
-  --color-dark:         #0D1B2A;   /* text headings */
-  --color-body:         #4b5563;   /* body text */
-  --color-muted:        #9ca3af;   /* labels, captions */
-  --color-border:       #e2e2e6;   /* subtle borders */
-  --color-bg:           #ffffff;   /* page background */
-  --color-bg-alt:       #f8f8f8;   /* alternating section background */
-  --color-scoreboard:   #4ADE80;   /* green scoreboard numbers */
+  --color-primary:       #3d4466;
+  --color-primary-dark:  #2d3350;
+  --color-accent:        #42168A;
+  --color-accent-light:  #9b5de5;
+  --color-surface:       #263a5a;
+  --color-surface-deep:  #0a1220;
+  --color-dark:          #0D1B2A;
+  --color-body:          #374151;
+  --color-muted:         #9ca3af;
+  --color-border:        #e2e2e6;
+  --color-bg:            #ffffff;
+  --color-bg-alt:        #f8f8f8;
+  --color-scoreboard:    #4ADE80;
 
   /* Rainbow */
   --color-red:    #D92638;
@@ -57,31 +57,31 @@
   --font-heading: 'Barlow Condensed', 'Oswald', 'Impact', sans-serif;
   --font-body:    -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
-  --text-xs:   0.75rem;    /* 12px — labels, captions */
-  --text-sm:   0.875rem;   /* 14px — small body, buttons */
-  --text-base: 0.9375rem;  /* 15px — body text (replaces 0.95rem) */
-  --text-lg:   1.125rem;   /* 18px — section headings, nav */
-  --text-xl:   1.5rem;     /* 24px — page headings (mobile) */
-  --text-2xl:  1.875rem;   /* 30px — page headings (desktop) */
-  --text-3xl:  2.25rem;    /* 36px — hero headline (desktop) */
-  --text-stat: 3rem;       /* 48px — scoreboard numbers (mobile) */
-  --text-stat-lg: 3.75rem; /* 60px — scoreboard numbers (desktop) */
+  /* Type scale — fluid with clamp() for smooth responsive sizing */
+  --text-xs:    0.75rem;                          /* 12px — labels, captions */
+  --text-sm:    0.875rem;                         /* 14px — buttons, small text */
+  --text-base:  1rem;                             /* 16px — body text */
+  --text-lg:    clamp(1.125rem, 1vw + 0.9rem, 1.25rem);  /* 18-20px — large body */
+  --text-xl:    clamp(1.25rem, 1.5vw + 0.8rem, 1.5rem);  /* 20-24px — section headings */
+  --text-2xl:   clamp(1.5rem, 2vw + 0.8rem, 2rem);       /* 24-32px — page headings */
+  --text-hero:  clamp(2.25rem, 3vw + 1rem, 3rem);        /* 36-48px — hero headline */
+  --text-stat:  clamp(2.5rem, 4vw + 1rem, 3.75rem);      /* 40-60px — scoreboard numbers */
 
   /* --- Spacing (8px base) --- */
   --space-1:  0.25rem;  /*  4px */
   --space-2:  0.5rem;   /*  8px */
   --space-3:  0.75rem;  /* 12px */
   --space-4:  1rem;     /* 16px */
-  --space-6:  1.5rem;   /* 24px — inline padding, default gap */
+  --space-6:  1.5rem;   /* 24px */
   --space-8:  2rem;     /* 32px */
   --space-10: 2.5rem;   /* 40px */
-  --space-12: 3rem;     /* 48px — section vertical padding */
+  --space-12: 3rem;     /* 48px */
   --space-16: 4rem;     /* 64px */
 
   /* --- Layout --- */
-  --container-max: 72rem;    /* 1152px */
-  --prose-max:     40rem;    /* 640px — comfortable reading measure */
-  --content-max:   48rem;    /* 768px — wider content (grids, cards) */
+  --container-max: 72rem;  /* 1152px */
+  --prose-max:     68ch;   /* ~65-70 characters — comfortable reading measure */
+  --content-max:   48rem;  /* 768px — wider content (grids, cards) */
 }
 
 /* ── Base ─────────────────────────────────────────────────────────── */
@@ -92,28 +92,26 @@ body {
   line-height: 1.6;
   color: var(--color-body);
   background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
 }
 
 /* ── Layout Classes ───────────────────────────────────────────────── */
 
-/* Site-wide content container */
 .container {
   max-width: var(--container-max);
   margin-inline: auto;
   padding-inline: var(--space-6);
 }
 
-/* Comfortable reading width for prose */
+/* Paragraph reading width — uses ch for proper measure regardless of font size */
 .prose-width {
   max-width: var(--prose-max);
 }
 
-/* Wider content area (grids, cards, multi-column) */
 .content-width {
   max-width: var(--content-max);
 }
 
-/* Consistent vertical rhythm for page sections */
 .section {
   padding-block: var(--space-12);
 }
@@ -123,12 +121,30 @@ body {
 
 /* ── Typography Classes ───────────────────────────────────────────── */
 
-/* Heading font family + tracking (eliminates all inline style= on headings) */
+/* Base heading style — all headings use this */
 .heading {
   font-family: var(--font-heading);
-  letter-spacing: 0.02em;
   color: var(--color-dark);
   line-height: 1.15;
+  letter-spacing: 0.01em;
+}
+
+/* Specific heading levels */
+.h1 {
+  font-size: var(--text-hero);
+  font-weight: 700;
+}
+.h2 {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+}
+.h3 {
+  font-size: var(--text-xl);
+  font-weight: 700;
+}
+.h4 {
+  font-size: var(--text-lg);
+  font-weight: 600;
 }
 
 /* Section label (small uppercase) */
@@ -141,7 +157,7 @@ body {
   color: var(--color-muted);
 }
 
-/* Text link (purple, used for "View All" etc.) */
+/* Text link (purple accent) */
 .link-accent {
   font-family: var(--font-heading);
   font-size: var(--text-sm);
@@ -153,6 +169,11 @@ body {
   text-decoration: underline;
 }
 
+/* Body paragraph — applies comfortable measure to any <p> inside */
+.prose-width p {
+  max-width: var(--prose-max);
+}
+
 /* ── Button Classes ───────────────────────────────────────────────── */
 
 .btn {
@@ -161,7 +182,7 @@ body {
   font-size: var(--text-sm);
   font-weight: 600;
   letter-spacing: 0.04em;
-  padding: var(--space-2) var(--space-6);
+  padding: var(--space-3) var(--space-6);
   border-radius: 0.5rem;
   transition: background-color 0.15s, color 0.15s, border-color 0.15s;
   cursor: pointer;
@@ -185,7 +206,6 @@ body {
 
 /* ── Component Utilities ──────────────────────────────────────────── */
 
-/* Rainbow gradient bar */
 .ballrz-rainbow {
   background: linear-gradient(
     90deg,
@@ -198,7 +218,6 @@ body {
   );
 }
 
-/* Stitch pattern background */
 .ballrz-stitch-bg {
   background-image: url('/images/pattern-stitching.svg');
   background-repeat: repeat;

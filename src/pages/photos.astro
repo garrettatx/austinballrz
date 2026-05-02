@@ -51,10 +51,10 @@ const photoYears = [
   />
 
   <section class="pb-12">
-    <div class="max-w-5xl mx-auto px-6 space-y-10">
+    <div class="container space-y-10">
       {photoYears.map(group => (
         <div>
-          <h2 class="text-lg font-bold text-[var(--ballrz-dark)] mb-3" style="font-family: var(--font-heading);">{group.year}</h2>
+          <h2 class="heading h4" style="margin-bottom: var(--space-3);">{group.year}</h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
             {group.photos.map(photo => (
               <button class="overflow-hidden rounded-lg cursor-pointer photo-open" data-src={photo.src} data-alt={photo.alt}>

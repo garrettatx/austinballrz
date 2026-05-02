@@ -1,7 +1,8 @@
 ---
 /**
  * Inner page header — consistent across all inner pages.
- * Uses design tokens. Pattern: breadcrumb → heading → optional description.
+ * Pattern: breadcrumb → h1 → optional description.
+ * Uses .h2 size class (inner pages are subordinate to homepage hero).
  */
 import Breadcrumbs from './Breadcrumbs.astro';
 
@@ -16,18 +17,8 @@ const { title, description, breadcrumbs } = Astro.props;
 
 <div class="container" style={`padding-top: var(--space-6); padding-bottom: var(--space-8);`}>
   <Breadcrumbs items={breadcrumbs} />
-  <h1 class="heading" style={`font-size: var(--text-xl); font-weight: 700;`}>
-    {title}
-  </h1>
+  <h1 class="heading h2">{title}</h1>
   {description && (
-    <p class="prose-width" style={`color: var(--color-body); margin-top: var(--space-2); font-size: var(--text-base);`}>
-      {description}
-    </p>
+    <p class="prose-width" style={`margin-top: var(--space-2);`}>{description}</p>
   )}
 </div>
-
-<style>
-  @media (min-width: 768px) {
-    h1 { font-size: var(--text-2xl) !important; }
-  }
-</style>

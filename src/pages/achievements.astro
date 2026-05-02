@@ -32,25 +32,25 @@ const years = [
   />
 
   <section class="pb-12">
-    <div class="max-w-5xl mx-auto px-6">
+    <div class="container">
       <div class="max-w-3xl space-y-8">
         {years.map(y => (
-          <div class="border-b border-[var(--ballrz-gray-200)] pb-6 last:border-b-0">
-            <h2 class="text-xl font-bold text-[var(--ballrz-dark)] mb-3" style="font-family: var(--font-heading);">{y.year}</h2>
+          <div class="border-b border-[var(--color-border)] pb-6 last:border-b-0">
+            <h2 class="heading h3" style="margin-bottom: var(--space-3);">{y.year}</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <p class="text-xs uppercase tracking-widest text-[var(--ballrz-gray-400)] mb-2" style="font-family: var(--font-heading);">Regular Season</p>
+                <p class="label" style="margin-bottom: var(--space-2);">Regular Season</p>
                 <ul class="space-y-1">
                   {y.season.map(s => (
-                    <li class="text-sm text-[var(--ballrz-gray-600)]">{s}</li>
+                    <li class="text-sm text-[var(--color-body)]">{s}</li>
                   ))}
                 </ul>
               </div>
               <div>
-                <p class="text-xs uppercase tracking-widest text-[var(--ballrz-gray-400)] mb-2" style="font-family: var(--font-heading);">Tournaments</p>
+                <p class="label" style="margin-bottom: var(--space-2);">Tournaments</p>
                 <ul class="space-y-1">
                   {y.tournaments.map(t => (
-                    <li class="text-sm text-[var(--ballrz-gray-600)]">{t}</li>
+                    <li class="text-sm text-[var(--color-body)]">{t}</li>
                   ))}
                 </ul>
               </div>
