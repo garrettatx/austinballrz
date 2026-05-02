@@ -1,5 +1,16 @@
 [
   {
+    "year": "2026",
+    "photos": [
+      {
+        "src": "6fe0069d31acd3dfdad1ea2c6ebf31e8-2026.jpg",
+        "alt": "E Ball’rz Spring 2026",
+        "caption": "E Ball’rz Spring 2026",
+        "team": "e"
+      }
+    ]
+  },
+  {
     "year": "2023",
     "description": "GSWS in Minneapolis and a strong local season.",
     "photos": [
@@ -42,7 +53,7 @@
       {
         "src": "team-2020.jpg",
         "alt": "EZ Ball'rz and Blue Ball'rz Spring 2020",
-        "caption": "Spring 2020 — EZ & Blue Ball'rz",
+        "caption": "Spring 2020 â EZ & Blue Ball'rz",
         "team": "e"
       }
     ]
