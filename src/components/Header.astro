@@ -12,7 +12,7 @@ const currentPath = Astro.url.pathname;
       </a>
 
       {/* Desktop nav */}
-      <nav class="hidden md:flex items-center" style="gap: var(--space-6); font-family: var(--font-heading);" aria-label="Main navigation">
+      <nav class="hidden lg:flex items-center" style="gap: var(--space-6); font-family: var(--font-heading);" aria-label="Main navigation">
         {navigation.map(item => (
           <a
             href={item.href}
@@ -33,7 +33,7 @@ const currentPath = Astro.url.pathname;
       {/* Mobile menu button */}
       <button
         id="mobile-menu-btn"
-        class="md:hidden text-white/70 hover:text-white"
+        class="lg:hidden text-white/70 hover:text-white"
         style={`padding: var(--space-2);`}
         aria-label="Open menu"
         aria-expanded="false"
@@ -52,7 +52,7 @@ const currentPath = Astro.url.pathname;
   {/* Mobile nav */}
   <nav
     id="mobile-menu"
-    class="md:hidden hidden"
+    class="lg:hidden hidden"
     style={`background: var(--color-surface); border-top: 1px solid rgba(255,255,255,0.1); font-family: var(--font-heading);`}
     aria-label="Mobile navigation"
   >
