@@ -32,7 +32,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
 
         {/* Contact form — shows first on mobile (source order), second on desktop (grid order) */}
         <div class="order-1 lg:order-2">
-          <h2 class="heading h4 mb-4">Send Us a Message</h2>
+          <h2 id="contact-form-top" class="heading h4 mb-4">Send Us a Message</h2>
 
           {/* Success message (hidden by default) */}
           <div id="form-success" class="hidden rounded-lg mb-4" style={`padding: var(--space-4); background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46;`}>
@@ -172,6 +172,11 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
             <p>
               Sponsorship packages start at $250. <a href="/sponsors/" class="text-[var(--color-accent)] hover:underline">See our sponsorship levels</a> or send us a message.
             </p>
+          </div>
+
+          {/* Jump to form — mobile only */}
+          <div class="lg:hidden" style="margin-top: var(--space-4);">
+            <a href="#contact-form-top" class="btn btn-primary w-full text-center">Send Us a Message</a>
           </div>
 
         </div>
