@@ -18,13 +18,35 @@ const breadcrumbs = [{ label: 'Gear' }];
 
   <PageHeader
     title="Gear"
+    description="What you need to know about bats, equipment, and what's approved for league play."
     breadcrumbs={breadcrumbs}
   />
 
   <section class="section-sm">
     <div class="container">
-      <div class="prose-width">
-        <p>This page is on its way. Hang tight.</p>
+      <div class="prose-width" style={`display: flex; flex-direction: column; gap: var(--space-8);`}>
+
+        <div>
+          <h2 class="heading h4" style={`margin-bottom: var(--space-3);`}>Approved Bats</h2>
+          <p style={`margin-bottom: var(--space-3);`}>
+            Bats must have a USA Softball or ASA stamp and not be on the <a href="https://usa.asasoftball.com/e/BB1P2000.asp" class="text-[var(--color-accent)] hover:underline">non-approved bat list</a>.
+          </p>
+          <p style={`margin-bottom: var(--space-3);`}>Some examples of approved bats:</p>
+          <ul style={`display: flex; flex-direction: column; gap: var(--space-2); padding-left: var(--space-6);`} class="list-disc">
+            <li><a href="https://amzn.to/3EXbLkM" class="text-[var(--color-accent)] hover:underline">Easton Rebel Slowpitch Softball Bat Loaded</a></li>
+            <li><a href="https://amzn.to/3RAoBNr" class="text-[var(--color-accent)] hover:underline">2023 Miken FREAK PRIMO Slowpitch Bat (Balanced)</a></li>
+            <li><a href="https://amzn.to/45akbjp" class="text-[var(--color-accent)] hover:underline">2022 DeMarini Ultimate Weapon Slowpitch Bat</a></li>
+            <li><a href="https://amzn.to/3tlczgw" class="text-[var(--color-accent)] hover:underline">2023 DeMarini Nihilist OG Slowpitch Bat</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="heading h4" style={`margin-bottom: var(--space-3);`}>Check Your Bat</h2>
+          <p>
+            If you're not sure whether your bat is approved, look for the USA Softball or ASA stamp. Older bats may still be approved if they have the stamp and aren't on the <a href="https://usa.asasoftball.com/e/BB1P2000.asp" class="text-[var(--color-accent)] hover:underline">non-approved list</a>.
+          </p>
+        </div>
+
       </div>
     </div>
   </section>

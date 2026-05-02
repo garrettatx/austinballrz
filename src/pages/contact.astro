@@ -11,7 +11,7 @@ const breadcrumbs = [{ label: 'Contact' }];
 
 <Layout
   title={`Contact Us | ${site.name}`}
-  description="Get in touch with the Austin Ball'rz. Interested in joining, sponsoring, or just have questions?"
+  description="Get in touch with the Austin Ball'rz. Want to play, sponsor, or just say hey?"
   jsonLd={breadcrumbSchema(breadcrumbs)}
 >
   <Header slot="header" />
@@ -24,11 +24,12 @@ const breadcrumbs = [{ label: 'Contact' }];
 
   <section class="section-sm">
     <div class="container">
-      <div class="prose-width space-y-6">
+      <div class="prose-width" style={`display: flex; flex-direction: column; gap: var(--space-8);`}>
+
         <div>
-          <h2 class="heading h4" style="margin-bottom: var(--space-2);">Get in Touch</h2>
+          <h2 class="heading h4" style={`margin-bottom: var(--space-3);`}>Get in Touch</h2>
           <p style={`margin-bottom: var(--space-4);`}>
-            The best way to reach us is through our Facebook page or by emailing the team directly. We typically respond within a day or two.
+            The best way to reach us is through our Facebook page. We typically respond within a day or two.
           </p>
           {site.social.facebook && (
             <a href={site.social.facebook} class="btn btn-primary">
@@ -38,11 +39,19 @@ const breadcrumbs = [{ label: 'Contact' }];
         </div>
 
         <div>
-          <h2 class="heading h4" style="margin-bottom: var(--space-2);">Want to Play?</h2>
+          <h2 class="heading h4" style={`margin-bottom: var(--space-3);`}>Want to Play?</h2>
           <p>
-            All skill levels, all good. Players and allies welcome. Send us a message and we'll tell you about upcoming practices and how to get involved with <a href="https://www.softballaustin.org/" class="text-[var(--color-accent)] hover:underline">Softball Austin</a>.
+            All skill levels, all good. Players and allies welcome. We play in the <a href="https://www.softballaustin.org/" class="text-[var(--color-accent)] hover:underline">Softball Austin</a> league, part of <a href="https://www.ipridesoftball.org/" class="text-[var(--color-accent)] hover:underline">iPride Softball</a>. Send us a message and we'll tell you about the next season and how to get involved.
           </p>
         </div>
+
+        <div>
+          <h2 class="heading h4" style={`margin-bottom: var(--space-3);`}>Want to Sponsor?</h2>
+          <p>
+            Sponsorship packages start at $250 and help cover league fees, tournament travel, and equipment. <a href="/sponsors/" class="text-[var(--color-accent)] hover:underline">See our sponsorship levels</a> or reach out to talk about it.
+          </p>
+        </div>
+
       </div>
     </div>
   </section>
