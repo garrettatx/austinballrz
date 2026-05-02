@@ -17,12 +17,6 @@ export const site = {
 } as const;
 
 /**
- * GTM container ID. Set to empty string to disable.
- * Only loads on production domain (see Layout.astro).
- */
-export const gtmId = '';
-
-/**
  * Navigation items.
  * Used by Header and mobile nav components.
  */
