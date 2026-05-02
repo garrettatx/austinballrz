@@ -6,18 +6,18 @@ import PageHeader from '../components/PageHeader.astro';
 import { site } from '../data/site';
 import { breadcrumbSchema } from '../lib/schema';
 
-const breadcrumbs = [{ label: 'Your Guide to NAGAAA Softball' }];
+const breadcrumbs = [{ label: 'Your Guide to iPride Softball' }];
 ---
 
 <Layout
-  title={`Your Guide to NAGAAA Softball | ${site.name}`}
-  description="Everything you need to know about playing NAGAAA softball."
+  title={`Your Guide to iPride Softball | ${site.name}`}
+  description="Everything you need to know about playing iPride Softball."
   jsonLd={breadcrumbSchema(breadcrumbs)}
 >
   <Header slot="header" />
 
   <PageHeader
-    title="Your Guide to NAGAAA Softball"
+    title="Your Guide to iPride Softball"
     breadcrumbs={breadcrumbs}
   />
 
