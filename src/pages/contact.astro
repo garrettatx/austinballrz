@@ -128,10 +128,15 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
               </button>
             </div>
           </form>
+
+          {/* Hint to scroll down on mobile */}
+          <p class="lg:hidden text-center" style="margin-top: var(--space-3); font-size: var(--text-sm);">
+            <a href="#playing-info" style="color: var(--color-muted);">Info about playing, seasons & joining &darr;</a>
+          </p>
         </div>
 
         {/* Playing info — shows second on mobile, first on desktop */}
-        <div class="stack stack-lg order-2 lg:order-1">
+        <div id="playing-info" class="stack stack-lg order-2 lg:order-1">
 
           <div>
             <h2 class="heading h4 mb-3">Want to Play?</h2>
