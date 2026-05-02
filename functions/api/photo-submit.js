@@ -122,7 +122,12 @@ export async function onRequestPost(context) {
 
     // 3. Upload the image file
     const imageBuffer = await photo.arrayBuffer();
-    const imageBase64 = btoa(String.fromCharCode(...new Uint8Array(imageBuffer)));
+    const bytes = new Uint8Array(imageBuffer);
+    let binary = '';
+    for (let i = 0; i < bytes.length; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    const imageBase64 = btoa(binary);
 
     const uploadRes = await gh(`/contents/public/images/team/${filename}`, {
       method: 'PUT',
