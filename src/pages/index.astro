@@ -20,7 +20,7 @@ import { organizationSchema } from '../lib/schema';
     <div class="container" style={`padding-block: var(--space-8);`}>
       <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] items-center" style={`gap: var(--space-8);`}>
 
-        <div>
+        <div class="fade-in">
           <h1 class="heading h1 mb-3">
             PLAY BOLD, <span style="color: var(--color-accent);">PLAY PROUD.</span>
           </h1>
@@ -33,7 +33,7 @@ import { organizationSchema } from '../lib/schema';
           </div>
         </div>
 
-        <div class="relative">
+        <div class="relative fade-in" style="transition-delay: 0.15s;">
           <div class="absolute w-full h-full rounded-xl hidden lg:block" style={`top: var(--space-2); left: var(--space-2); background: var(--color-accent); opacity: 0.12;`} aria-hidden="true"></div>
           <div class="relative rounded-xl overflow-hidden shadow-lg">
             <img
@@ -55,7 +55,7 @@ import { organizationSchema } from '../lib/schema';
   {/* ── About ── */}
   <section class="section-sm bg-alt">
     <div class="container">
-      <div class="prose-width">
+      <div class="prose-width fade-in">
         <h2 class="heading h3 mb-3">About Us</h2>
         <p>
           We play in Softball Austin, part of the iPride Softball League, and have since 2013. We started as the Austin Aardvarks, became the Ball'rz in 2014, and it stuck. We play league ball, travel to tournaments, and have competed in the Gay Softball World Series five times.
@@ -70,7 +70,7 @@ import { organizationSchema } from '../lib/schema';
   {/* ── Mission ── */}
   <section class="section-sm">
     <div class="container">
-      <div class="prose-width">
+      <div class="prose-width fade-in">
         <div style={`border-left: 4px solid var(--color-accent); padding-left: var(--space-6);`}>
           <h2 class="heading h3 mb-3">Our Mission</h2>
           <p style={`margin-bottom: var(--space-4);`}>
@@ -85,10 +85,10 @@ import { organizationSchema } from '../lib/schema';
   {/* ── Come Play ── */}
   <section class="section-sm bg-alt">
     <div class="container">
-      <h2 class="heading h3" style={`margin-bottom: var(--space-6);`}>Come Play</h2>
-      <div class="grid grid-cols-1 lg:grid-cols-2" style={`gap: var(--space-8);`}>
+      <h2 class="heading h3 fade-in" style={`margin-bottom: var(--space-6);`}>Come Play</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-2 stagger" style={`gap: var(--space-8);`}>
 
-        <div class="prose-width">
+        <div class="prose-width fade-in">
           <h3 class="heading h4" style={`margin-bottom: var(--space-2);`}>Two Seasons, Two Skill Levels</h3>
           <p class="mb-3">
             We play spring and fall seasons in the {playing.league} league. {playing.gameDay} Games are at <a href={playing.fieldUrl} class="text-[var(--color-accent)] hover:underline">{playing.field}</a> in {playing.fieldCity}.
@@ -103,7 +103,7 @@ import { organizationSchema } from '../lib/schema';
           </p>
         </div>
 
-        <div class="prose-width">
+        <div class="prose-width fade-in">
           <h3 class="heading h4" style={`margin-bottom: var(--space-2);`}>How to Join</h3>
           <p class="mb-3">
             {playing.joiningNote}
@@ -123,26 +123,26 @@ import { organizationSchema } from '../lib/schema';
   {/* ── Achievements — scoreboard ── */}
   <section class="section bg-alt">
     <div class="container">
-      <h2 class="heading h3 text-center mb-6">On the Field</h2>
-      <div class="content-width mx-auto">
+      <h2 class="heading h3 text-center mb-6 fade-in">On the Field</h2>
+      <div class="content-width mx-auto fade-in" style="transition-delay: 0.1s;">
         <div class="rounded-xl" style={`background: var(--color-surface); padding: var(--space-1);`}>
-          <div class="grid grid-cols-3 divide-x divide-white/10">
-            <div class="text-center" style={`padding-block: var(--space-8);`}>
+          <div class="grid grid-cols-3 divide-x divide-white/10 stagger">
+            <div class="text-center fade-in" style={`padding-block: var(--space-8);`}>
               <p class="scoreboard-stat" style="color: var(--color-scoreboard);">5</p>
               <p class="scoreboard-label mt-2" style="color: var(--color-nav-inactive);">World Series</p>
             </div>
-            <div class="text-center" style={`padding-block: var(--space-8);`}>
+            <div class="text-center fade-in" style={`padding-block: var(--space-8);`}>
               <p class="scoreboard-stat" style="color: var(--color-scoreboard);">4th</p>
               <p class="scoreboard-label mt-2" style="color: var(--color-nav-inactive);">Best Finish '19</p>
             </div>
-            <div class="text-center" style={`padding-block: var(--space-8);`}>
+            <div class="text-center fade-in" style={`padding-block: var(--space-8);`}>
               <p class="scoreboard-stat" style="color: var(--color-scoreboard);">2013</p>
               <p class="scoreboard-label mt-2" style="color: var(--color-nav-inactive);">Founded</p>
             </div>
           </div>
         </div>
       </div>
-      <p class="text-center mt-4">
+      <p class="text-center mt-4 fade-in">
         <a href="/achievements/" class="link-accent">View All Achievements &rarr;</a>
       </p>
     </div>
@@ -166,4 +166,3 @@ import { organizationSchema } from '../lib/schema';
 
   <Footer slot="footer" />
 </Layout>
-
