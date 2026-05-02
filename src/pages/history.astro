@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import PhotoModal from '../components/PhotoModal.astro';
 import PageHeader from '../components/PageHeader.astro';
 import { site } from '../data/site';
 import { breadcrumbSchema } from '../lib/schema';
@@ -43,12 +44,12 @@ const breadcrumbs = [{ label: 'History' }];
         <div>
           <h2 class="heading h4" style="margin-bottom: var(--space-2);">World Series</h2>
           <div class="space-y-3">
-            <p><strong class="text-[var(--color-dark)]">2019</strong> — Both teams earned bids to the NAGAAA World Series in Kansas City. The EZ Ball'rz finished 4th, bringing home a trophy and individual medals. The D'Ball'rz won their division in the fall.</p>
-            <p><strong class="text-[var(--color-dark)]">2020</strong> — Welcomed the Blue Ball'rz (second E team). Season interrupted by COVID-19.</p>
-            <p><strong class="text-[var(--color-dark)]">2021</strong> — EZ Ball'rz returned to the GSWS in Columbus, finishing 13th out of 30 teams.</p>
-            <p><strong class="text-[var(--color-dark)]">2022</strong> — Consolidated to a single EZ Ball'rz team. Finished 13th of 33 teams at the GSWS in Dallas.</p>
-            <p><strong class="text-[var(--color-dark)]">2023</strong> — Competed at the iPride World Series in Minneapolis.</p>
-            <p><strong class="text-[var(--color-dark)]">2024</strong> — Competed at the iPride World Series in Las Vegas.</p>
+            <p><strong>2019</strong> — Both teams earned bids to the NAGAAA World Series in Kansas City. The EZ Ball'rz finished 4th, bringing home a trophy and individual medals. The D'Ball'rz won their division in the fall.</p>
+            <p><strong>2020</strong> — Welcomed the Blue Ball'rz (second E team). Season interrupted by COVID-19.</p>
+            <p><strong>2021</strong> — EZ Ball'rz returned to the GSWS in Columbus, finishing 13th out of 30 teams.</p>
+            <p><strong>2022</strong> — Consolidated to a single EZ Ball'rz team. Finished 13th of 33 teams at the GSWS in Dallas.</p>
+            <p><strong>2023</strong> — Competed at the iPride World Series in Minneapolis.</p>
+            <p><strong>2024</strong> — Competed at the iPride World Series in Las Vegas.</p>
           </div>
         </div>
 
@@ -60,14 +61,24 @@ const breadcrumbs = [{ label: 'History' }];
     <div class="container">
       <p class="label" style="margin-bottom: var(--space-3);">Through the Years</p>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-        <div class="aspect-[4/3] overflow-hidden rounded-lg"><img src="/images/team/team-2023.jpg" alt="Ball'rz 2023" class="w-full h-full object-cover" loading="lazy" /></div>
-        <div class="aspect-[4/3] overflow-hidden rounded-lg"><img src="/images/team/team-2022.jpg" alt="Ball'rz 2022" class="w-full h-full object-cover" loading="lazy" /></div>
-        <div class="aspect-[4/3] overflow-hidden rounded-lg"><img src="/images/team/team-2021.jpg" alt="Ball'rz 2021" class="w-full h-full object-cover" loading="lazy" /></div>
-        <div class="aspect-[4/3] overflow-hidden rounded-lg"><img src="/images/team/team-2019.jpg" alt="Ball'rz 2019" class="w-full h-full object-cover" loading="lazy" /></div>
+        <button class="aspect-[4/3] overflow-hidden rounded-lg cursor-pointer photo-open" data-src="/images/team/team-2023.jpg" data-alt="Austin Ball'rz 2023 team photo">
+          <img src="/images/team/team-2023.jpg" alt="Austin Ball'rz 2023 team photo" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" />
+        </button>
+        <button class="aspect-[4/3] overflow-hidden rounded-lg cursor-pointer photo-open" data-src="/images/team/team-2022.jpg" data-alt="Austin Ball'rz Fall 2022 team photo">
+          <img src="/images/team/team-2022.jpg" alt="Austin Ball'rz Fall 2022 team photo" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" />
+        </button>
+        <button class="aspect-[4/3] overflow-hidden rounded-lg cursor-pointer photo-open" data-src="/images/team/team-2021.jpg" data-alt="Austin Ball'rz 2021 team photo">
+          <img src="/images/team/team-2021.jpg" alt="Austin Ball'rz 2021 team photo" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" />
+        </button>
+        <button class="aspect-[4/3] overflow-hidden rounded-lg cursor-pointer photo-open" data-src="/images/team/team-2019.jpg" data-alt="Austin Ball'rz 2019 team photo">
+          <img src="/images/team/team-2019.jpg" alt="Austin Ball'rz 2019 team photo" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" />
+        </button>
       </div>
       <p style="margin-top: var(--space-2);"><a href="/photos/" class="link-accent">View All Photos &rarr;</a></p>
     </div>
   </section>
+
+  <PhotoModal />
 
   <Footer slot="footer" />
 </Layout>

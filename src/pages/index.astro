@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import PhotoModal from '../components/PhotoModal.astro';
 import { site } from '../data/site';
 import { organizationSchema } from '../lib/schema';
 ---
@@ -14,7 +15,7 @@ import { organizationSchema } from '../lib/schema';
 
   {/* ── Hero ── */}
   <section>
-    <div class="container" style={`padding-block: var(--space-8); padding-block-end: var(--space-10);`}>
+    <div class="container" style={`padding-block: var(--space-8);`}>
       <div class="grid grid-cols-1 md:grid-cols-[1fr_1.2fr] items-center" style={`gap: var(--space-6);`}>
 
         <div>
@@ -64,57 +65,24 @@ import { organizationSchema } from '../lib/schema';
     <div class="container">
       <p class="label" style={`margin-bottom: var(--space-3);`}>Photos</p>
       <div class="grid grid-cols-2 md:grid-cols-4" style={`gap: var(--space-2);`}>
-        <button class="aspect-[4/3] overflow-hidden rounded-lg cursor-pointer photo-open" data-src="/images/team/team-2023.jpg" data-alt="Ball'rz 2023 team">
-          <img src="/images/team/team-2023.jpg" alt="Ball'rz 2023 team" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" />
+        <button class="aspect-[4/3] overflow-hidden rounded-lg cursor-pointer photo-open" data-src="/images/team/team-2023.jpg" data-alt="Austin Ball'rz 2023 team photo on the field">
+          <img src="/images/team/team-2023.jpg" alt="Austin Ball'rz 2023 team photo on the field" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" />
         </button>
-        <button class="aspect-[4/3] overflow-hidden rounded-lg cursor-pointer photo-open" data-src="/images/team/team-2022.jpg" data-alt="Ball'rz Fall 2022">
-          <img src="/images/team/team-2022.jpg" alt="Ball'rz Fall 2022" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" />
+        <button class="aspect-[4/3] overflow-hidden rounded-lg cursor-pointer photo-open" data-src="/images/team/team-2022.jpg" data-alt="Austin Ball'rz Fall 2022 team photo">
+          <img src="/images/team/team-2022.jpg" alt="Austin Ball'rz Fall 2022 team photo" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" />
         </button>
-        <button class="aspect-[4/3] overflow-hidden rounded-lg cursor-pointer photo-open" data-src="/images/team/gsws-2023.jpg" data-alt="GSWS Minneapolis 2023">
-          <img src="/images/team/gsws-2023.jpg" alt="GSWS Minneapolis 2023" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" />
+        <button class="aspect-[4/3] overflow-hidden rounded-lg cursor-pointer photo-open" data-src="/images/team/gsws-2023.jpg" data-alt="Austin Ball'rz at the Gay Softball World Series in Minneapolis, 2023">
+          <img src="/images/team/gsws-2023.jpg" alt="Austin Ball'rz at the Gay Softball World Series in Minneapolis, 2023" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" />
         </button>
-        <button class="aspect-[4/3] overflow-hidden rounded-lg cursor-pointer photo-open" data-src="/images/team/team-2019.jpg" data-alt="Ball'rz 2019 team">
-          <img src="/images/team/team-2019.jpg" alt="Ball'rz 2019 team" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" />
+        <button class="aspect-[4/3] overflow-hidden rounded-lg cursor-pointer photo-open" data-src="/images/team/team-2019.jpg" data-alt="Austin Ball'rz 2019 team photo">
+          <img src="/images/team/team-2019.jpg" alt="Austin Ball'rz 2019 team photo" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" />
         </button>
       </div>
       <p style={`margin-top: var(--space-2);`}><a href="/photos/" class="link-accent">View All Photos &rarr;</a></p>
     </div>
   </section>
 
-  {/* ── Photo modal ── */}
-  <div id="photo-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/85 p-4" role="dialog" aria-modal="true" aria-label="Photo viewer">
-    <button id="photo-close" class="absolute top-4 right-4 text-white/70 hover:text-white text-3xl leading-none z-10" aria-label="Close">&times;</button>
-    <button id="photo-prev" class="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors z-10" aria-label="Previous photo">
-      <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-    </button>
-    <button id="photo-next" class="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors z-10" aria-label="Next photo">
-      <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-    </button>
-    <img id="photo-modal-img" src="" alt="" class="max-w-full max-h-[90vh] rounded-lg shadow-2xl" />
-  </div>
-  <script is:inline>
-  (function() {
-    var modal = document.getElementById('photo-modal');
-    var modalImg = document.getElementById('photo-modal-img');
-    var btnClose = document.getElementById('photo-close');
-    var btnPrev = document.getElementById('photo-prev');
-    var btnNext = document.getElementById('photo-next');
-    if (!modal || !modalImg) return;
-    var photos = [];
-    var currentIndex = 0;
-    document.querySelectorAll('.photo-open').forEach(function(btn, i) {
-      photos.push({ src: btn.dataset.src, alt: btn.dataset.alt });
-      btn.addEventListener('click', function() { currentIndex = i; show(i); });
-    });
-    function show(i) { currentIndex = i; modalImg.src = photos[i].src; modalImg.alt = photos[i].alt; modal.classList.remove('hidden'); modal.classList.add('flex'); }
-    function close() { modal.classList.add('hidden'); modal.classList.remove('flex'); }
-    btnClose.addEventListener('click', close);
-    btnPrev.addEventListener('click', function(e) { e.stopPropagation(); show((currentIndex - 1 + photos.length) % photos.length); });
-    btnNext.addEventListener('click', function(e) { e.stopPropagation(); show((currentIndex + 1) % photos.length); });
-    modal.addEventListener('click', function(e) { if (e.target === modal) close(); });
-    document.addEventListener('keydown', function(e) { if (modal.classList.contains('hidden')) return; if (e.key === 'Escape') close(); if (e.key === 'ArrowLeft') show((currentIndex - 1 + photos.length) % photos.length); if (e.key === 'ArrowRight') show((currentIndex + 1) % photos.length); });
-  })();
-  </script>
+  <PhotoModal />
 
   {/* ── Mission ── */}
   <section class="section-sm">
@@ -135,7 +103,7 @@ import { organizationSchema } from '../lib/schema';
     <div class="container">
       <h2 class="heading h3 text-center uppercase" style={`color: rgba(255,255,255,0.9); letter-spacing: 0.08em; margin-bottom: var(--space-6);`}>On the Field</h2>
       <div class="content-width mx-auto">
-        <div class="rounded-xl" style={`background: var(--color-surface-deep); border: 1px solid rgba(255,255,255,0.08); padding: var(--space-1);`}>
+        <div class="rounded-xl" style={`background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); padding: var(--space-1);`}>
           <div class="grid grid-cols-3 divide-x divide-white/8">
             <div class="text-center" style={`padding-block: var(--space-6);`}>
               <p class="heading" style={`font-size: var(--text-stat); font-weight: 700; color: var(--color-scoreboard); text-shadow: 0 0 20px rgba(74,222,128,0.15);`}>5</p>
