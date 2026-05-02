@@ -49,7 +49,7 @@ const carouselId = `carousel-${Math.random().toString(36).slice(2, 8)}`;
     <div class="photo-carousel" id={carouselId}>
       {photos.map(photo => (
         <div class="photo-carousel-slide">
-          <button class="photo-carousel-img-btn photo-open" data-src={photo.src} data-alt={photo.alt}>
+          <button class="photo-carousel-img-btn photo-open" data-src={photo.src} data-alt={photo.alt} data-caption={photo.caption || photo.alt}>
             <img
               src={photo.src}
               alt={photo.alt}

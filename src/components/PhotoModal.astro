@@ -16,7 +16,10 @@
   <button id="photo-next" class="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors z-10" style="padding: 0.5rem;" aria-label="Next photo">
     <svg class="w-8 h-8 md:w-10 md:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
   </button>
-  <img id="photo-modal-img" src="" alt="" class="max-w-full max-h-[85vh] md:max-h-[90vh] rounded-lg shadow-2xl" style="user-select: none; -webkit-user-select: none;" />
+  <div class="relative">
+    <img id="photo-modal-img" src="" alt="" class="max-w-full max-h-[80vh] md:max-h-[85vh] rounded-lg shadow-2xl" style="user-select: none; -webkit-user-select: none;" />
+    <p id="photo-modal-caption" class="text-center text-white/90 mt-2" style="font-family: var(--font-heading, sans-serif); font-size: 0.9375rem; letter-spacing: 0.02em;"></p>
+  </div>
 </div>
 
 <script is:inline>
@@ -26,6 +29,7 @@
 
   var modal = document.getElementById('photo-modal');
   var modalImg = document.getElementById('photo-modal-img');
+  var captionEl = document.getElementById('photo-modal-caption');
   var btnClose = document.getElementById('photo-close');
   var btnPrev = document.getElementById('photo-prev');
   var btnNext = document.getElementById('photo-next');
@@ -35,7 +39,7 @@
   var currentIndex = 0;
 
   document.querySelectorAll('.photo-open').forEach(function(btn, i) {
-    photos.push({ src: btn.dataset.src, alt: btn.dataset.alt });
+    photos.push({ src: btn.dataset.src, alt: btn.dataset.alt, caption: btn.dataset.caption || btn.dataset.alt || '' });
     btn.addEventListener('click', function() { show(i); });
   });
 
@@ -43,6 +47,7 @@
     currentIndex = i;
     modalImg.src = photos[i].src;
     modalImg.alt = photos[i].alt;
+    captionEl.textContent = photos[i].caption;
     modal.classList.remove('hidden');
     modal.classList.add('flex');
     document.body.style.overflow = 'hidden';

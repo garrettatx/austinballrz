@@ -50,6 +50,7 @@ function gridClass(count: number): string {
                 class={`gallery-item overflow-hidden rounded-lg cursor-pointer photo-open ${i === 0 && group.photos.length >= 3 ? 'gallery-feature' : ''}`}
                 data-src={photo.src}
                 data-alt={photo.alt}
+                data-caption={photo.caption || photo.alt}
               >
                 <img src={photo.src} alt={photo.alt} class="gallery-img" loading="lazy" />
                 {photo.caption && <span class="gallery-caption">{photo.caption}</span>}
