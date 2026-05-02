@@ -216,6 +216,55 @@ export async function onRequestPost(context) {
 
     const prData = await prRes.json();
 
+    // 8. Send email notification via SendGrid
+    const sgKey = env.SENDGRID_API_KEY;
+    const emailTo = env.CONTACT_EMAIL_TO;
+    const emailFrom = env.CONTACT_EMAIL_FROM;
+    if (sgKey && emailTo && emailFrom) {
+      const toAddresses = emailTo.split(',').map(e => ({ email: e.trim() }));
+      const subject = `📷 Photo submitted by ${submittedBy}: ${alt.trim()} (${year})`;
+      const textBody = [
+        `New photo submission for austinballrz.com`,
+        ``,
+        `File: ${filename}`,
+        `Year: ${year}`,
+        team ? `Team: ${team.toUpperCase()}` : null,
+        `Description: ${alt.trim()}`,
+        `Submitted by: ${submittedBy}`,
+        ``,
+        `Review and merge the PR to publish:`,
+        prData.html_url,
+      ].filter(Boolean).join('\n');
+      const htmlBody = [
+        `<h2>New Photo Submission</h2>`,
+        `<p><strong>File:</strong> ${filename}</p>`,
+        `<p><strong>Year:</strong> ${year}</p>`,
+        team ? `<p><strong>Team:</strong> ${team.toUpperCase()}</p>` : null,
+        `<p><strong>Description:</strong> ${alt.trim()}</p>`,
+        `<p><strong>Submitted by:</strong> ${submittedBy}</p>`,
+        `<hr>`,
+        `<p><a href="${prData.html_url}">Review the pull request</a> — merge to publish, close to reject.</p>`,
+      ].filter(Boolean).join('\n');
+
+      await fetch('https://api.sendgrid.com/v3/mail/send', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${sgKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          personalizations: [{ to: toAddresses }],
+          from: { email: emailFrom, name: "Austin Ball'rz Photos" },
+          subject,
+          content: [
+            { type: 'text/plain', value: textBody },
+            { type: 'text/html', value: htmlBody },
+          ],
+        }),
+      });
+      // Email is best-effort — don't fail the submission if it doesn't send
+    }
+
     return new Response(JSON.stringify({
       success: true,
       pr_url: prData.html_url,
