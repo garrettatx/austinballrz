@@ -150,18 +150,11 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
         <p class="help">JPG, PNG, or WebP. Max 10MB. Photos are automatically resized for the web.</p>
       </div>
 
-      {/* Description */}
+      {/* Description — used as alt text and displayed as caption */}
       <div class="form-group">
         <label for="alt" class="required">What's in this photo?</label>
         <input type="text" id="alt" required placeholder="e.g. D team after the Dallas tournament" />
-        <p class="help">Who's in it, where, and when.</p>
-      </div>
-
-      {/* Caption */}
-      <div class="form-group">
-        <label for="caption">Caption</label>
-        <input type="text" id="caption" placeholder="e.g. Dallas 2024" />
-        <p class="help">Short label (2-4 words) shown below the photo on the site.</p>
+        <p class="help">This is shown as the caption below the photo on the site.</p>
       </div>
 
       {/* Year + Team */}
@@ -366,7 +359,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
       var formData = new FormData();
       formData.append('photo', resizedBlob, originalName);
       formData.append('alt', altVal);
-      formData.append('caption', document.getElementById('caption').value.trim());
+      formData.append('caption', altVal);
       formData.append('year', year);
       formData.append('team', document.getElementById('team').value);
       formData.append('submitted_by', document.getElementById('submitted-by').value.trim());
