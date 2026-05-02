@@ -26,53 +26,52 @@ const breadcrumbs = [{ label: 'Sponsors' }];
     <div class="max-w-5xl mx-auto px-6">
 
       <!-- Sponsorship diamond — baseball diamond layout -->
-      <!-- Home plate (champion) at bottom, 2nd base (captain) at top, 1st/3rd on sides -->
       <div class="flex justify-center mb-10">
-        <div class="relative" style="width: 320px; height: 320px;">
-          <!-- Outer diamond frame with base dots -->
-          <div class="absolute" style="width: 226px; height: 226px; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(45deg); border: 2px solid rgba(66,22,138,0.15); border-radius: 4px;"></div>
-          <!-- Base dots -->
-          <div class="absolute w-2.5 h-2.5 rounded-full bg-[var(--ballrz-purple)]/30" style="top: 4px; left: 50%; transform: translateX(-50%);"></div>
-          <div class="absolute w-2.5 h-2.5 rounded-full bg-[var(--ballrz-purple)]/30" style="bottom: 4px; left: 50%; transform: translateX(-50%);"></div>
-          <div class="absolute w-2.5 h-2.5 rounded-full bg-[var(--ballrz-purple)]/30" style="top: 50%; left: 4px; transform: translateY(-50%);"></div>
-          <div class="absolute w-2.5 h-2.5 rounded-full bg-[var(--ballrz-purple)]/30" style="top: 50%; right: 4px; transform: translateY(-50%);"></div>
+        <div class="relative" style="width: 400px; height: 400px;">
+          <!-- Outer diamond frame -->
+          <div class="absolute" style="width: 284px; height: 284px; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(45deg); border: 2px solid rgba(66,22,138,0.12); border-radius: 3px;"></div>
+          <!-- Base dots (4 corners of the diamond) -->
+          <div class="absolute rounded-full" style="width: 14px; height: 14px; background: rgba(66,22,138,0.2); top: 0; left: 50%; transform: translateX(-50%);"></div>
+          <div class="absolute rounded-full" style="width: 14px; height: 14px; background: rgba(66,22,138,0.2); bottom: 0; left: 50%; transform: translateX(-50%);"></div>
+          <div class="absolute rounded-full" style="width: 14px; height: 14px; background: rgba(66,22,138,0.2); top: 50%; left: 0; transform: translateY(-50%);"></div>
+          <div class="absolute rounded-full" style="width: 14px; height: 14px; background: rgba(66,22,138,0.2); top: 50%; right: 0; transform: translateY(-50%);"></div>
 
           <!-- 2nd base — Team Captain $500 (top) -->
-          <div class="absolute text-white text-center" style="width: 120px; height: 120px; top: 18px; left: 50%; transform: translateX(-50%) rotate(45deg);">
-            <div class="w-full h-full bg-[#3d4466] rounded-sm flex items-center justify-center">
+          <div class="absolute text-white text-center" style="width: 150px; height: 150px; top: 16px; left: 50%; transform: translateX(-50%) rotate(45deg);">
+            <div class="w-full h-full bg-[#3d4466] rounded flex items-center justify-center">
               <div style="transform: rotate(-45deg);">
-                <p class="text-lg font-bold leading-tight" style="font-family: var(--font-heading);">$500</p>
-                <p class="text-[8px] uppercase tracking-widest text-white/50 mt-0.5" style="font-family: var(--font-heading);">Team Captain</p>
+                <p class="text-2xl font-bold leading-tight" style="font-family: var(--font-heading);">$500</p>
+                <p class="text-[9px] uppercase tracking-widest text-white/50 mt-1" style="font-family: var(--font-heading);">Team Captain Level</p>
               </div>
             </div>
           </div>
 
           <!-- 3rd base — MVP $1,000 (left) -->
-          <div class="absolute text-white text-center" style="width: 120px; height: 120px; top: 50%; left: 18px; transform: translateY(-50%) rotate(45deg);">
-            <div class="w-full h-full bg-[#3d4466] rounded-sm flex items-center justify-center">
+          <div class="absolute text-white text-center" style="width: 150px; height: 150px; top: 50%; left: 16px; transform: translateY(-50%) rotate(45deg);">
+            <div class="w-full h-full bg-[#3d4466] rounded flex items-center justify-center">
               <div style="transform: rotate(-45deg);">
-                <p class="text-lg font-bold leading-tight" style="font-family: var(--font-heading);">$1,000</p>
-                <p class="text-[8px] uppercase tracking-widest text-white/50 mt-0.5" style="font-family: var(--font-heading);">MVP</p>
+                <p class="text-2xl font-bold leading-tight" style="font-family: var(--font-heading);">$1,000</p>
+                <p class="text-[9px] uppercase tracking-widest text-white/50 mt-1" style="font-family: var(--font-heading);">MVP Level</p>
               </div>
             </div>
           </div>
 
           <!-- 1st base — Slugger $250 (right) -->
-          <div class="absolute text-white text-center" style="width: 120px; height: 120px; top: 50%; right: 18px; transform: translateY(-50%) rotate(45deg);">
-            <div class="w-full h-full bg-[#3d4466] rounded-sm flex items-center justify-center">
+          <div class="absolute text-white text-center" style="width: 150px; height: 150px; top: 50%; right: 16px; transform: translateY(-50%) rotate(45deg);">
+            <div class="w-full h-full bg-[#3d4466] rounded flex items-center justify-center">
               <div style="transform: rotate(-45deg);">
-                <p class="text-lg font-bold leading-tight" style="font-family: var(--font-heading);">$250</p>
-                <p class="text-[8px] uppercase tracking-widest text-white/50 mt-0.5" style="font-family: var(--font-heading);">Slugger</p>
+                <p class="text-2xl font-bold leading-tight" style="font-family: var(--font-heading);">$250</p>
+                <p class="text-[9px] uppercase tracking-widest text-white/50 mt-1" style="font-family: var(--font-heading);">Slugger Level</p>
               </div>
             </div>
           </div>
 
           <!-- Home plate — Champion $2,500 (bottom, highlighted) -->
-          <div class="absolute text-white text-center" style="width: 120px; height: 120px; bottom: 18px; left: 50%; transform: translateX(-50%) rotate(45deg);">
-            <div class="w-full h-full bg-[var(--ballrz-purple)] rounded-sm flex items-center justify-center">
+          <div class="absolute text-white text-center" style="width: 150px; height: 150px; bottom: 16px; left: 50%; transform: translateX(-50%) rotate(45deg);">
+            <div class="w-full h-full bg-[#3d4466] rounded flex items-center justify-center">
               <div style="transform: rotate(-45deg);">
-                <p class="text-lg font-bold leading-tight" style="font-family: var(--font-heading);">$2,500</p>
-                <p class="text-[8px] uppercase tracking-widest text-white/50 mt-0.5" style="font-family: var(--font-heading);">Champion</p>
+                <p class="text-2xl font-bold leading-tight" style="font-family: var(--font-heading);">$2,500</p>
+                <p class="text-[9px] uppercase tracking-widest text-white/50 mt-1" style="font-family: var(--font-heading);">Championship Level</p>
               </div>
             </div>
           </div>
