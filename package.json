@@ -12,9 +12,11 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^13.3.0",
     "@astrojs/sitemap": "^3.7.2",
     "@fontsource/barlow-condensed": "^5.2.8",
     "@fontsource/oswald": "^5.2.8",
+    "@sendgrid/mail": "^8.1.6",
     "@tailwindcss/vite": "^4.2.4",
     "astro": "^6.2.1",
     "tailwindcss": "^4.2.4"

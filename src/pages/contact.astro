@@ -8,6 +8,7 @@ import { site } from '../data/site';
 import { breadcrumbSchema } from '../lib/schema';
 
 const breadcrumbs = [{ label: 'Contact' }];
+const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
 ---
 
 <Layout
@@ -25,55 +26,241 @@ const breadcrumbs = [{ label: 'Contact' }];
 
   <section class="section-sm">
     <div class="container">
-      <div class="prose-width" style={`display: flex; flex-direction: column; gap: var(--space-8);`}>
+      <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] items-start" style={`gap: var(--space-12);`}>
 
-        <div>
-          <h2 class="heading h4" style={`margin-bottom: var(--space-3);`}>Get in Touch</h2>
-          <p style={`margin-bottom: var(--space-4);`}>
-            The best way to reach us is through our <a href={site.social.facebook} class="text-[var(--color-accent)] hover:underline">Facebook page</a>. Any of our coaches will be glad to talk and answer your questions. We typically respond within a day or two.
-          </p>
+        {/* Left: playing info */}
+        <div class="stack stack-lg">
+
+          <div>
+            <h2 class="heading h4 mb-3">Want to Play?</h2>
+            <p class="mb-3">
+              We've had a team every season since 2013. Two seasons a year, spring and fall. Games are on Sunday mornings and afternoons at <a href="https://maps.google.com/?q=Krieg+Field+Austin+TX" class="text-[var(--color-accent)] hover:underline">Krieg Field</a> in Austin.
+            </p>
+
+            <h3 class="heading h4 mb-2">Skill Levels</h3>
+            <ul class="list-spaced mb-3">
+              <li><strong>D Division</strong> — for players with more experience and competitive play.</li>
+              <li><strong>E Division</strong> — for newer players or those still building their game. No experience needed. The E team is a great place to start. We're all learning and growing together.</li>
+            </ul>
+
+            <h3 class="heading h4 mb-2">Practice</h3>
+            <p class="mb-3">
+              During the spring season, we practice on weeknights at <a href="https://maps.google.com/?q=Krieg+Field+Austin+TX" class="text-[var(--color-accent)] hover:underline">Krieg Field</a> or <a href="https://maps.google.com/?q=Southeast+Metropolitan+Park+Del+Valle+TX" class="text-[var(--color-accent)] hover:underline">Southeast Metro Field</a> in Del Valle (off Hwy 71, just past the airport). We practice when we have a game the following weekend. Fall is more casual — just Sunday games, no weeknight practices.
+            </p>
+
+            <h3 class="heading h4 mb-2">Joining</h3>
+            <p class="mb-3">
+              Reach out and one of our coaches will walk you through it. You'll register through <a href="https://www.softballaustin.org/" class="text-[var(--color-accent)] hover:underline">Softball Austin</a>. There's a league registration fee and a team fee that covers practice fields, jerseys, and equipment.
+            </p>
+
+            <h3 class="heading h4 mb-2">More Than Games</h3>
+            <p>
+              We do social events outside of Sunday games too. It's a great way to meet people and be part of a community. Players and allies welcome.
+            </p>
+          </div>
+
+          <div>
+            <h2 class="heading h4 mb-3">Want to Sponsor?</h2>
+            <p>
+              Sponsorship packages start at $250. <a href="/sponsors/" class="text-[var(--color-accent)] hover:underline">See our sponsorship levels</a> or send us a message.
+            </p>
+          </div>
+
         </div>
 
+        {/* Right: contact form */}
         <div>
-          <h2 class="heading h4" style={`margin-bottom: var(--space-3);`}>Want to Play?</h2>
-          <p style={`margin-bottom: var(--space-3);`}>
-            We've had a team every season since 2013 — two seasons a year, spring and fall. Games are on Sunday mornings and afternoons at <a href="https://maps.google.com/?q=Krieg+Field+Austin+TX" class="text-[var(--color-accent)] hover:underline">Krieg Field</a> in Austin.
-          </p>
+          <h2 class="heading h4 mb-4">Send Us a Message</h2>
 
-          <h3 class="heading" style={`font-size: var(--text-lg); font-weight: 600; margin-bottom: var(--space-2);`}>Skill Levels</h3>
-          <ul style={`display: flex; flex-direction: column; gap: var(--space-2); padding-left: var(--space-6); margin-bottom: var(--space-3);`} class="list-disc">
-            <li><strong>D Division</strong> — for players with more experience and competitive play.</li>
-            <li><strong>E Division</strong> — for newer players or those still building their game. No experience needed. The E team is a great place to start — we're all learning and growing together.</li>
-          </ul>
+          {/* Success message (hidden by default) */}
+          <div id="form-success" class="hidden rounded-lg mb-4" style={`padding: var(--space-4); background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46;`}>
+            <p class="font-semibold">Message sent.</p>
+            <p style="font-size: var(--text-sm);">We'll get back to you within a day or two.</p>
+          </div>
 
-          <h3 class="heading" style={`font-size: var(--text-lg); font-weight: 600; margin-bottom: var(--space-2);`}>Practice</h3>
-          <p style={`margin-bottom: var(--space-3);`}>
-            During the spring season, we practice on weeknights at <a href="https://maps.google.com/?q=Krieg+Field+Austin+TX" class="text-[var(--color-accent)] hover:underline">Krieg Field</a> or <a href="https://maps.google.com/?q=Southeast+Metropolitan+Park+Del+Valle+TX" class="text-[var(--color-accent)] hover:underline">Southeast Metro Field</a> in Del Valle (off Hwy 71, just past the airport). We practice when we have a game the following weekend. Fall is more casual — just Sunday games, no weeknight practices.
-          </p>
+          {/* Error message (hidden by default) */}
+          <div id="form-error" class="hidden rounded-lg mb-4" style={`padding: var(--space-4); background: #fef2f2; border: 1px solid #fecaca; color: #991b1b;`}>
+            <p id="form-error-text">Something went wrong. Please try again.</p>
+          </div>
 
-          <h3 class="heading" style={`font-size: var(--text-lg); font-weight: 600; margin-bottom: var(--space-2);`}>Joining</h3>
-          <p style={`margin-bottom: var(--space-3);`}>
-            Reach out and one of our coaches will walk you through it. You'll register through <a href="https://www.softballaustin.org/" class="text-[var(--color-accent)] hover:underline">Softball Austin</a> — it's a straightforward process. There's a league registration fee and a team fee that covers practice fields, jerseys, and equipment.
-          </p>
+          <form id="contact-form" class="stack stack-md">
+            {/* Honeypot — hidden from humans */}
+            <div style="position: absolute; left: -9999px;" aria-hidden="true">
+              <label for="website_url">Website</label>
+              <input type="text" id="website_url" name="website_url" tabindex="-1" autocomplete="off" />
+            </div>
 
-          <h3 class="heading" style={`font-size: var(--text-lg); font-weight: 600; margin-bottom: var(--space-2);`}>More Than Games</h3>
-          <p>
-            We do social events outside of Sunday games too. It's a great way to meet people and be part of a community — no bar required. Players and allies welcome.
-          </p>
-        </div>
+            <div>
+              <label for="name" class="label mb-1" style="display: block; color: var(--color-dark);">Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                autocomplete="name"
+                class="w-full rounded-lg transition-colors"
+                style={`padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); font-size: var(--text-base); font-family: var(--font-body);`}
+              />
+            </div>
 
-        <div>
-          <h2 class="heading h4" style={`margin-bottom: var(--space-3);`}>Want to Sponsor?</h2>
-          <p>
-            Sponsorship packages start at $250 and help cover league fees, tournament travel, and equipment. <a href="/sponsors/" class="text-[var(--color-accent)] hover:underline">See our sponsorship levels</a> or reach out to talk about it.
-          </p>
+            <div>
+              <label for="email" class="label mb-1" style="display: block; color: var(--color-dark);">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                autocomplete="email"
+                class="w-full rounded-lg transition-colors"
+                style={`padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); font-size: var(--text-base); font-family: var(--font-body);`}
+              />
+            </div>
+
+            <div>
+              <label for="phone" class="label mb-1" style="display: block; color: var(--color-dark);">Phone <span style="font-weight: 400; text-transform: none; letter-spacing: normal;">(optional)</span></label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                autocomplete="tel"
+                class="w-full rounded-lg transition-colors"
+                style={`padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); font-size: var(--text-base); font-family: var(--font-body);`}
+              />
+            </div>
+
+            <div>
+              <label for="reason" class="label mb-1" style="display: block; color: var(--color-dark);">What Brings You Here?</label>
+              <select
+                id="reason"
+                name="reason"
+                class="w-full rounded-lg transition-colors"
+                style={`padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); font-size: var(--text-base); font-family: var(--font-body); background: white;`}
+              >
+                <option value="Want to play">Want to play</option>
+                <option value="Sponsorship">Sponsorship</option>
+                <option value="General question">General question</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="message" class="label mb-1" style="display: block; color: var(--color-dark);">Message</label>
+              <textarea
+                id="message"
+                name="message"
+                required
+                rows="4"
+                class="w-full rounded-lg transition-colors"
+                style={`padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); font-size: var(--text-base); font-family: var(--font-body); resize: vertical;`}
+              ></textarea>
+            </div>
+
+            {/* Turnstile */}
+            {turnstileSiteKey && (
+              <div class="cf-turnstile" data-sitekey={turnstileSiteKey}></div>
+            )}
+
+            <div>
+              <button type="submit" id="submit-btn" class="btn btn-primary w-full text-center">
+                Send Message
+              </button>
+            </div>
+          </form>
         </div>
 
       </div>
     </div>
   </section>
 
+  {/* Turnstile script */}
+  {turnstileSiteKey && (
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer is:inline></script>
+  )}
+
+  <script is:inline>
+  (function() {
+    var form = document.getElementById('contact-form');
+    var btn = document.getElementById('submit-btn');
+    var successEl = document.getElementById('form-success');
+    var errorEl = document.getElementById('form-error');
+    var errorText = document.getElementById('form-error-text');
+    if (!form || !btn) return;
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      // Check honeypot
+      var honeypot = document.getElementById('website_url');
+      if (honeypot && honeypot.value) {
+        successEl.classList.remove('hidden');
+        form.classList.add('hidden');
+        return;
+      }
+
+      // Disable button
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+      errorEl.classList.add('hidden');
+
+      // Get Turnstile token
+      var turnstileToken = '';
+      var turnstileInput = form.querySelector('[name="cf-turnstile-response"]');
+      if (turnstileInput) turnstileToken = turnstileInput.value;
+
+      // Validate Turnstile
+      if (document.querySelector('.cf-turnstile') && !turnstileToken) {
+        errorText.textContent = 'Please complete the security check.';
+        errorEl.classList.remove('hidden');
+        btn.disabled = false;
+        btn.textContent = 'Send Message';
+        return;
+      }
+
+      try {
+        var res = await fetch('/api/contact/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: form.name.value,
+            email: form.email.value,
+            phone: form.phone.value,
+            reason: form.reason.value,
+            message: form.message.value,
+            turnstileToken: turnstileToken,
+            honeypot: honeypot ? honeypot.value : '',
+          }),
+        });
+
+        var data = await res.json();
+
+        if (data.success) {
+          successEl.classList.remove('hidden');
+          form.classList.add('hidden');
+          successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+          errorText.textContent = data.error || 'Something went wrong. Please try again.';
+          errorEl.classList.remove('hidden');
+          btn.disabled = false;
+          btn.textContent = 'Send Message';
+        }
+      } catch (err) {
+        errorText.textContent = 'Could not send message. Please try again.';
+        errorEl.classList.remove('hidden');
+        btn.disabled = false;
+        btn.textContent = 'Send Message';
+      }
+    });
+  })();
+  </script>
+
   <PageNav currentPath="/contact/" />
 
   <Footer slot="footer" />
 </Layout>
+
+<style>
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(66, 22, 138, 0.1);
+  }
+</style>
