@@ -28,20 +28,21 @@ const breadcrumbs = [{ label: 'Sponsors' }];
       <!-- Sponsorship diamond — baseball diamond layout -->
       <div class="flex justify-center mb-10">
         <div class="relative" style="width: 520px; height: 520px;">
-          <!-- Outer diamond frame — wraps around the 4 tiles, slightly larger -->
-          <div class="absolute" style="width: 390px; height: 390px; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(45deg); border: 2px solid rgba(160,155,210,0.4);"></div>
-          <!-- Base dots at the 4 corners of the outer frame -->
-          <div class="absolute rounded-full" style="width: 26px; height: 26px; background: rgba(160,155,210,0.5); top: -16px; left: 50%; transform: translateX(-50%);"></div>
-          <div class="absolute rounded-full" style="width: 26px; height: 26px; background: rgba(160,155,210,0.5); bottom: -16px; left: 50%; transform: translateX(-50%);"></div>
-          <div class="absolute rounded-full" style="width: 26px; height: 26px; background: rgba(160,155,210,0.5); top: 50%; left: -16px; transform: translateY(-50%);"></div>
-          <div class="absolute rounded-full" style="width: 26px; height: 26px; background: rgba(160,155,210,0.5); top: 50%; right: -16px; transform: translateY(-50%);"></div>
+          <!-- Outer diamond frame + base dots (SVG for pixel-perfect alignment) -->
+          <svg class="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 520 520" fill="none" aria-hidden="true">
+            <rect x="75" y="75" width="370" height="370" rx="3" transform="rotate(45 260 260)" stroke="rgba(160,155,210,0.4)" stroke-width="2.5" />
+            <circle cx="260" cy="0" r="13" fill="rgba(160,155,210,0.5)" />
+            <circle cx="260" cy="520" r="13" fill="rgba(160,155,210,0.5)" />
+            <circle cx="0" cy="260" r="13" fill="rgba(160,155,210,0.5)" />
+            <circle cx="520" cy="260" r="13" fill="rgba(160,155,210,0.5)" />
+          </svg>
 
           <!-- 2nd base — Team Captain $500 (top) -->
           <div class="absolute text-white text-center" style="width: 165px; height: 165px; top: 50px; left: 50%; transform: translateX(-50%) rotate(45deg);">
             <div class="w-full h-full bg-[#3d4466] rounded flex items-center justify-center">
               <div style="transform: rotate(-45deg);">
                 <p class="text-2xl font-bold leading-tight" style="font-family: var(--font-heading);">$500</p>
-                <p class="text-[11px] uppercase tracking-wider text-white/60 mt-1" style="font-family: var(--font-heading);">Team Captain Level</p>
+                <p class="text-xs uppercase tracking-wider text-white/60 mt-1" style="font-family: var(--font-heading);">Team Captain Level</p>
               </div>
             </div>
           </div>
@@ -51,7 +52,7 @@ const breadcrumbs = [{ label: 'Sponsors' }];
             <div class="w-full h-full bg-[#3d4466] rounded flex items-center justify-center">
               <div style="transform: rotate(-45deg);">
                 <p class="text-2xl font-bold leading-tight" style="font-family: var(--font-heading);">$1,000</p>
-                <p class="text-[11px] uppercase tracking-wider text-white/60 mt-1" style="font-family: var(--font-heading);">MVP Level</p>
+                <p class="text-xs uppercase tracking-wider text-white/60 mt-1" style="font-family: var(--font-heading);">MVP Level</p>
               </div>
             </div>
           </div>
@@ -61,7 +62,7 @@ const breadcrumbs = [{ label: 'Sponsors' }];
             <div class="w-full h-full bg-[#3d4466] rounded flex items-center justify-center">
               <div style="transform: rotate(-45deg);">
                 <p class="text-2xl font-bold leading-tight" style="font-family: var(--font-heading);">$250</p>
-                <p class="text-[11px] uppercase tracking-wider text-white/60 mt-1" style="font-family: var(--font-heading);">Slugger Level</p>
+                <p class="text-xs uppercase tracking-wider text-white/60 mt-1" style="font-family: var(--font-heading);">Slugger Level</p>
               </div>
             </div>
           </div>
@@ -71,7 +72,7 @@ const breadcrumbs = [{ label: 'Sponsors' }];
             <div class="w-full h-full bg-[#3d4466] rounded flex items-center justify-center">
               <div style="transform: rotate(-45deg);">
                 <p class="text-2xl font-bold leading-tight" style="font-family: var(--font-heading);">$2,500</p>
-                <p class="text-[11px] uppercase tracking-wider text-white/60 mt-1" style="font-family: var(--font-heading);">Championship Level</p>
+                <p class="text-xs uppercase tracking-wider text-white/60 mt-1" style="font-family: var(--font-heading);">Championship Level</p>
               </div>
             </div>
           </div>
