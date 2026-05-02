@@ -19,8 +19,8 @@ const currentPath = Astro.url.pathname;
             class:list={[
               'uppercase font-bold transition-colors border-b-2',
               currentPath === item.href
-                ? 'text-white border-[var(--color-accent-light)]'
-                : 'text-white/60 hover:text-white border-transparent hover:border-white/30',
+                ? 'text-white border-[var(--color-accent-light)]' /* 5.44:1 on surface */
+                : 'text-[var(--color-nav-inactive)] hover:text-white border-transparent hover:border-white/30',
             ]}
             style={`font-size: var(--text-lg); letter-spacing: 0.04em; padding-block: var(--space-2);`}
             aria-current={currentPath === item.href ? 'page' : undefined}

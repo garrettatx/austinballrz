@@ -28,7 +28,7 @@ import { site, navigation } from '../data/site';
           <ul style="display: flex; flex-direction: column; gap: var(--space-2);">
             {navigation.map(item => (
               <li>
-                <a href={item.href} class="text-sm text-white/70 hover:text-white transition-colors">
+                <a href={item.href} class="text-sm text-[var(--color-nav-inactive)] hover:text-white transition-colors">
                   {item.label}
                 </a>
               </li>
@@ -41,13 +41,13 @@ import { site, navigation } from '../data/site';
           <p class="label" style="margin-bottom: var(--space-3); color: rgba(255,255,255,0.4);">Connect</p>
           <ul style="display: flex; flex-direction: column; gap: var(--space-2);">
             <li>
-              <a href="https://www.softballaustin.org/" class="text-sm text-white/70 hover:text-white transition-colors">
+              <a href="https://www.softballaustin.org/" class="text-sm text-[var(--color-nav-inactive)] hover:text-white transition-colors">
                 Softball Austin
               </a>
             </li>
             {site.social.facebook && (
               <li>
-                <a href={site.social.facebook} class="text-sm text-white/70 hover:text-white transition-colors">
+                <a href={site.social.facebook} class="text-sm text-[var(--color-nav-inactive)] hover:text-white transition-colors">
                   Facebook
                 </a>
               </li>
