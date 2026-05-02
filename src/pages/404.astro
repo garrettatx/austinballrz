@@ -8,13 +8,11 @@ import { site } from '../data/site';
 <Layout title={`Page Not Found | ${site.name}`}>
   <Header slot="header" />
 
-  <section class="py-20">
-    <div class="max-w-3xl mx-auto px-6 text-center">
-      <h1 class="text-4xl font-bold text-gray-900 mb-3">404</h1>
-      <p class="text-gray-600 mb-6">This page doesn't exist.</p>
-      <a href="/" class="px-6 py-3 bg-[var(--ballrz-navy)] text-white font-semibold rounded-lg hover:bg-[var(--ballrz-navy-dark)] transition-colors">
-        Back to Home
-      </a>
+  <section class="section" style="padding-block: var(--space-16);">
+    <div class="container text-center">
+      <h1 class="heading h1" style="margin-bottom: var(--space-3);">404</h1>
+      <p style="margin-bottom: var(--space-6);">This page doesn't exist.</p>
+      <a href="/" class="btn btn-primary">Back to Home</a>
     </div>
   </section>
 
