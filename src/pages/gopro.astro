@@ -4,6 +4,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import PageNav from '../components/PageNav.astro';
 import PageHeader from '../components/PageHeader.astro';
+import PhotoRow from '../components/PhotoRow.astro';
 import { site } from '../data/site';
 import { breadcrumbSchema } from '../lib/schema';
 
@@ -70,6 +71,8 @@ const breadcrumbs = [{ label: 'GoPro Guide' }];
       </div>
     </div>
   </section>
+
+  <PhotoRow />
 
   <PageNav currentPath="/gopro/" />
 

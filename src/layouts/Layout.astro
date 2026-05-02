@@ -11,7 +11,6 @@ interface Props {
 
 const { title, description = site.description, ogType = 'website', jsonLd } = Astro.props;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
-const isProduction = Astro.url.href.startsWith(site.url);
 const ga4Id = 'G-LEV5K76WRK';
 ---
 
@@ -52,8 +51,6 @@ const ga4Id = 'G-LEV5K76WRK';
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
 
-  <!-- Noindex non-production -->
-  {!isProduction && <meta name="robots" content="noindex, nofollow" />}
 
   <!-- Structured data -->
   {jsonLd && (
@@ -65,29 +62,27 @@ const ga4Id = 'G-LEV5K76WRK';
   <!-- Per-page head injection -->
   <slot name="head" />
 
-  <!-- GA4 — production only, deferred until first interaction or 3s -->
-  {isProduction && (
-    <script is:inline define:vars={{ ga4Id }}>
-      (function(){
-        var d=false;
-        function g(){
-          if(d)return;d=true;clearTimeout(t);
-          window.dataLayer=window.dataLayer||[];
-          function gtag(){window.dataLayer.push(arguments);}
-          window.gtag=gtag;
-          gtag('js',new Date());
-          gtag('config',ga4Id,{send_page_view:true});
-          var f=document.createElement('script');
-          f.async=true;f.src='https://www.googletagmanager.com/gtag/js?id='+ga4Id;
-          document.head.appendChild(f);
-          e.forEach(function(v){document.removeEventListener(v,g,true);});
-        }
-        var e=['scroll','click','keydown','touchstart','mousemove'];
-        e.forEach(function(v){document.addEventListener(v,g,{capture:true,once:true,passive:true});});
-        var t=setTimeout(g,3000);
-      })();
-    </script>
-  )}
+  <!-- GA4 — deferred until first interaction or 3s -->
+  <script is:inline define:vars={{ ga4Id }}>
+    (function(){
+      var d=false;
+      function g(){
+        if(d)return;d=true;clearTimeout(t);
+        window.dataLayer=window.dataLayer||[];
+        function gtag(){window.dataLayer.push(arguments);}
+        window.gtag=gtag;
+        gtag('js',new Date());
+        gtag('config',ga4Id,{send_page_view:true});
+        var f=document.createElement('script');
+        f.async=true;f.src='https://www.googletagmanager.com/gtag/js?id='+ga4Id;
+        document.head.appendChild(f);
+        e.forEach(function(v){document.removeEventListener(v,g,true);});
+      }
+      var e=['scroll','click','keydown','touchstart','mousemove'];
+      e.forEach(function(v){document.addEventListener(v,g,{capture:true,once:true,passive:true});});
+      var t=setTimeout(g,3000);
+    })();
+  </script>
 </head>
 <body>
 

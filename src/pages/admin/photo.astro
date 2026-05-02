@@ -1,0 +1,414 @@
+---
+import { site } from '../../data/site';
+
+// Get existing years for dropdown
+import fs from 'node:fs';
+import path from 'node:path';
+const jsonPath = path.resolve('public/images/team/photos.json');
+const raw = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
+const existingYears = raw.map((g: { year: string }) => g.year);
+const currentYear = new Date().getFullYear().toString();
+if (!existingYears.includes(currentYear)) existingYears.unshift(currentYear);
+
+const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Submit a Photo | {site.name}</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f8f9fa;
+      color: #1a1a2e;
+      line-height: 1.6;
+      min-height: 100dvh;
+      -webkit-text-size-adjust: 100%;
+    }
+    .page { padding: 1.5rem 1.25rem 4rem; max-width: 480px; margin: 0 auto; }
+
+    h1 { font-size: 1.375rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .subtitle { color: #6b7280; font-size: 0.9rem; margin-bottom: 1.75rem; }
+
+    .form-group { margin-bottom: 1.75rem; }
+    label { display: block; font-size: 0.9375rem; font-weight: 600; color: #1f2937; margin-bottom: 0.5rem; }
+    .help { font-size: 0.8125rem; color: #6b7280; margin-top: 0.375rem; line-height: 1.4; }
+    .required::after { content: ' *'; color: #dc2626; }
+
+    input[type="text"], select, textarea {
+      width: 100%;
+      padding: 0.9375rem 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.75rem;
+      font-size: 1rem;
+      font-family: inherit;
+      background: white;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #42168A;
+      box-shadow: 0 0 0 3px rgba(66, 22, 138, 0.1);
+    }
+    select {
+      background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M2 4l4 4 4-4'/%3E%3C/svg%3E") no-repeat right 1rem center;
+      padding-right: 2.5rem;
+    }
+    textarea { resize: vertical; min-height: 88px; }
+
+    /* Upload area */
+    .upload-area {
+      border: 2px dashed #d1d5db;
+      border-radius: 0.75rem;
+      padding: 1.25rem 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+      overflow: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .upload-area:active { background: rgba(66, 22, 138, 0.03); }
+    .upload-area.dragover { border-color: #42168A; background: rgba(66, 22, 138, 0.03); }
+    .upload-area.has-file { border-style: solid; border-color: #10b981; background: #ecfdf5; padding: 0.75rem; }
+    .upload-area input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; font-size: 200px; }
+    .upload-icon { font-size: 1.75rem; margin-bottom: 0.25rem; }
+    .upload-text { font-size: 0.9rem; color: #6b7280; }
+    .upload-text strong { color: #1f2937; }
+    .upload-preview { max-width: 100%; max-height: 180px; border-radius: 0.5rem; margin-top: 0.5rem; }
+    .upload-meta { font-size: 0.75rem; color: #374151; margin-top: 0.375rem; }
+    .upload-meta .size-saved { color: #059669; font-weight: 500; }
+
+    /* Two-col row */
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+
+    /* Submit */
+    .btn-submit {
+      display: block;
+      width: 100%;
+      padding: 1.0625rem;
+      border-radius: 0.75rem;
+      font-size: 1.0625rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      background: #3d4466;
+      color: white;
+      transition: background 0.15s, opacity 0.15s;
+      margin-top: 0.5rem;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-submit:active { background: #1d2340; }
+    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* Messages */
+    .message { padding: 1.125rem; border-radius: 0.75rem; margin-bottom: 1.5rem; display: none; }
+    .message.visible { display: block; }
+    .message-success { background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; }
+    .message-error { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
+    .message strong { display: block; margin-bottom: 0.25rem; font-size: 1rem; }
+    .message p { font-size: 0.875rem; }
+
+    .another-btn { display: inline-block; margin-top: 0.75rem; font-size: 0.875rem; font-weight: 600; color: #42168A; cursor: pointer; background: none; border: none; text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1>Submit a Photo</h1>
+    <p class="subtitle">Share a team photo. It'll show on the site after it's reviewed.</p>
+
+    <div class="message message-success" id="msg-success">
+      <strong>Photo submitted!</strong>
+      <p>It's been sent for review. Once approved, it'll appear on the site automatically.</p>
+      <button class="another-btn" id="another-btn">Submit another photo</button>
+    </div>
+    <div class="message message-error" id="msg-error">
+      <strong>Something went wrong</strong>
+      <p id="error-text">Please try again.</p>
+    </div>
+
+    <form id="photo-form" enctype="multipart/form-data">
+      {/* Photo — required, camera capture on mobile */}
+      <div class="form-group">
+        <label class="required">Photo</label>
+        <div class="upload-area" id="upload-area">
+          <input type="file" id="photo-file" accept="image/jpeg,image/png,image/webp" capture="environment" required />
+          <div id="upload-placeholder">
+            <div class="upload-icon">📷</div>
+            <p class="upload-text"><strong>Tap to choose a photo</strong></p>
+          </div>
+          <img class="upload-preview" id="upload-preview" style="display:none;" alt="Preview" />
+          <p class="upload-meta" id="upload-meta" style="display:none;"></p>
+        </div>
+        <p class="help">JPG, PNG, or WebP. Max 10MB. Photos are automatically resized for the web.</p>
+      </div>
+
+      {/* Description */}
+      <div class="form-group">
+        <label for="alt" class="required">What's in this photo?</label>
+        <input type="text" id="alt" required placeholder="e.g. D team after the Dallas tournament" />
+        <p class="help">Who's in it, where, and when.</p>
+      </div>
+
+      {/* Caption */}
+      <div class="form-group">
+        <label for="caption">Caption</label>
+        <input type="text" id="caption" placeholder="e.g. Dallas 2024" />
+        <p class="help">Short label (2-4 words) shown below the photo on the site.</p>
+      </div>
+
+      {/* Year + Team */}
+      <div class="row">
+        <div class="form-group">
+          <label for="year" class="required">Year</label>
+          <select id="year" required>
+            {existingYears.map((y: string) => (
+              <option value={y} selected={y === currentYear}>{y}</option>
+            ))}
+            <option value="__new">Other...</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="team">Team</label>
+          <select id="team">
+            <option value="">Both / whole team</option>
+            <option value="d">D Team</option>
+            <option value="e">E Team</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group" id="new-year-group" style="display:none;">
+        <label for="new-year" class="required">Year</label>
+        <input type="text" id="new-year" placeholder="e.g. 2027" inputmode="numeric" pattern="[0-9]{4}" />
+      </div>
+
+      {/* Your name */}
+      <div class="form-group">
+        <label for="submitted-by">Your name</label>
+        <input type="text" id="submitted-by" placeholder="e.g. Coach Mike" />
+        <p class="help">So we know who sent it. Optional.</p>
+      </div>
+
+      {/* Turnstile */}
+      {turnstileSiteKey && (
+        <div class="cf-turnstile" data-sitekey={turnstileSiteKey} style="min-height: 65px;"></div>
+      )}
+
+      <button type="submit" class="btn-submit" id="submit-btn">Submit Photo</button>
+    </form>
+  </div>
+
+  {/* Turnstile script */}
+  {turnstileSiteKey && (
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer is:inline></script>
+  )}
+
+  <script is:inline>
+  (function() {
+    var form = document.getElementById('photo-form');
+    var fileInput = document.getElementById('photo-file');
+    var uploadArea = document.getElementById('upload-area');
+    var placeholder = document.getElementById('upload-placeholder');
+    var preview = document.getElementById('upload-preview');
+    var metaEl = document.getElementById('upload-meta');
+    var yearSelect = document.getElementById('year');
+    var newYearGroup = document.getElementById('new-year-group');
+    var newYearInput = document.getElementById('new-year');
+    var submitBtn = document.getElementById('submit-btn');
+    var msgSuccess = document.getElementById('msg-success');
+    var msgError = document.getElementById('msg-error');
+    var errorText = document.getElementById('error-text');
+    var anotherBtn = document.getElementById('another-btn');
+
+    var resizedBlob = null; // Holds the resized image
+
+    // Resize image client-side (max 1600px wide, JPEG 85% quality)
+    function resizeImage(file) {
+      return new Promise(function(resolve) {
+        var img = new Image();
+        img.onload = function() {
+          var maxW = 1600;
+          var w = img.width;
+          var h = img.height;
+
+          if (w > maxW) {
+            h = Math.round(h * (maxW / w));
+            w = maxW;
+          }
+
+          var canvas = document.createElement('canvas');
+          canvas.width = w;
+          canvas.height = h;
+          var ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+
+          canvas.toBlob(function(blob) {
+            resolve(blob);
+          }, 'image/jpeg', 0.85);
+        };
+        img.src = URL.createObjectURL(file);
+      });
+    }
+
+    function formatSize(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1048576) return (bytes / 1024).toFixed(0) + ' KB';
+      return (bytes / 1048576).toFixed(1) + ' MB';
+    }
+
+    // File selection + resize
+    fileInput.addEventListener('change', async function() {
+      var file = this.files[0];
+      if (!file) return;
+
+      uploadArea.classList.add('has-file');
+      placeholder.style.display = 'none';
+      preview.style.display = 'block';
+      metaEl.style.display = 'block';
+      metaEl.textContent = 'Optimizing...';
+
+      // Show preview immediately
+      preview.src = URL.createObjectURL(file);
+
+      // Resize
+      var originalSize = file.size;
+      resizedBlob = await resizeImage(file);
+      var newSize = resizedBlob.size;
+
+      var savedPct = Math.round((1 - newSize / originalSize) * 100);
+      if (savedPct > 5) {
+        metaEl.innerHTML = file.name + ' &mdash; ' + formatSize(newSize) + ' <span class="size-saved">(reduced ' + savedPct + '%)</span>';
+      } else {
+        metaEl.textContent = file.name + ' — ' + formatSize(newSize);
+      }
+    });
+
+    // Drag and drop (desktop fallback)
+    ['dragenter', 'dragover'].forEach(function(ev) {
+      uploadArea.addEventListener(ev, function(e) { e.preventDefault(); uploadArea.classList.add('dragover'); });
+    });
+    ['dragleave', 'drop'].forEach(function(ev) {
+      uploadArea.addEventListener(ev, function(e) { e.preventDefault(); uploadArea.classList.remove('dragover'); });
+    });
+    uploadArea.addEventListener('drop', function(e) {
+      var file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith('image/')) {
+        var dt = new DataTransfer();
+        dt.items.add(file);
+        fileInput.files = dt.files;
+        fileInput.dispatchEvent(new Event('change'));
+      }
+    });
+
+    // Year dropdown
+    yearSelect.addEventListener('change', function() {
+      if (this.value === '__new') {
+        newYearGroup.style.display = 'block';
+        newYearInput.required = true;
+        newYearInput.focus();
+      } else {
+        newYearGroup.style.display = 'none';
+        newYearInput.required = false;
+      }
+    });
+
+    // Submit another
+    anotherBtn.addEventListener('click', function() {
+      msgSuccess.classList.remove('visible');
+      form.style.display = '';
+      form.reset();
+      resetUpload();
+    });
+
+    function resetUpload() {
+      uploadArea.classList.remove('has-file');
+      placeholder.style.display = '';
+      preview.style.display = 'none';
+      metaEl.style.display = 'none';
+      resizedBlob = null;
+    }
+
+    // Submit
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      msgSuccess.classList.remove('visible');
+      msgError.classList.remove('visible');
+
+      if (!resizedBlob) {
+        errorText.textContent = 'Please select a photo first.';
+        msgError.classList.add('visible');
+        return;
+      }
+
+      var altVal = document.getElementById('alt').value.trim();
+      if (altVal.length < 5) {
+        errorText.textContent = 'Please describe what\'s in the photo.';
+        msgError.classList.add('visible');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Uploading...';
+
+      var year = yearSelect.value === '__new' ? newYearInput.value.trim() : yearSelect.value;
+
+      // Use original filename
+      var originalName = fileInput.files[0].name.replace(/\.[^.]+$/, '') + '.jpg';
+
+      var formData = new FormData();
+      formData.append('photo', resizedBlob, originalName);
+      formData.append('alt', altVal);
+      formData.append('caption', document.getElementById('caption').value.trim());
+      formData.append('year', year);
+      formData.append('team', document.getElementById('team').value);
+      formData.append('submitted_by', document.getElementById('submitted-by').value.trim());
+      formData.append('submitted_at', new Date().toISOString());
+
+      // Turnstile token
+      var turnstileInput = form.querySelector('[name="cf-turnstile-response"]');
+      if (turnstileInput) {
+        if (!turnstileInput.value) {
+          errorText.textContent = 'Please complete the security check.';
+          msgError.classList.add('visible');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Submit Photo';
+          return;
+        }
+        formData.append('turnstileToken', turnstileInput.value);
+      }
+
+      try {
+        var res = await fetch('/api/photo-submit/', {
+          method: 'POST',
+          body: formData,
+        });
+        var data = await res.json();
+
+        if (data.success) {
+          msgSuccess.classList.add('visible');
+          form.style.display = 'none';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          errorText.textContent = data.error || 'Please try again.';
+          msgError.classList.add('visible');
+        }
+      } catch (err) {
+        errorText.textContent = 'Network error. Check your connection and try again.';
+        msgError.classList.add('visible');
+      }
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Photo';
+    });
+  })();
+  </script>
+</body>
+</html>

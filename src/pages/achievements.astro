@@ -4,13 +4,15 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import PageNav from '../components/PageNav.astro';
 import PageHeader from '../components/PageHeader.astro';
+import PhotoRow from '../components/PhotoRow.astro';
 import { site } from '../data/site';
 import { breadcrumbSchema } from '../lib/schema';
 
 const breadcrumbs = [{ label: 'Achievements' }];
 
 const years = [
-  { year: '2025', season: ['D Division Spring — 3rd Place', 'E Division Spring — 2nd Place'], tournaments: ['Coming soon'] },
+  { year: '2026', season: [], tournaments: ['Dallas Tournament — D Team'] },
+  { year: '2025', season: ['D Division Spring — 3rd Place', 'E Division Spring — 2nd Place'], tournaments: ['Dallas Tournament — D Team', 'Houston Tournament — D Team'] },
   { year: '2024', season: ['D Division Spring', 'E Division Spring'], tournaments: ['iPride World Series — Las Vegas'] },
   { year: '2023', season: ['E Division Spring — 2nd Place'], tournaments: ['Vegas — E Division 3rd Place', 'Dallas — E Division 2nd Place', 'Austin — E Division 4th Place', 'iPride World Series — Minneapolis'] },
   { year: '2022', season: ['E Division Fall — 1st Place', 'E Division Spring — 1st Place'], tournaments: ['Houston — E Division 4th Place', 'NAGAAA GSWS Dallas — 13th of 33 teams'] },
@@ -61,6 +63,8 @@ const years = [
       </div>
     </div>
   </section>
+
+  <PhotoRow />
 
   <PageNav currentPath="/achievements/" />
 

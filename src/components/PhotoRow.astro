@@ -1,0 +1,23 @@
+---
+/**
+ * PhotoRow — reusable photo carousel section.
+ * Include on any page to show featured photos with a link to /photos/.
+ * Includes PhotoModal for lightbox functionality.
+ */
+import PhotoCarousel from './PhotoCarousel.astro';
+import PhotoModal from './PhotoModal.astro';
+import { featuredPhotos } from '../data/photos';
+---
+
+<section class="section-sm">
+  <div class="container">
+    <PhotoCarousel
+      photos={featuredPhotos}
+      label="Photos"
+      linkHref="/photos/"
+      linkText="View All Photos"
+    />
+  </div>
+</section>
+
+<PhotoModal />

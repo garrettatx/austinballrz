@@ -2,17 +2,32 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { site } from '../data/site';
+import { site, navigation } from '../data/site';
 ---
 
-<Layout title={`Page Not Found | ${site.name}`}>
+<Layout title={`Page Not Found | ${site.name}`} description="The page you're looking for doesn't exist.">
+  <Fragment slot="head">
+    <meta name="robots" content="noindex, nofollow" />
+  </Fragment>
+
   <Header slot="header" />
 
   <section class="section" style="padding-block: var(--space-16);">
     <div class="container text-center">
-      <h1 class="heading h1" style="margin-bottom: var(--space-3);">404</h1>
-      <p style="margin-bottom: var(--space-6);">This page doesn't exist.</p>
-      <a href="/" class="btn btn-primary">Back to Home</a>
+      <p class="label mb-2">404 — Page Not Found</p>
+      <h1 class="heading h2" style="margin-bottom: var(--space-3);">Foul Ball</h1>
+      <p class="prose-width mx-auto" style="margin-bottom: var(--space-8);">
+        That page doesn't exist or may have moved. Here are some places to try:
+      </p>
+
+      <nav aria-label="Suggested pages" style="margin-bottom: var(--space-8);">
+        <ul class="flex flex-wrap justify-center" style={`gap: var(--space-3);`}>
+          <li><a href="/" class="btn btn-primary">Home</a></li>
+          {navigation.map(item => (
+            <li><a href={item.href} class="btn btn-secondary">{item.label}</a></li>
+          ))}
+        </ul>
+      </nav>
     </div>
   </section>
 

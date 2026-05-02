@@ -4,7 +4,9 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import PageNav from '../components/PageNav.astro';
 import PageHeader from '../components/PageHeader.astro';
+import PhotoRow from '../components/PhotoRow.astro';
 import { site } from '../data/site';
+import { playing } from '../data/playing';
 import { breadcrumbSchema } from '../lib/schema';
 
 const breadcrumbs = [{ label: 'Contact' }];
@@ -13,63 +15,23 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
 
 <Layout
   title={`Contact Us | ${site.name}`}
-  description="Get in touch with the Austin Ball'rz. Want to play, sponsor, or just say hey?"
+  description="Get in touch with the Austin Ball'rz. Want to play or sponsor a team?"
   jsonLd={breadcrumbSchema(breadcrumbs)}
 >
   <Header slot="header" />
 
   <PageHeader
     title="Contact Us"
-    description="Want to play, sponsor, or just say hey? Here's how to reach us."
+    description="Want to play softball or sponsor a team? Here's how to reach us."
     breadcrumbs={breadcrumbs}
   />
 
   <section class="section-sm">
     <div class="container">
-      <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] items-start" style={`gap: var(--space-12);`}>
+      <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] items-start" style={`gap: var(--space-12);`}>
 
-        {/* Left: playing info */}
-        <div class="stack stack-lg">
-
-          <div>
-            <h2 class="heading h4 mb-3">Want to Play?</h2>
-            <p class="mb-3">
-              We've had a team every season since 2013. Two seasons a year, spring and fall. Games are on Sunday mornings and afternoons at <a href="https://maps.google.com/?q=Krieg+Field+Austin+TX" class="text-[var(--color-accent)] hover:underline">Krieg Field</a> in Austin.
-            </p>
-
-            <h3 class="heading h4 mb-2">Skill Levels</h3>
-            <ul class="list-spaced mb-3">
-              <li><strong>D Division</strong> — for players with more experience and competitive play.</li>
-              <li><strong>E Division</strong> — for newer players or those still building their game. No experience needed. The E team is a great place to start. We're all learning and growing together.</li>
-            </ul>
-
-            <h3 class="heading h4 mb-2">Practice</h3>
-            <p class="mb-3">
-              During the spring season, we practice on weeknights at <a href="https://maps.google.com/?q=Krieg+Field+Austin+TX" class="text-[var(--color-accent)] hover:underline">Krieg Field</a> or <a href="https://maps.google.com/?q=Southeast+Metropolitan+Park+Del+Valle+TX" class="text-[var(--color-accent)] hover:underline">Southeast Metro Field</a> in Del Valle (off Hwy 71, just past the airport). We practice when we have a game the following weekend. Fall is more casual — just Sunday games, no weeknight practices.
-            </p>
-
-            <h3 class="heading h4 mb-2">Joining</h3>
-            <p class="mb-3">
-              Reach out and one of our coaches will walk you through it. You'll register through <a href="https://www.softballaustin.org/" class="text-[var(--color-accent)] hover:underline">Softball Austin</a>. There's a league registration fee and a team fee that covers practice fields, jerseys, and equipment.
-            </p>
-
-            <h3 class="heading h4 mb-2">More Than Games</h3>
-            <p>
-              We do social events outside of Sunday games too. It's a great way to meet people and be part of a community. Players and allies welcome.
-            </p>
-          </div>
-
-          <div>
-            <h2 class="heading h4 mb-3">Want to Sponsor?</h2>
-            <p>
-              Sponsorship packages start at $250. <a href="/sponsors/" class="text-[var(--color-accent)] hover:underline">See our sponsorship levels</a> or send us a message.
-            </p>
-          </div>
-
-        </div>
-
-        {/* Right: contact form */}
-        <div>
+        {/* Contact form — shows first on mobile (source order), second on desktop (grid order) */}
+        <div class="order-1 lg:order-2">
           <h2 class="heading h4 mb-4">Send Us a Message</h2>
 
           {/* Success message (hidden by default) */}
@@ -167,6 +129,47 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
           </form>
         </div>
 
+        {/* Playing info — shows second on mobile, first on desktop */}
+        <div class="stack stack-lg order-2 lg:order-1">
+
+          <div>
+            <h2 class="heading h4 mb-3">Want to Play?</h2>
+            <p class="mb-3">
+              We've had a team every season since 2013. {playing.seasons} {playing.gameDay} Games are at <a href={playing.fieldUrl} class="text-[var(--color-accent)] hover:underline">{playing.field}</a> in {playing.fieldCity}.
+            </p>
+
+            <h3 class="heading h4 mb-2">Skill Levels</h3>
+            <ul class="list-spaced mb-3">
+              {playing.divisions.map(div => (
+                <li><strong>{div.name}</strong> — {div.description}</li>
+              ))}
+            </ul>
+
+            <h3 class="heading h4 mb-2">Practice</h3>
+            <p class="mb-3">
+              During the spring season, we practice on weeknights at <a href={playing.fieldUrl} class="text-[var(--color-accent)] hover:underline">{playing.field}</a> or <a href={playing.practiceFieldUrl} class="text-[var(--color-accent)] hover:underline">{playing.practiceField}</a> in {playing.practiceCity}. We practice when we have a game the following weekend. Fall is more casual — just Sunday games, no weeknight practices.
+            </p>
+
+            <h3 class="heading h4 mb-2">Joining</h3>
+            <p class="mb-3">
+              {playing.joiningNote}
+            </p>
+
+            <h3 class="heading h4 mb-2">More Than Games</h3>
+            <p>
+              {playing.socialNote}
+            </p>
+          </div>
+
+          <div>
+            <h2 class="heading h4 mb-3">Want to Sponsor?</h2>
+            <p>
+              Sponsorship packages start at $250. <a href="/sponsors/" class="text-[var(--color-accent)] hover:underline">See our sponsorship levels</a> or send us a message.
+            </p>
+          </div>
+
+        </div>
+
       </div>
     </div>
   </section>
@@ -260,6 +263,8 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
     });
   })();
   </script>
+
+  <PhotoRow />
 
   <PageNav currentPath="/contact/" />
 

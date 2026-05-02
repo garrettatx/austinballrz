@@ -6,37 +6,10 @@ import PageNav from '../components/PageNav.astro';
 import PhotoModal from '../components/PhotoModal.astro';
 import PageHeader from '../components/PageHeader.astro';
 import { site } from '../data/site';
+import { photoYears } from '../data/photos';
 import { breadcrumbSchema } from '../lib/schema';
 
 const breadcrumbs = [{ label: 'Photos' }];
-
-const photoYears = [
-  { year: '2023', photos: [
-    { src: '/images/team/gsws-2023.jpg', alt: 'GSWS Minneapolis 2023' },
-    { src: '/images/team/team-2023.jpg', alt: 'Ball\'rz 2023 team' },
-  ]},
-  { year: '2022', photos: [
-    { src: '/images/team/team-2022.jpg', alt: 'Ball\'rz Fall 2022 team' },
-  ]},
-  { year: '2021', photos: [
-    { src: '/images/team/team-2021.jpg', alt: 'Ball\'rz 2021 team' },
-  ]},
-  { year: '2020', photos: [
-    { src: '/images/team/team-2020.jpg', alt: 'EZ Ball\'rz and Blue Ball\'rz Spring 2020' },
-  ]},
-  { year: '2019', photos: [
-    { src: '/images/team/team-2019.jpg', alt: 'Ball\'rz 2019 team' },
-  ]},
-  { year: '2017', photos: [
-    { src: '/images/team/team-2017.jpg', alt: 'Ball\'rz 2017 team' },
-  ]},
-  { year: '2015', photos: [
-    { src: '/images/team/team-2015.jpg', alt: 'Ball\'rz Houston 2015' },
-  ]},
-  { year: '2013', photos: [
-    { src: '/images/team/team-2013.jpg', alt: 'Ball\'rz founding team 2013' },
-  ]},
-];
 ---
 
 <Layout
@@ -56,7 +29,8 @@ const photoYears = [
     <div class="container" style="display: flex; flex-direction: column; gap: var(--space-8);">
       {photoYears.map(group => (
         <div>
-          <h2 class="heading h4" style="margin-bottom: var(--space-3);">{group.year}</h2>
+          <h2 class="heading h4" style="margin-bottom: var(--space-2);">{group.heading || group.year}</h2>
+          {group.description && <p class="mb-3" style="color: var(--color-muted); font-size: var(--text-sm);">{group.description}</p>}
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
             {group.photos.map(photo => (
               <button class="overflow-hidden rounded-lg cursor-pointer photo-open" data-src={photo.src} data-alt={photo.alt}>

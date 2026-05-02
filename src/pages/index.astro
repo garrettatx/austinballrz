@@ -2,8 +2,10 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import PhotoModal from '../components/PhotoModal.astro';
+import PhotoRow from '../components/PhotoRow.astro';
 import { site } from '../data/site';
+import { playing } from '../data/playing';
+import { heroPhotos } from '../data/photos';
 import { organizationSchema } from '../lib/schema';
 ---
 
@@ -35,11 +37,13 @@ import { organizationSchema } from '../lib/schema';
           <div class="absolute w-full h-full rounded-xl hidden lg:block" style={`top: var(--space-2); left: var(--space-2); background: var(--color-accent); opacity: 0.12;`} aria-hidden="true"></div>
           <div class="relative rounded-xl overflow-hidden shadow-lg">
             <img
-              src="/images/team/gsws-2023.jpg"
-              alt="Austin Ball'rz at the Gay Softball World Series in Minneapolis, 2023"
+              id="hero-photo"
+              src={heroPhotos[0].src}
+              alt={heroPhotos[0].alt}
               class="w-full h-auto"
               loading="eager"
               fetchpriority="high"
+              data-heroes={JSON.stringify(heroPhotos.map(p => ({ src: p.src, alt: p.alt })))}
             />
           </div>
         </div>
@@ -61,28 +65,7 @@ import { organizationSchema } from '../lib/schema';
   </section>
 
   {/* ── Photos ── */}
-  <section class="section-sm">
-    <div class="container">
-      <p class="label mb-3">Photos</p>
-      <div class="grid grid-cols-2 md:grid-cols-4" style={`gap: var(--space-2);`}>
-        <button class="aspect-[4/3] overflow-hidden rounded-lg cursor-pointer photo-open" data-src="/images/team/team-2023.jpg" data-alt="Austin Ball'rz 2023 team photo on the field">
-          <img src="/images/team/team-2023.jpg" alt="Austin Ball'rz 2023 team photo on the field" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" />
-        </button>
-        <button class="aspect-[4/3] overflow-hidden rounded-lg cursor-pointer photo-open" data-src="/images/team/team-2022.jpg" data-alt="Austin Ball'rz Fall 2022 team photo">
-          <img src="/images/team/team-2022.jpg" alt="Austin Ball'rz Fall 2022 team photo" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" />
-        </button>
-        <button class="aspect-[4/3] overflow-hidden rounded-lg cursor-pointer photo-open" data-src="/images/team/gsws-2023.jpg" data-alt="Austin Ball'rz at the Gay Softball World Series in Minneapolis, 2023">
-          <img src="/images/team/gsws-2023.jpg" alt="Austin Ball'rz at the Gay Softball World Series in Minneapolis, 2023" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" />
-        </button>
-        <button class="aspect-[4/3] overflow-hidden rounded-lg cursor-pointer photo-open" data-src="/images/team/team-2019.jpg" data-alt="Austin Ball'rz 2019 team photo">
-          <img src="/images/team/team-2019.jpg" alt="Austin Ball'rz 2019 team photo" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" />
-        </button>
-      </div>
-      <p style={`margin-top: var(--space-3);`}><a href="/photos/" class="link-accent">View All Photos &rarr;</a></p>
-    </div>
-  </section>
-
-  <PhotoModal />
+  <PhotoRow />
 
   {/* ── Mission ── */}
   <section class="section-sm">
@@ -108,26 +91,27 @@ import { organizationSchema } from '../lib/schema';
         <div class="prose-width">
           <h3 class="heading h4" style={`margin-bottom: var(--space-2);`}>Two Seasons, Two Skill Levels</h3>
           <p class="mb-3">
-            We play spring and fall seasons in the Softball Austin league. Games are on Sundays at <a href="https://maps.google.com/?q=Krieg+Field+Austin+TX" class="text-[var(--color-accent)] hover:underline">Krieg Field</a> in Austin.
+            We play spring and fall seasons in the {playing.league} league. {playing.gameDay} Games are at <a href={playing.fieldUrl} class="text-[var(--color-accent)] hover:underline">{playing.field}</a> in {playing.fieldCity}.
           </p>
-          <ul style={`display: flex; flex-direction: column; gap: var(--space-2); padding-left: var(--space-6); margin-bottom: var(--space-3);`} class="list-disc">
-            <li><strong>D Division</strong> — for players with more experience.</li>
-            <li><strong>E Division</strong> — for newer players or those still building their game. No experience needed. We're all learning and growing together.</li>
+          <ul class="list-spaced mb-3">
+            {playing.divisions.map(div => (
+              <li><strong>{div.name}</strong> — {div.description}</li>
+            ))}
           </ul>
           <p>
-            We practice on weeknights during the spring season at Krieg Field or Southeast Metro Field in Del Valle. Fall is more casual — no practices, just Sunday games.
+            {playing.practiceNote}
           </p>
         </div>
 
         <div class="prose-width">
           <h3 class="heading h4" style={`margin-bottom: var(--space-2);`}>How to Join</h3>
           <p class="mb-3">
-            Reach out and one of our coaches will walk you through it. You'll register through Softball Austin — it's a straightforward process. There's a league registration fee and a team fee that covers practice fields, jerseys, and gear.
+            {playing.joiningNote}
           </p>
 
           <h3 class="heading h4" style={`margin-bottom: var(--space-2); margin-top: var(--space-6);`}>More Than Games</h3>
           <p style={`margin-bottom: var(--space-4);`}>
-            We do social events outside of Sunday games too. It's a great way to meet people and be part of a community — no bar required.
+            {playing.socialNote}
           </p>
           <a href="/contact/" class="btn btn-primary">Get in Touch</a>
         </div>
@@ -163,6 +147,22 @@ import { organizationSchema } from '../lib/schema';
       </p>
     </div>
   </section>
+
+  {/* Hero rotation — if multiple hero photos exist, pick one randomly each load */}
+  <script is:inline>
+  (function() {
+    var img = document.getElementById('hero-photo');
+    if (!img) return;
+    try {
+      var heroes = JSON.parse(img.getAttribute('data-heroes'));
+      if (heroes.length > 1) {
+        var pick = heroes[Math.floor(Math.random() * heroes.length)];
+        img.src = pick.src;
+        img.alt = pick.alt;
+      }
+    } catch(e) {}
+  })();
+  </script>
 
   <Footer slot="footer" />
 </Layout>
