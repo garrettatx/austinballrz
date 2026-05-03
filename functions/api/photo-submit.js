@@ -74,7 +74,7 @@ export async function onRequestPost(context) {
     const originalName = photo.name.replace(/[^a-zA-Z0-9._-]/g, '-').toLowerCase();
     const ext = originalName.split('.').pop();
     const baseName = originalName.replace(/\.[^.]+$/, '');
-    let filename = `${baseName}-${year}.${ext}`;
+    let filename = `${baseName}.${ext}`;
 
     // GitHub config
     const token = env.GITHUB_TOKEN;
