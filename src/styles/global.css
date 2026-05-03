@@ -353,10 +353,45 @@ p a:hover, li a:hover, td a:hover {
 .stagger > .fade-in:nth-child(6) { transition-delay: 0.4s; }
 
 /* Respect reduced motion preference */
+/* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   .fade-in {
     opacity: 1;
     transform: none;
     transition: none;
   }
+}
+
+/* ── Decorative ──────────────────────────────────────────────────── */
+
+/* Rainbow text gradient */
+.rainbow-text {
+  background: linear-gradient(
+    90deg,
+    var(--color-red),
+    var(--color-orange),
+    var(--color-yellow),
+    var(--color-green),
+    var(--color-blue),
+    var(--color-violet)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Thin rainbow divider — use between sections */
+.rainbow-divider {
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--color-red),
+    var(--color-orange),
+    var(--color-yellow),
+    var(--color-green),
+    var(--color-blue),
+    var(--color-violet)
+  );
+  border: none;
+  margin: 0;
 }
