@@ -1,16 +1,17 @@
 ---
 /**
- * PlayCTA — lightweight "Want to play?" call-to-action banner.
+ * PlayCTA — "Want to play?" call-to-action with stitch accent.
+ * Gray band with stitch rule at top, centered content.
  * Drop on any page before PhotoRow to drive people to the contact page.
  */
+import StitchRule from './StitchRule.astro';
 ---
 
-<section class="section-sm">
-  <div class="container">
-    <div class="fade-in" style={`border-left: 4px solid var(--color-accent); padding-left: var(--space-6);`}>
-      <p class="heading h4" style="margin-bottom: var(--space-2);">Want to Play?</p>
-      <p style="margin-bottom: var(--space-3); color: var(--color-body);">All skill levels welcome. See seasons, divisions, and how to join — or send us a message.</p>
-      <a href="/contact/#contact-form-top" class="btn btn-primary">Player Info & Contact</a>
-    </div>
+<section class="section-sm bg-alt">
+  <StitchRule />
+  <div class="container fade-in" style="text-align: center; padding-top: var(--space-4);">
+    <p class="heading h4" style="margin-bottom: var(--space-2);">Want to Play?</p>
+    <p style="margin-bottom: var(--space-4); color: var(--color-body); max-width: 38ch; margin-inline: auto;">All skill levels welcome. See seasons, divisions, and how to join — or send us a message.</p>
+    <a href="/contact/#contact-form-top" class="btn btn-primary">Player Info & Contact</a>
   </div>
 </section>
