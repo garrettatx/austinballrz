@@ -21,7 +21,7 @@ const breadcrumbs = [{ label: 'Gear' }];
 
   <PageHeader
     title="Gear & Equipment"
-    description="What you need to know for league play."
+    description="What you need for league play. Don't stress about gear — the basics are simple."
     breadcrumbs={breadcrumbs}
   />
 
@@ -29,35 +29,88 @@ const breadcrumbs = [{ label: 'Gear' }];
     <div class="container">
       <div class="prose-width" style={`display: flex; flex-direction: column; gap: var(--space-8);`}>
 
+        {/* Bats */}
         <div>
           <h2 class="heading h4" style={`margin-bottom: var(--space-3);`}>Bats</h2>
-          <p style={`margin-bottom: var(--space-3);`}>
-            Bats must have a USA Softball (ASA) stamp and not appear on the <a href="https://usa.asasoftball.com/e/BB1P2000.asp" class="text-[var(--color-accent)] hover:underline">non-approved bat list</a>. If your bat has the stamp and isn't on the list, you're good to go.
+          <p class="mb-3">
+            All bats must have a <strong>USA Softball (ASA) certification stamp</strong> on the barrel. USSSA-stamped bats are not allowed. If you're not sure, check the barrel — if it says USA Softball or ASA, you're good.
           </p>
-          <p style={`margin-bottom: var(--space-3);`}>Some examples of approved bats:</p>
-          <ul style={`display: flex; flex-direction: column; gap: var(--space-2); padding-left: var(--space-6); margin-bottom: var(--space-3);`} class="list-disc">
-            <li><a href="https://amzn.to/3EXbLkM" class="text-[var(--color-accent)] hover:underline">Easton Rebel Slowpitch Bat (Loaded)</a></li>
-            <li><a href="https://amzn.to/3RAoBNr" class="text-[var(--color-accent)] hover:underline">Miken FREAK PRIMO Slowpitch Bat (Balanced)</a></li>
-            <li><a href="https://amzn.to/45akbjp" class="text-[var(--color-accent)] hover:underline">DeMarini Ultimate Weapon Slowpitch Bat</a></li>
-            <li><a href="https://amzn.to/3tlczgw" class="text-[var(--color-accent)] hover:underline">DeMarini Nihilist OG Slowpitch Bat</a></li>
+          <p class="mb-3">
+            The iPride Softball League has an official partnership with <strong>Miken</strong> for custom iPride-branded bats. Two models are available:
+          </p>
+          <ul class="list-spaced mb-3">
+            <li><strong>iPride Maxload USA</strong> — 12.75" barrel, endloaded. Good for players who want more power.</li>
+            <li><strong>iPride Balanced USA</strong> — 13.25" barrel, balanced swing weight. Easier to control, great for newer players.</li>
           </ul>
+          <p class="mb-3">
+            Both are USA/ASA certified and available in 25, 26, and 27 oz. Ask a coach about ordering.
+          </p>
           <p style="font-size: var(--text-sm); color: var(--color-muted);">
-            Not sure about your bat? Look for the USA Softball or ASA stamp on the barrel.
+            Don't have a bat yet? No problem. Teammates share bats at every game. You can try different ones before buying your own.
           </p>
         </div>
 
+        {/* Gloves */}
+        <div>
+          <h2 class="heading h4" style={`margin-bottom: var(--space-3);`}>Gloves</h2>
+          <p class="mb-3">
+            You'll need a softball glove (not a baseball glove — softball gloves have a deeper pocket for the larger 12" ball). If you're buying one:
+          </p>
+          <ul class="list-spaced mb-3">
+            <li><strong>Infield</strong> — 12" to 13". Smaller for quicker transfers.</li>
+            <li><strong>Outfield</strong> — 13" to 15". Bigger to help catch fly balls.</li>
+            <li><strong>Not sure?</strong> — A 13" glove works anywhere.</li>
+          </ul>
+          <p class="mb-3">
+            For beginners, a synthetic leather glove is fine — lighter, affordable, and ready to use right away. Leather gloves last longer but need time to break in.
+          </p>
+          <p style="font-size: var(--text-sm); color: var(--color-muted);">
+            Already have a baseball glove? It'll work for your first few games while you figure out what you want.
+          </p>
+        </div>
+
+        {/* Shoes */}
         <div>
           <h2 class="heading h4" style={`margin-bottom: var(--space-3);`}>Shoes</h2>
-          <p>
-            Rubber or plastic cleats are required. Metal cleats are not allowed. Regular athletic shoes or turf shoes also work. Just make sure you have something with traction for dirt and grass.
+          <p class="mb-3">
+            <strong>Metal cleats are not allowed.</strong> You have three good options:
           </p>
+          <ul class="list-spaced mb-3">
+            <li><strong>Molded cleats</strong> — Best all-around choice. Rubber or plastic studs, good traction on grass and dirt. Allowed in all leagues.</li>
+            <li><strong>Turf shoes</strong> — Textured rubber soles. Most comfortable option, especially for doubleheaders. Less traction on wet grass.</li>
+            <li><strong>Athletic shoes</strong> — Regular sneakers work for your first game. Just avoid anything with a smooth sole.</li>
+          </ul>
         </div>
 
+        {/* Jerseys */}
         <div>
           <h2 class="heading h4" style={`margin-bottom: var(--space-3);`}>Jerseys</h2>
           <p>
-            We provide team jerseys. Your team fee covers the cost. Just show up and we'll get you set up.
+            We provide team jerseys — your team fee covers the cost. Just show up and we'll get you set up.
           </p>
+        </div>
+
+        {/* Helmets */}
+        <div>
+          <h2 class="heading h4" style={`margin-bottom: var(--space-3);`}>Helmets</h2>
+          <p>
+            Batting helmets are required at bat and on the bases. The league provides communal helmets, so you don't need to buy your own unless you want to.
+          </p>
+        </div>
+
+        {/* Nice to have */}
+        <div>
+          <h2 class="heading h4" style={`margin-bottom: var(--space-3);`}>Nice to Have</h2>
+          <p class="mb-3">
+            None of these are required, but players who've been around a while tend to bring:
+          </p>
+          <ul class="list-spaced">
+            <li><strong>Batting gloves</strong> — Better grip, less vibration on mishits, protects hands on the base paths.</li>
+            <li><strong>Sliding shorts</strong> — Padded compression shorts that protect your thighs and hips during slides.</li>
+            <li><strong>Sunglasses</strong> — Essential for outfielders. Go with amber or copper lenses, not grey. Avoid polarized — they make it harder to track fly balls.</li>
+            <li><strong>High socks or compression sleeves</strong> — Prevent blisters and protect from sliding scrapes.</li>
+            <li><strong>A water bottle and sunscreen</strong> — Austin sun is no joke, especially during spring season.</li>
+          </ul>
         </div>
 
       </div>
