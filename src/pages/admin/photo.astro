@@ -52,25 +52,22 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
     .upload-area { border: 2px dashed #d1d5db; border-radius: 0.5rem; padding: 0.5rem; text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; position: relative; overflow: hidden; -webkit-tap-highlight-color: transparent; }
     .upload-area:active { background: rgba(66, 22, 138, 0.03); }
     .upload-area.dragover { border-color: #42168A; background: rgba(66, 22, 138, 0.03); }
-    .upload-area.has-files { border-style: solid; border-color: #10b981; background: #ecfdf5; cursor: default; }
+    .upload-area.has-files { display: none; }
     .upload-area input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; font-size: 200px; }
     .upload-icon { font-size: 1.25rem; }
     .upload-text { font-size: 0.8rem; color: #6b7280; }
     .upload-text strong { color: #1f2937; }
 
     /* Photo queue */
-    .queue { margin-top: 0.75rem; }
-    .queue-item { display: flex; align-items: flex-start; gap: 0.625rem; background: white; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 0.5rem; margin-bottom: 0.5rem; }
-    .queue-thumb { width: 56px; height: 56px; object-fit: cover; border-radius: 0.375rem; flex-shrink: 0; }
+    .queue { margin-top: 0.5rem; }
+    .queue-item { display: flex; align-items: center; gap: 0.5rem; background: white; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 0.375rem; margin-bottom: 0.375rem; }
+    .queue-thumb { width: 44px; height: 44px; object-fit: cover; border-radius: 0.25rem; flex-shrink: 0; }
     .queue-info { flex: 1; min-width: 0; }
-    .queue-info input { font-size: 0.8rem; padding: 0.375rem 0.5rem; margin-top: 0.25rem; }
-    .queue-meta { font-size: 0.7rem; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .queue-actions { display: flex; gap: 0.375rem; margin-top: 0.25rem; }
-    .queue-actions button { font-size: 0.7rem; padding: 0.125rem 0.5rem; border-radius: 0.25rem; cursor: pointer; border: 1px solid #e2e2e6; background: white; color: #374151; }
-    .queue-actions button:hover { border-color: #42168A; color: #42168A; }
+    .queue-info input { font-size: 0.75rem; padding: 0.25rem 0.375rem; margin-top: 0.125rem; }
+    .queue-meta { font-size: 0.65rem; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .queue-actions { display: flex; gap: 0.25rem; margin-top: 0.125rem; }
+    .queue-actions button { font-size: 0.65rem; padding: 0.125rem 0.375rem; border-radius: 0.25rem; cursor: pointer; border: 1px solid #e2e2e6; background: white; color: #374151; -webkit-tap-highlight-color: transparent; }
     .queue-actions .remove-btn { color: #dc2626; border-color: #fecaca; }
-    .queue-actions .remove-btn:hover { background: #fef2f2; }
-    .queue-count { font-size: 0.75rem; color: #6b7280; margin-top: 0.375rem; }
 
     /* Add more button */
     .add-more { display: block; width: 100%; padding: 0.5rem; border: 1px dashed #d1d5db; border-radius: 0.5rem; background: none; color: #6b7280; font-size: 0.8rem; cursor: pointer; margin-top: 0.5rem; text-align: center; position: relative; overflow: hidden; }
@@ -114,7 +111,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
 
   <div class="page">
     <h1>Submit Photos</h1>
-    <p class="subtitle">Share team photos. They'll appear at <a href="/photos/" style="color: #42168A;">austinballrz.com/photos</a> upon review.</p>
+    <p class="subtitle">Share team photos. They'll appear at <a href="https://www.austinballrz.com/photos/" style="color: #42168A;">austinballrz.com/photos</a> upon review.</p>
 
     <div class="message message-success" id="msg-success">
       <strong id="success-title">Photos submitted!</strong>
@@ -301,6 +298,12 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
     var MAX_PHOTOS = 20;
     var isUploading = false;
 
+    function showError(msg) {
+      errorText.textContent = msg;
+      msgError.classList.add('visible');
+      msgError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
     async function addFiles(files) {
       for (var i = 0; i < files.length; i++) {
         if (photos.length >= MAX_PHOTOS) break;
@@ -469,21 +472,18 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
       msgError.classList.remove('visible');
 
       if (photos.length === 0) {
-        errorText.textContent = 'Please select at least one photo to submit.';
-        msgError.classList.add('visible');
+        showError('Please select at least one photo to submit.');
         return;
       }
 
       // Validate shared fields with clear messages
       if (!teamSelect.value) {
-        errorText.textContent = 'Please select a team (D Team, E Team, or Both).';
-        msgError.classList.add('visible');
+        showError('Please select a team (D Team, E Team, or Both).');
         teamSelect.focus();
         return;
       }
       if (!typeSelect.value) {
-        errorText.textContent = 'Please select a photo type (Spring, Fall, Tournament, or Social).';
-        msgError.classList.add('visible');
+        showError('Please select a photo type (Spring, Fall, Tournament, or Social).');
         typeSelect.focus();
         return;
       }
@@ -491,8 +491,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
       // Turnstile
       var turnstileInput = form.querySelector('[name="cf-turnstile-response"]');
       if (turnstileInput && !turnstileInput.value) {
-        errorText.textContent = 'Please complete the security check.';
-        msgError.classList.add('visible');
+        showError('Please complete the security check below the submit button.');
         return;
       }
       var turnstileToken = turnstileInput ? turnstileInput.value : '';
@@ -565,8 +564,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
         form.style.display = 'none';
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
-        errorText.textContent = 'None of the photos could be uploaded. Check your internet connection and try again.';
-        msgError.classList.add('visible');
+        showError('None of the photos could be uploaded. Check your internet connection and try again.');
       }
 
       isUploading = false;
