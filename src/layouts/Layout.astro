@@ -6,11 +6,13 @@ interface Props {
   title: string;
   description?: string;
   ogType?: string;
+  ogImage?: string;
   jsonLd?: object | object[];
 }
 
-const { title, description = site.description, ogType = 'website', jsonLd } = Astro.props;
+const { title, description = site.description, ogType = 'website', ogImage = '/images/team/gsws-2023.jpg', jsonLd } = Astro.props;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+const ogImageUrl = new URL(ogImage, Astro.site).href;
 const ga4Id = 'G-LEV5K76WRK';
 ---
 
@@ -45,11 +47,15 @@ const ga4Id = 'G-LEV5K76WRK';
   <meta property="og:type" content={ogType} />
   <meta property="og:url" content={canonicalUrl.href} />
   <meta property="og:site_name" content={site.name} />
+  <meta property="og:image" content={ogImageUrl} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
 
   <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImageUrl} />
 
 
   <!-- Structured data -->

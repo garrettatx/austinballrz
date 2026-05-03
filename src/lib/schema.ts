@@ -1,57 +1,75 @@
 /**
  * Structured data helpers (JSON-LD).
- * Outputs schema.org markup for SEO.
+ * Outputs schema.org markup for SEO and AI search.
  */
 
 import { site } from '../data/site';
 
+/** Homepage — SportsTeam + WebSite schemas */
 export function organizationSchema() {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'SportsTeam',
-    name: site.name,
-    description: site.description,
-    url: site.url,
-    foundingDate: String(site.founded),
-    sport: 'Softball',
-    location: {
-      '@type': 'Place',
-      name: site.location,
+  return [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'SportsTeam',
+      '@id': `${site.url}/#team`,
+      name: site.name,
+      alternateName: 'Austin Ballrz',
+      description: site.description,
+      url: site.url,
+      foundingDate: String(site.founded),
+      sport: 'Softball',
+      gender: 'Mixed',
+      keywords: 'LGBTQ+ softball, inclusive sports, Austin Texas',
+      location: {
+        '@type': 'Place',
+        name: 'Krieg Field',
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: 'Austin',
+          addressRegion: 'TX',
+          addressCountry: 'US',
+        },
+      },
+      memberOf: [
+        {
+          '@type': 'SportsOrganization',
+          name: site.league,
+          url: 'https://www.softballaustin.org/',
+        },
+        {
+          '@type': 'SportsOrganization',
+          name: 'iPride Softball League',
+          url: 'https://www.ipridesoftball.org/',
+        },
+      ],
+      image: `${site.url}/images/team/gsws-2023.jpg`,
+      logo: `${site.url}/images/logo.svg`,
+      ...(site.social.facebook ? { sameAs: [site.social.facebook] } : {}),
     },
-    memberOf: {
-      '@type': 'SportsOrganization',
-      name: site.league,
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      '@id': `${site.url}/#website`,
+      name: site.name,
+      url: site.url,
+      publisher: { '@id': `${site.url}/#team` },
     },
-    ...(site.social.facebook ? { sameAs: [site.social.facebook] } : {}),
-  };
+  ];
 }
 
+/** Inner pages — BreadcrumbList */
 export function breadcrumbSchema(items: { label: string; href?: string }[]) {
+  const allItems = [{ label: 'Home', href: '/' }, ...items];
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
-    itemListElement: items.map((item, i) => ({
+    itemListElement: allItems.map((item, i) => ({
       '@type': 'ListItem',
       position: i + 1,
       name: item.label,
-      ...(item.href && i < items.length - 1
+      ...(i < allItems.length - 1
         ? { item: `${site.url}${item.href}` }
         : {}),
     })),
-  };
-}
-
-export function webPageSchema(title: string, description: string, path: string) {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    name: title,
-    description,
-    url: `${site.url}${path}`,
-    isPartOf: {
-      '@type': 'WebSite',
-      name: site.name,
-      url: site.url,
-    },
   };
 }
