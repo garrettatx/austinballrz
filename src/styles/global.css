@@ -188,14 +188,14 @@ body {
   color: var(--color-muted);
 }
 
-/* Body text links — visible underline for accessibility */
-p a, li a, td a {
+/* Body text links — visible underline for accessibility (excludes buttons) */
+p a:not(.btn):not(.link-accent), li a:not(.btn):not(.link-accent), td a:not(.btn):not(.link-accent) {
   text-decoration: underline;
   text-decoration-color: rgba(66, 22, 138, 0.3);
   text-underline-offset: 2px;
   transition: text-decoration-color 0.15s;
 }
-p a:hover, li a:hover, td a:hover {
+p a:not(.btn):not(.link-accent):hover, li a:not(.btn):not(.link-accent):hover, td a:not(.btn):not(.link-accent):hover {
   text-decoration-color: currentColor;
 }
 
