@@ -5,7 +5,7 @@ import Footer from '../components/Footer.astro';
 import { site, navigation } from '../data/site';
 ---
 
-<Layout title={`Page Not Found | ${site.name}`} description="The page you're looking for doesn't exist.">
+<Layout title={`Page Not Found | ${site.titleSuffix}`} description="The page you're looking for doesn't exist.">
   <Fragment slot="head">
     <meta name="robots" content="noindex, nofollow" />
   </Fragment>
