@@ -15,67 +15,48 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-  <title>Submit Photos | {site.name}</title>
+  <title>Submit a Photo | {site.name}</title>
   <meta name="robots" content="noindex, nofollow" />
   <style>
+    @font-face { font-family: 'Barlow Condensed'; font-style: normal; font-weight: 700; font-display: swap; src: url('/fonts/barlow-condensed-700.woff2') format('woff2'); }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #ffffff; color: #1a1a2e; line-height: 1.6; min-height: 100dvh; -webkit-text-size-adjust: 100%; display: flex; flex-direction: column; }
-
-    /* Site header */
     .site-header { background: #263a5a; padding: 0.5rem 1.25rem; }
-    @font-face { font-family: 'Barlow Condensed'; font-style: normal; font-weight: 700; font-display: swap; src: url('/fonts/barlow-condensed-700.woff2') format('woff2'); }
     .site-header a { color: white; text-decoration: none; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1.125rem; letter-spacing: 0.04em; text-transform: uppercase; }
     .rainbow-bar { height: 4px; background: linear-gradient(90deg, #D92638, #E08A00, #D4AD00, #3DA812, #1094D4, #6A2BE0); }
-
-    .page { padding: 1.5rem 1.25rem 2.5rem; max-width: 480px; margin: 0 auto; flex: 1; }
-
-    /* Site footer */
-    .site-footer { background: #263a5a; color: rgba(255,255,255,0.6); padding: 1.25rem; margin-top: auto; }
-    .site-footer-inner { max-width: 480px; margin: 0 auto; }
-    .site-footer nav { display: flex; flex-wrap: wrap; gap: 0.375rem 1rem; margin-bottom: 0.75rem; }
-    .site-footer a { font-size: 0.8rem; color: rgba(255,255,255,0.6); text-decoration: none; }
-    .site-footer a:hover { color: white; }
-    .site-footer .credit { font-size: 0.7rem; color: rgba(255,255,255,0.35); }
+    .page { padding: 1.25rem 1.25rem 2rem; max-width: 480px; margin: 0 auto; flex: 1; width: 100%; }
     h1 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.125rem; }
     .subtitle { color: #6b7280; font-size: 0.85rem; margin-bottom: 1.25rem; }
-    .form-group { margin-bottom: 1.125rem; }
+    .subtitle a { color: #42168A; }
+    .form-group { margin-bottom: 1rem; }
     label { display: block; font-size: 0.875rem; font-weight: 600; color: #1f2937; margin-bottom: 0.25rem; }
-    .help { font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem; line-height: 1.4; }
+    .help { font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem; }
     .required::after { content: ' *'; color: #dc2626; }
     input[type="text"], select { width: 100%; padding: 0.625rem 0.875rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 0.9375rem; font-family: inherit; background: white; -webkit-appearance: none; appearance: none; }
     input:focus, select:focus { outline: none; border-color: #42168A; box-shadow: 0 0 0 3px rgba(66, 22, 138, 0.1); }
     select { background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M2 4l4 4 4-4'/%3E%3C/svg%3E") no-repeat right 1rem center; padding-right: 2.5rem; }
-    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
     .row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; }
 
-    /* Upload area */
-    .upload-area { border: 2px dashed #d1d5db; border-radius: 0.5rem; padding: 0.5rem; text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; position: relative; overflow: hidden; -webkit-tap-highlight-color: transparent; }
+    /* Upload */
+    .upload-area { border: 2px dashed #d1d5db; border-radius: 0.5rem; padding: 0.5rem; text-align: center; cursor: pointer; transition: border-color 0.2s; position: relative; overflow: hidden; -webkit-tap-highlight-color: transparent; }
     .upload-area:active { background: rgba(66, 22, 138, 0.03); }
-    .upload-area.dragover { border-color: #42168A; background: rgba(66, 22, 138, 0.03); }
-    .upload-area.has-files { display: none; }
     .upload-area input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; font-size: 200px; }
-    .upload-icon { font-size: 1.25rem; }
+    .upload-icon { font-size: 1.125rem; }
     .upload-text { font-size: 0.8rem; color: #6b7280; }
-    .upload-text strong { color: #1f2937; }
 
-    /* Photo queue */
-    .queue { margin-top: 0.5rem; }
-    .queue-item { display: flex; align-items: center; gap: 0.5rem; background: white; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 0.375rem; margin-bottom: 0.375rem; }
-    .queue-thumb { width: 44px; height: 44px; object-fit: cover; border-radius: 0.25rem; flex-shrink: 0; }
-    .queue-info { flex: 1; min-width: 0; }
-    .queue-info input { font-size: 0.75rem; padding: 0.25rem 0.375rem; margin-top: 0.125rem; }
-    .queue-meta { font-size: 0.65rem; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .queue-actions { display: flex; gap: 0.25rem; margin-top: 0.125rem; }
-    .queue-actions button { font-size: 0.65rem; padding: 0.125rem 0.375rem; border-radius: 0.25rem; cursor: pointer; border: 1px solid #e2e2e6; background: white; color: #374151; -webkit-tap-highlight-color: transparent; }
-    .queue-actions .remove-btn { color: #dc2626; border-color: #fecaca; }
-
-    /* Add more button */
-    .add-more { display: block; width: 100%; padding: 0.5rem; border: 1px dashed #d1d5db; border-radius: 0.5rem; background: none; color: #6b7280; font-size: 0.8rem; cursor: pointer; margin-top: 0.5rem; text-align: center; position: relative; overflow: hidden; }
-    .add-more input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; font-size: 200px; }
-    .add-more:hover { border-color: #42168A; color: #42168A; }
+    /* Preview */
+    .preview { display: none; margin-top: 0.5rem; }
+    .preview.visible { display: flex; align-items: center; gap: 0.5rem; }
+    .preview-thumb { width: 48px; height: 48px; object-fit: cover; border-radius: 0.375rem; }
+    .preview-info { flex: 1; min-width: 0; }
+    .preview-meta { font-size: 0.7rem; color: #6b7280; }
+    .preview-actions { display: flex; gap: 0.375rem; margin-top: 0.125rem; }
+    .preview-actions button { font-size: 0.7rem; padding: 0.125rem 0.5rem; border-radius: 0.25rem; cursor: pointer; border: 1px solid #e2e2e6; background: white; color: #374151; -webkit-tap-highlight-color: transparent; }
+    .preview-actions .crop-btn { color: #42168A; border-color: #d1d5db; }
+    .preview-actions .remove-btn { color: #dc2626; border-color: #fecaca; }
 
     /* Submit */
-    .btn-submit { display: block; width: 100%; padding: 0.75rem; border-radius: 0.5rem; font-size: 1rem; font-weight: 600; cursor: pointer; border: none; background: #3d4466; color: white; transition: background 0.15s, opacity 0.15s; margin-top: 0.5rem; -webkit-tap-highlight-color: transparent; }
+    .btn-submit { display: block; width: 100%; padding: 0.75rem; border-radius: 0.5rem; font-size: 1rem; font-weight: 600; cursor: pointer; border: none; background: #3d4466; color: white; transition: background 0.15s; margin-top: 0.5rem; -webkit-tap-highlight-color: transparent; }
     .btn-submit:active { background: #1d2340; }
     .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
 
@@ -84,14 +65,11 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
     .message.visible { display: block; }
     .message-success { background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; }
     .message-error { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
-    .message strong { display: block; margin-bottom: 0.25rem; font-size: 1rem; }
+    .message strong { display: block; margin-bottom: 0.25rem; }
     .message p { font-size: 0.875rem; }
-
-    /* Progress */
-    .progress { margin-top: 0.75rem; }
-    .progress-bar { height: 4px; background: #e5e7eb; border-radius: 2px; overflow: hidden; }
-    .progress-fill { height: 100%; background: #3d4466; transition: width 0.3s; }
-    .progress-text { font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem; }
+    .success-links { display: flex; gap: 0.75rem; margin-top: 0.5rem; font-size: 0.875rem; }
+    .success-links button { font-weight: 600; color: #42168A; cursor: pointer; background: none; border: none; text-decoration: underline; }
+    .success-links a { color: #065f46; text-decoration: underline; }
 
     /* Crop modal */
     .crop-overlay { position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.85); display: none; flex-direction: column; }
@@ -101,33 +79,40 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
     .crop-header .crop-apply { background: #3d4466; }
     .crop-body { flex: 1; overflow: hidden; display: flex; align-items: center; justify-content: center; padding: 0.5rem; }
     .crop-body img { max-width: 100%; max-height: 100%; }
+
+    /* Footer */
+    .site-footer { background: #263a5a; color: rgba(255,255,255,0.6); padding: 1.25rem; margin-top: auto; }
+    .site-footer-inner { max-width: 480px; margin: 0 auto; }
+    .site-footer nav { display: flex; flex-wrap: wrap; gap: 0.375rem 1rem; margin-bottom: 0.75rem; }
+    .site-footer a { font-size: 0.8rem; color: rgba(255,255,255,0.6); text-decoration: none; }
+    .site-footer a:hover { color: white; }
+    .site-footer .credit { font-size: 0.7rem; color: rgba(255,255,255,0.35); }
   </style>
 </head>
 <body>
   <div class="site-header">
-    <a href="/">{site.name}</a>
+    <a href="https://www.austinballrz.com/">{site.name}</a>
   </div>
   <div class="rainbow-bar" aria-hidden="true"></div>
 
   <div class="page">
-    <h1>Submit Photos</h1>
-    <p class="subtitle">Share team photos. They'll appear at <a href="https://www.austinballrz.com/photos/" style="color: #42168A;">austinballrz.com/photos</a> upon review.</p>
+    <h1>Submit a Photo</h1>
+    <p class="subtitle">It'll appear at <a href="https://www.austinballrz.com/photos/">austinballrz.com/photos</a> upon review.</p>
 
     <div class="message message-success" id="msg-success">
-      <strong id="success-title">Photos submitted!</strong>
-      <p id="success-text">They've been sent for review. Once approved, they'll appear on the site automatically.</p>
-      <div style="display: flex; gap: 0.75rem; margin-top: 0.5rem; font-size: 0.875rem;">
-        <button style="font-weight: 600; color: #42168A; cursor: pointer; background: none; border: none; text-decoration: underline;" id="another-btn">Submit more</button>
-        <a href="/" style="color: #065f46; text-decoration: underline;">Back to site</a>
+      <strong>Photo submitted!</strong>
+      <p>It's been sent for review. Once approved, it'll appear on the site.</p>
+      <div class="success-links">
+        <button id="another-btn">Submit another</button>
+        <a href="https://www.austinballrz.com/">Back to site</a>
       </div>
     </div>
     <div class="message message-error" id="msg-error">
       <strong>Something went wrong</strong>
-      <p id="error-text">Please try again.</p>
+      <p id="error-text"></p>
     </div>
 
     <form id="photo-form">
-      {/* Shared fields — apply to all photos */}
       <div class="row-3">
         <div class="form-group">
           <label for="year" class="required">Year</label>
@@ -158,41 +143,44 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
         </div>
       </div>
 
-      {/* Photos */}
       <div class="form-group">
-        <label class="required">Photos</label>
+        <label class="required">Photo</label>
         <div class="upload-area" id="upload-area">
-          <input type="file" id="photo-file" accept="image/jpeg,image/png,image/webp" multiple />
+          <input type="file" id="photo-file" accept="image/jpeg,image/png,image/webp" required />
           <div id="upload-placeholder">
-            <div class="upload-icon">📷</div>
-            <p class="upload-text"><strong>Tap to choose photos</strong></p>
+            <span class="upload-icon">📷</span>
+            <span class="upload-text">Tap to choose a photo</span>
           </div>
         </div>
-        <div class="queue" id="queue" style="display:none;"></div>
-        <button type="button" class="add-more" id="add-more-btn" style="display:none;">
-          <input type="file" id="photo-file-more" accept="image/jpeg,image/png,image/webp" multiple />
-          + Add more photos
-        </button>
-        <p class="help">JPG, PNG, or WebP. Photos are automatically resized.</p>
+        <div class="preview" id="preview">
+          <img class="preview-thumb" id="preview-thumb" src="" alt="" />
+          <div class="preview-info">
+            <div class="preview-meta" id="preview-meta"></div>
+            <div class="preview-actions">
+              <button type="button" class="crop-btn" id="crop-btn">Crop</button>
+              <button type="button" class="remove-btn" id="remove-btn">Remove</button>
+            </div>
+          </div>
+        </div>
+        <p class="help">JPG, PNG, or WebP. Automatically resized.</p>
       </div>
 
-      {/* Your name */}
+      <div class="form-group">
+        <label for="note">Add a note</label>
+        <input type="text" id="note" placeholder="Dallas Tournament" />
+        <p class="help">Optional. Overrides the auto-generated caption.</p>
+      </div>
+
       <div class="form-group">
         <label for="submitted-by">Your name</label>
         <input type="text" id="submitted-by" placeholder="Coach Mike" />
       </div>
 
-      <button type="submit" class="btn-submit" id="submit-btn" disabled>Submit Photos</button>
+      <button type="submit" class="btn-submit" id="submit-btn">Submit Photo</button>
 
-      {/* Turnstile — below submit */}
       {turnstileSiteKey && (
         <div class="cf-turnstile" data-sitekey={turnstileSiteKey} style="min-height: 65px; margin-top: 0.75rem;"></div>
       )}
-
-      <div class="progress" id="progress" style="display:none;">
-        <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
-        <p class="progress-text" id="progress-text"></p>
-      </div>
     </form>
   </div>
 
@@ -211,9 +199,9 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
   <footer class="site-footer">
     <div class="site-footer-inner">
       <nav>
-        <a href="/">Home</a>
+        <a href="https://www.austinballrz.com/">Home</a>
         {navigation.map(item => (
-          <a href={item.href}>{item.label}</a>
+          <a href={`https://www.austinballrz.com${item.href}`}>{item.label}</a>
         ))}
       </nav>
       <p class="credit">&copy; {new Date().getFullYear()} {site.name}</p>
@@ -228,45 +216,68 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
   (function() {
     var form = document.getElementById('photo-form');
     var fileInput = document.getElementById('photo-file');
-    var fileInputMore = document.getElementById('photo-file-more');
     var uploadArea = document.getElementById('upload-area');
-    var placeholder = document.getElementById('upload-placeholder');
-    var queueEl = document.getElementById('queue');
-    var addMoreBtn = document.getElementById('add-more-btn');
+    var uploadPlaceholder = document.getElementById('upload-placeholder');
+    var previewEl = document.getElementById('preview');
+    var previewThumb = document.getElementById('preview-thumb');
+    var previewMeta = document.getElementById('preview-meta');
+    var cropBtn = document.getElementById('crop-btn');
+    var removeBtn = document.getElementById('remove-btn');
     var yearSelect = document.getElementById('year');
     var teamSelect = document.getElementById('team');
     var typeSelect = document.getElementById('photo-type');
     var submitBtn = document.getElementById('submit-btn');
     var msgSuccess = document.getElementById('msg-success');
-    var successTitle = document.getElementById('success-title');
-    var successText = document.getElementById('success-text');
     var msgError = document.getElementById('msg-error');
     var errorText = document.getElementById('error-text');
     var anotherBtn = document.getElementById('another-btn');
-    var progressEl = document.getElementById('progress');
-    var progressFill = document.getElementById('progress-fill');
-    var progressText = document.getElementById('progress-text');
 
-    // Crop elements
     var cropOverlay = document.getElementById('crop-overlay');
     var cropImage = document.getElementById('crop-image');
     var cropCancel = document.getElementById('crop-cancel');
     var cropApply = document.getElementById('crop-apply');
     var cropperInstance = null;
     var cropperLoaded = false;
-    var cropTargetIdx = -1;
 
-    // Photo queue: [{file, blob, url, note, cropped}]
-    var photos = [];
+    var resizedBlob = null;
+    var originalFileUrl = null;
+    var currentFileName = '';
+
+    function showError(msg) {
+      errorText.textContent = msg;
+      msgError.classList.add('visible');
+      msgError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function hideError() {
+      msgError.classList.remove('visible');
+    }
+
+    function formatSize(bytes) {
+      if (bytes < 1048576) return (bytes / 1024).toFixed(0) + ' KB';
+      return (bytes / 1048576).toFixed(1) + ' MB';
+    }
+
+    function autoCaption() {
+      var team = teamSelect.value;
+      var type = typeSelect.value;
+      var year = yearSelect.value;
+      if (!type || !year) return '';
+      var label = team === 'd' ? 'D Team' : team === 'e' ? 'E Team' : '';
+      var parts = [];
+      if (label) parts.push(label);
+      parts.push(type);
+      parts.push(year);
+      return parts.join(' - ');
+    }
 
     function resizeImage(source) {
       return new Promise(function(resolve) {
         var img = new Image();
         img.onload = function() {
-          var maxW = 2200;
-          var w = img.width;
-          var h = img.height;
+          var maxW = 2200; var w = img.width; var h = img.height;
           if (w > maxW) { h = Math.round(h * (maxW / w)); w = maxW; }
+          if (h > maxW) { w = Math.round(w * (maxW / h)); h = maxW; }
           var canvas = document.createElement('canvas');
           canvas.width = w; canvas.height = h;
           canvas.getContext('2d').drawImage(img, 0, 0, w, h);
@@ -276,126 +287,36 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
       });
     }
 
-    function formatSize(bytes) {
-      if (bytes < 1048576) return (bytes / 1024).toFixed(0) + ' KB';
-      return (bytes / 1048576).toFixed(1) + ' MB';
-    }
-
-    // Build auto caption from shared fields
-    function autoCaption() {
-      var team = teamSelect.value;
-      var type = typeSelect.value;
-      var year = yearSelect.value;
-      if (!type || !year) return '';
-      var teamLabel = team === 'd' ? 'D Team' : team === 'e' ? 'E Team' : '';
-      var parts = [];
-      if (teamLabel) parts.push(teamLabel);
-      parts.push(type);
-      parts.push(year);
-      return parts.join(' - ');
-    }
-
-    var MAX_PHOTOS = 20;
-    var isUploading = false;
-
-    function showError(msg) {
-      errorText.textContent = msg;
-      msgError.classList.add('visible');
-      msgError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
-    async function addFiles(files) {
-      for (var i = 0; i < files.length; i++) {
-        if (photos.length >= MAX_PHOTOS) break;
-        var file = files[i];
-        if (!file.type.startsWith('image/')) continue;
-        if (file.size > 25 * 1024 * 1024) continue;
-        var blob = await resizeImage(file);
-        var url = URL.createObjectURL(blob);
-        photos.push({ file: file, blob: blob, url: url, note: '', cropped: false, originalUrl: URL.createObjectURL(file) });
-      }
-      renderQueue();
-    }
-
-    function renderQueue() {
-      if (photos.length === 0) {
-        queueEl.style.display = 'none';
-        addMoreBtn.style.display = 'none';
-        uploadArea.classList.remove('has-files');
-        placeholder.style.display = '';
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Submit Photos';
-        return;
-      }
-
-      uploadArea.classList.add('has-files');
-      placeholder.style.display = 'none';
-      queueEl.style.display = 'block';
-      addMoreBtn.style.display = 'block';
-      submitBtn.disabled = isUploading;
-      submitBtn.textContent = photos.length === 1 ? 'Submit Photo' : 'Submit ' + photos.length + ' Photos';
-      // Hide add-more if at max or uploading
-      if (photos.length >= MAX_PHOTOS || isUploading) {
-        addMoreBtn.style.display = 'none';
-      }
-
-      queueEl.innerHTML = photos.map(function(p, i) {
-        return '<div class="queue-item" data-idx="' + i + '">' +
-          '<img class="queue-thumb" src="' + p.url + '" alt="" />' +
-          '<div class="queue-info">' +
-            '<div class="queue-meta">' + formatSize(p.blob.size) + (p.cropped ? ' (cropped)' : '') + '</div>' +
-            '<input type="text" placeholder="Add a note (optional)" value="' + escHtml(p.note) + '" data-note-idx="' + i + '" />' +
-            '<div class="queue-actions">' +
-              '<button type="button" data-crop-idx="' + i + '">Crop</button>' +
-              '<button type="button" class="remove-btn" data-remove-idx="' + i + '">Remove</button>' +
-            '</div>' +
-          '</div>' +
-        '</div>';
-      }).join('');
-
-      // Bind note inputs
-      queueEl.querySelectorAll('[data-note-idx]').forEach(function(input) {
-        input.addEventListener('input', function() {
-          photos[parseInt(this.getAttribute('data-note-idx'))].note = this.value;
-        });
-      });
-
-      // Bind crop buttons
-      queueEl.querySelectorAll('[data-crop-idx]').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-          openCrop(parseInt(this.getAttribute('data-crop-idx')));
-        });
-      });
-
-      // Bind remove buttons
-      queueEl.querySelectorAll('[data-remove-idx]').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-          var idx = parseInt(this.getAttribute('data-remove-idx'));
-          URL.revokeObjectURL(photos[idx].url);
-          URL.revokeObjectURL(photos[idx].originalUrl);
-          photos.splice(idx, 1);
-          renderQueue();
-        });
-      });
-    }
-
-    function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
-    // File inputs
-    fileInput.addEventListener('change', function() { if (this.files.length) addFiles(this.files); this.value = ''; });
-    fileInputMore.addEventListener('change', function() { if (this.files.length) addFiles(this.files); this.value = ''; });
-
-    // Drag and drop
-    ['dragenter','dragover'].forEach(function(ev) {
-      uploadArea.addEventListener(ev, function(e) { e.preventDefault(); uploadArea.classList.add('dragover'); });
+    // File selection
+    fileInput.addEventListener('change', async function() {
+      var file = this.files[0];
+      if (!file) return;
+      if (!file.type.startsWith('image/')) { showError('Please select an image file (JPG, PNG, or WebP).'); return; }
+      if (file.size > 25 * 1024 * 1024) { showError('Photo must be under 25MB.'); return; }
+      hideError();
+      currentFileName = file.name;
+      originalFileUrl = URL.createObjectURL(file);
+      resizedBlob = await resizeImage(file);
+      previewThumb.src = URL.createObjectURL(resizedBlob);
+      previewMeta.textContent = formatSize(resizedBlob.size);
+      uploadArea.style.display = 'none';
+      previewEl.classList.add('visible');
     });
-    ['dragleave','drop'].forEach(function(ev) {
-      uploadArea.addEventListener(ev, function(e) { e.preventDefault(); uploadArea.classList.remove('dragover'); });
+
+    // Remove photo
+    removeBtn.addEventListener('click', function() {
+      resetPhoto();
     });
-    uploadArea.addEventListener('drop', function(e) {
-      var files = e.dataTransfer.files;
-      if (files.length) addFiles(files);
-    });
+
+    function resetPhoto() {
+      resizedBlob = null;
+      if (originalFileUrl) { URL.revokeObjectURL(originalFileUrl); originalFileUrl = null; }
+      currentFileName = '';
+      fileInput.value = '';
+      uploadArea.style.display = '';
+      previewEl.classList.remove('visible');
+      if (cropperInstance) { cropperInstance.destroy(); cropperInstance = null; }
+    }
 
     // Cropper
     function loadCropper() {
@@ -412,10 +333,12 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
       });
     }
 
-    async function openCrop(idx) {
-      cropTargetIdx = idx;
+    cropBtn.addEventListener('click', async function() {
+      if (!originalFileUrl) return;
+      cropBtn.textContent = 'Loading...';
       await loadCropper();
-      cropImage.src = photos[idx].originalUrl;
+      cropBtn.textContent = 'Crop';
+      cropImage.src = originalFileUrl;
       cropOverlay.classList.add('open');
       document.body.style.overflow = 'hidden';
       cropImage.onload = function() {
@@ -427,31 +350,27 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
           cropBoxResizable: true, cropBoxMovable: true, toggleDragModeOnDblclick: false,
         });
       };
-    }
+    });
 
     cropCancel.addEventListener('click', function() {
       if (cropperInstance) { cropperInstance.destroy(); cropperInstance = null; }
       cropOverlay.classList.remove('open');
       document.body.style.overflow = '';
-      cropTargetIdx = -1;
     });
 
     cropApply.addEventListener('click', function() {
-      if (!cropperInstance || cropTargetIdx < 0) return;
+      if (!cropperInstance) return;
       cropApply.textContent = 'Applying...';
       var canvas = cropperInstance.getCroppedCanvas({ maxWidth: 2200, maxHeight: 2200 });
       canvas.toBlob(function(blob) {
-        var p = photos[cropTargetIdx];
-        URL.revokeObjectURL(p.url);
-        p.blob = blob;
-        p.url = URL.createObjectURL(blob);
-        p.cropped = true;
+        resizedBlob = blob;
+        previewThumb.src = URL.createObjectURL(blob);
+        previewMeta.textContent = formatSize(blob.size) + ' (cropped)';
         cropperInstance.destroy(); cropperInstance = null;
         cropOverlay.classList.remove('open');
         document.body.style.overflow = '';
         cropApply.textContent = 'Apply';
-        cropTargetIdx = -1;
-        renderQueue();
+        cropBtn.textContent = 'Crop again';
       }, 'image/jpeg', 0.90);
     });
 
@@ -459,117 +378,70 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
     anotherBtn.addEventListener('click', function() {
       msgSuccess.classList.remove('visible');
       form.style.display = '';
-      progressEl.style.display = 'none';
-      photos = [];
       form.reset();
-      renderQueue();
+      resetPhoto();
     });
 
     // Submit
     form.addEventListener('submit', async function(e) {
       e.preventDefault();
-      msgSuccess.classList.remove('visible');
-      msgError.classList.remove('visible');
+      hideError();
 
-      if (photos.length === 0) {
-        showError('Please select at least one photo to submit.');
-        return;
-      }
+      if (!resizedBlob) { showError('Please select a photo.'); return; }
+      if (!teamSelect.value) { showError('Please select a team.'); teamSelect.focus(); return; }
+      if (!typeSelect.value) { showError('Please select a photo type.'); typeSelect.focus(); return; }
 
-      // Validate shared fields with clear messages
-      if (!teamSelect.value) {
-        showError('Please select a team (D Team, E Team, or Both).');
-        teamSelect.focus();
-        return;
-      }
-      if (!typeSelect.value) {
-        showError('Please select a photo type (Spring, Fall, Tournament, or Social).');
-        typeSelect.focus();
-        return;
-      }
-
-      // Turnstile
       var turnstileInput = form.querySelector('[name="cf-turnstile-response"]');
       if (turnstileInput && !turnstileInput.value) {
-        showError('Please complete the security check below the submit button.');
+        showError('Please complete the security check below.');
         return;
       }
-      var turnstileToken = turnstileInput ? turnstileInput.value : '';
 
-      isUploading = true;
       submitBtn.disabled = true;
       submitBtn.textContent = 'Uploading...';
-      addMoreBtn.style.display = 'none';
-      progressEl.style.display = 'block';
 
-      var year = yearSelect.value;
-      var team = teamSelect.value;
-      var type = typeSelect.value;
-      var submittedBy = document.getElementById('submitted-by').value.trim();
-      var defaultCaption = autoCaption();
-      var succeeded = 0;
-      var failed = 0;
+      var note = document.getElementById('note').value.trim();
+      var caption = note || autoCaption();
+      var cleanName = caption.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '.jpg';
+      var team = teamSelect.value === 'both' ? '' : teamSelect.value;
 
-      for (var i = 0; i < photos.length; i++) {
-        var p = photos[i];
-        progressFill.style.width = Math.round((i / photos.length) * 100) + '%';
-        progressText.textContent = 'Uploading ' + (i + 1) + ' of ' + photos.length + '...';
+      var fd = new FormData();
+      fd.append('photo', resizedBlob, cleanName);
+      fd.append('alt', caption);
+      fd.append('caption', caption);
+      fd.append('year', yearSelect.value);
+      fd.append('team', team);
+      fd.append('submitted_by', document.getElementById('submitted-by').value.trim());
+      fd.append('submitted_at', new Date().toISOString());
+      if (turnstileInput) fd.append('turnstileToken', turnstileInput.value);
 
-        var caption = p.note.trim() || defaultCaption;
-        // Generate clean filename from caption: "D Team - Spring 2026" → "d-team-spring-2026-001.jpg"
-        var cleanBase = caption.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-        var cleanName = cleanBase + '-' + String(i + 1).padStart(3, '0') + '.jpg';
-
-        var fd = new FormData();
-        fd.append('photo', p.blob, cleanName);
-        fd.append('alt', caption);
-        fd.append('caption', caption);
-        fd.append('year', year);
-        fd.append('team', team === 'both' ? '' : team);
-        fd.append('submitted_by', submittedBy);
-        fd.append('submitted_at', new Date().toISOString());
-        if (turnstileToken) fd.append('turnstileToken', turnstileToken);
-
-        // Upload with timeout (30s) and one retry
-        async function uploadWithRetry(formData, attempt) {
-          var controller = new AbortController();
-          var timeout = setTimeout(function() { controller.abort(); }, 30000);
-          try {
-            var res = await fetch('/api/photo-submit/', { method: 'POST', body: formData, signal: controller.signal });
-            clearTimeout(timeout);
-            var data = await res.json();
-            return data.success;
-          } catch (err) {
-            clearTimeout(timeout);
-            if (attempt < 1) {
-              progressText.textContent = 'Retrying ' + (i + 1) + ' of ' + photos.length + '...';
-              return uploadWithRetry(formData, attempt + 1);
-            }
-            return false;
-          }
+      // Upload with 30s timeout and one retry
+      async function upload(attempt) {
+        var controller = new AbortController();
+        var timeout = setTimeout(function() { controller.abort(); }, 30000);
+        try {
+          var res = await fetch('/api/photo-submit/', { method: 'POST', body: fd, signal: controller.signal });
+          clearTimeout(timeout);
+          return await res.json();
+        } catch (err) {
+          clearTimeout(timeout);
+          if (attempt < 1) { return upload(attempt + 1); }
+          return { success: false, error: 'Upload timed out. Check your connection and try again.' };
         }
-        if (await uploadWithRetry(fd, 0)) { succeeded++; } else { failed++; }
       }
 
-      progressFill.style.width = '100%';
+      var result = await upload(0);
 
-      if (succeeded > 0) {
-        successTitle.textContent = succeeded === 1 ? 'Photo submitted!' : succeeded + ' photos submitted!';
-        successText.textContent = failed > 0
-          ? succeeded + ' sent for review. ' + failed + ' failed — check your connection and try submitting those again.'
-          : (succeeded === 1
-            ? "It's been sent for review. Once approved, it'll appear on the site."
-            : "They've been sent for review. Once approved, they'll appear on the site.");
+      if (result.success) {
         msgSuccess.classList.add('visible');
         form.style.display = 'none';
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
-        showError('None of the photos could be uploaded. Check your internet connection and try again.');
+        showError(result.error || 'Upload failed. Please try again.');
       }
 
-      isUploading = false;
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Submit Photos';
+      submitBtn.textContent = 'Submit Photo';
     });
   })();
   </script>
