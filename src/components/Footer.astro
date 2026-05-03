@@ -27,7 +27,7 @@ import { site, allPages } from '../data/site';
 
         {/* Links */}
         <div>
-          <p class="label" style="margin-bottom: var(--space-3); color: rgba(255,255,255,0.4);">Pages</p>
+          <p class="label" style="margin-bottom: var(--space-3); color: rgba(255,255,255,0.4);">Explore</p>
           <ul style="display: flex; flex-direction: column; gap: var(--space-2);">
             {allPages.map(item => (
               <li>
@@ -61,6 +61,10 @@ import { site, allPages } from '../data/site';
               </li>
             )}
           </ul>
+
+          <div style="margin-top: var(--space-6);">
+            <a href="/contact/" class="btn btn-primary" style="font-size: var(--text-sm); padding: var(--space-2) var(--space-4);">Come Play With Us</a>
+          </div>
         </div>
       </div>
 
