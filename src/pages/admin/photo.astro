@@ -64,7 +64,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
     .upload-area {
       border: 2px dashed #d1d5db;
       border-radius: 0.5rem;
-      padding: 0.375rem 0.5rem;
+      padding: 0.25rem 0.375rem;
       text-align: center;
       cursor: pointer;
       transition: border-color 0.2s, background 0.2s;
@@ -170,9 +170,10 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
           </select>
         </div>
         <div class="form-group">
-          <label for="team">Team</label>
-          <select id="team">
-            <option value="">Both / whole team</option>
+          <label for="team" class="required">Team</label>
+          <select id="team" required>
+            <option value="">Select team</option>
+            <option value="both">Both / whole team</option>
             <option value="d">D Team</option>
             <option value="e">E Team</option>
           </select>
