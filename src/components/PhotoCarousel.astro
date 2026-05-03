@@ -28,7 +28,7 @@ const carouselId = `carousel-${Math.random().toString(36).slice(2, 8)}`;
   {label && (
     <div class="flex items-center justify-between mb-3">
       <p class="label">{label}</p>
-      {linkHref && <a href={linkHref} class="link-accent">{linkText} &rarr;</a>}
+      {linkHref && <a href={linkHref} class="link-accent" style="font-size: var(--text-base);">{linkText} &rarr;</a>}
     </div>
   )}
 

@@ -1,0 +1,30 @@
+---
+/**
+ * WaveEdge — subtle curved section transition.
+ *
+ * Usage:
+ *   <WaveEdge from="white" to="alt" />   — white section ending, gray starting
+ *   <WaveEdge from="alt" to="white" />   — gray section ending, white starting
+ *
+ * The SVG fills the outgoing section's color in a wave shape,
+ * with the incoming section's color as the background.
+ */
+interface Props {
+  from: 'white' | 'alt';
+  to: 'white' | 'alt';
+}
+
+const { from, to } = Astro.props;
+const fillColor = from === 'white' ? 'var(--color-bg)' : 'var(--color-bg-alt)';
+const bgColor = to === 'white' ? 'var(--color-bg)' : 'var(--color-bg-alt)';
+---
+
+<svg
+  style={`display: block; width: 100%; height: 20px; background: ${bgColor};`}
+  viewBox="0 0 1440 20"
+  preserveAspectRatio="none"
+  aria-hidden="true"
+  focusable="false"
+>
+  <path d="M0,0 L0,5 Q360,20 720,5 T1440,5 L1440,0 Z" fill={fillColor}/>
+</svg>

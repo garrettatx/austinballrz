@@ -1,17 +1,17 @@
 ---
 /**
- * PlayCTA — "Want to play?" call-to-action with stitch accent.
- * Gray band with stitch rule at top, centered content.
- * Drop on any page before PhotoRow to drive people to the contact page.
+ * PlayCTA — "Want to play?" call-to-action band.
+ * Navy-tinted gray section with wave transitions in and out.
  */
-import StitchRule from './StitchRule.astro';
+import WaveEdge from './WaveEdge.astro';
 ---
 
+<WaveEdge from="white" to="alt" />
 <section class="section-sm bg-alt">
-  <StitchRule />
   <div class="container fade-in" style="text-align: center; padding-top: var(--space-4);">
     <p class="heading h4" style="margin-bottom: var(--space-2);">Want to Play?</p>
     <p style="margin-bottom: var(--space-4); color: var(--color-body); max-width: 38ch; margin-inline: auto;">All skill levels welcome. See seasons, divisions, and how to join — or send us a message.</p>
     <a href="/contact/#contact-form-top" class="btn btn-primary">Player Info & Contact</a>
   </div>
 </section>
+<WaveEdge from="alt" to="white" />
