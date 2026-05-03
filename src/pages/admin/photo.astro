@@ -1,7 +1,6 @@
 ---
-import { site } from '../../data/site';
+import { site, navigation } from '../../data/site';
 
-// All years from current back to 2013
 const currentYear = new Date().getFullYear();
 const allYears: string[] = [];
 for (let y = currentYear; y >= 2013; y--) {
@@ -16,93 +15,70 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-  <title>Submit a Photo | {site.name}</title>
+  <title>Submit Photos | {site.name}</title>
   <meta name="robots" content="noindex, nofollow" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #f8f9fa;
-      color: #1a1a2e;
-      line-height: 1.6;
-      min-height: 100dvh;
-      -webkit-text-size-adjust: 100%;
-    }
-    .page { padding: 1.25rem 1.25rem 2.5rem; max-width: 480px; margin: 0 auto; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #ffffff; color: #1a1a2e; line-height: 1.6; min-height: 100dvh; -webkit-text-size-adjust: 100%; display: flex; flex-direction: column; }
 
+    /* Site header */
+    .site-header { background: #263a5a; padding: 0.5rem 1.25rem; }
+    @font-face { font-family: 'Barlow Condensed'; font-style: normal; font-weight: 700; font-display: swap; src: url('/fonts/barlow-condensed-700.woff2') format('woff2'); }
+    .site-header a { color: white; text-decoration: none; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1.125rem; letter-spacing: 0.04em; text-transform: uppercase; }
+    .rainbow-bar { height: 4px; background: linear-gradient(90deg, #D92638, #E08A00, #D4AD00, #3DA812, #1094D4, #6A2BE0); }
+
+    .page { padding: 1.5rem 1.25rem 2.5rem; max-width: 480px; margin: 0 auto; flex: 1; }
+
+    /* Site footer */
+    .site-footer { background: #263a5a; color: rgba(255,255,255,0.6); padding: 1.25rem; margin-top: auto; }
+    .site-footer-inner { max-width: 480px; margin: 0 auto; }
+    .site-footer nav { display: flex; flex-wrap: wrap; gap: 0.375rem 1rem; margin-bottom: 0.75rem; }
+    .site-footer a { font-size: 0.8rem; color: rgba(255,255,255,0.6); text-decoration: none; }
+    .site-footer a:hover { color: white; }
+    .site-footer .credit { font-size: 0.7rem; color: rgba(255,255,255,0.35); }
     h1 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.125rem; }
     .subtitle { color: #6b7280; font-size: 0.85rem; margin-bottom: 1.25rem; }
-
     .form-group { margin-bottom: 1.125rem; }
     label { display: block; font-size: 0.875rem; font-weight: 600; color: #1f2937; margin-bottom: 0.25rem; }
     .help { font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem; line-height: 1.4; }
     .required::after { content: ' *'; color: #dc2626; }
-
-    input[type="text"], select, textarea {
-      width: 100%;
-      padding: 0.625rem 0.875rem;
-      border: 1px solid #d1d5db;
-      border-radius: 0.5rem;
-      font-size: 0.9375rem;
-      font-family: inherit;
-      background: white;
-      -webkit-appearance: none;
-      appearance: none;
-    }
-    input:focus, select:focus, textarea:focus {
-      outline: none;
-      border-color: #42168A;
-      box-shadow: 0 0 0 3px rgba(66, 22, 138, 0.1);
-    }
-    select {
-      background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M2 4l4 4 4-4'/%3E%3C/svg%3E") no-repeat right 1rem center;
-      padding-right: 2.5rem;
-    }
-    textarea { resize: vertical; min-height: 88px; }
+    input[type="text"], select { width: 100%; padding: 0.625rem 0.875rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 0.9375rem; font-family: inherit; background: white; -webkit-appearance: none; appearance: none; }
+    input:focus, select:focus { outline: none; border-color: #42168A; box-shadow: 0 0 0 3px rgba(66, 22, 138, 0.1); }
+    select { background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M2 4l4 4 4-4'/%3E%3C/svg%3E") no-repeat right 1rem center; padding-right: 2.5rem; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; }
 
     /* Upload area */
-    .upload-area {
-      border: 2px dashed #d1d5db;
-      border-radius: 0.5rem;
-      padding: 0.25rem 0.375rem;
-      text-align: center;
-      cursor: pointer;
-      transition: border-color 0.2s, background 0.2s;
-      position: relative;
-      overflow: hidden;
-      -webkit-tap-highlight-color: transparent;
-    }
+    .upload-area { border: 2px dashed #d1d5db; border-radius: 0.5rem; padding: 0.5rem; text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; position: relative; overflow: hidden; -webkit-tap-highlight-color: transparent; }
     .upload-area:active { background: rgba(66, 22, 138, 0.03); }
     .upload-area.dragover { border-color: #42168A; background: rgba(66, 22, 138, 0.03); }
-    .upload-area.has-file { border-style: solid; border-color: #10b981; background: #ecfdf5; padding: 0.5rem; }
+    .upload-area.has-files { border-style: solid; border-color: #10b981; background: #ecfdf5; cursor: default; }
     .upload-area input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; font-size: 200px; }
     .upload-icon { font-size: 1.25rem; }
     .upload-text { font-size: 0.8rem; color: #6b7280; }
     .upload-text strong { color: #1f2937; }
-    .upload-preview { max-width: 100%; max-height: 100px; border-radius: 0.25rem; margin-top: 0.25rem; }
-    .upload-meta { font-size: 0.7rem; color: #374151; margin-top: 0.25rem; }
-    .upload-meta .size-saved { color: #059669; font-weight: 500; }
 
-    /* Two-col row */
-    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    /* Photo queue */
+    .queue { margin-top: 0.75rem; }
+    .queue-item { display: flex; align-items: flex-start; gap: 0.625rem; background: white; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 0.5rem; margin-bottom: 0.5rem; }
+    .queue-thumb { width: 56px; height: 56px; object-fit: cover; border-radius: 0.375rem; flex-shrink: 0; }
+    .queue-info { flex: 1; min-width: 0; }
+    .queue-info input { font-size: 0.8rem; padding: 0.375rem 0.5rem; margin-top: 0.25rem; }
+    .queue-meta { font-size: 0.7rem; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .queue-actions { display: flex; gap: 0.375rem; margin-top: 0.25rem; }
+    .queue-actions button { font-size: 0.7rem; padding: 0.125rem 0.5rem; border-radius: 0.25rem; cursor: pointer; border: 1px solid #e2e2e6; background: white; color: #374151; }
+    .queue-actions button:hover { border-color: #42168A; color: #42168A; }
+    .queue-actions .remove-btn { color: #dc2626; border-color: #fecaca; }
+    .queue-actions .remove-btn:hover { background: #fef2f2; }
+    .queue-count { font-size: 0.75rem; color: #6b7280; margin-top: 0.375rem; }
 
+    /* Add more button */
+    .add-more { display: block; width: 100%; padding: 0.5rem; border: 1px dashed #d1d5db; border-radius: 0.5rem; background: none; color: #6b7280; font-size: 0.8rem; cursor: pointer; margin-top: 0.5rem; text-align: center; position: relative; overflow: hidden; }
+    .add-more input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; font-size: 200px; }
+    .add-more:hover { border-color: #42168A; color: #42168A; }
 
     /* Submit */
-    .btn-submit {
-      display: block;
-      width: 100%;
-      padding: 0.75rem;
-      border-radius: 0.5rem;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      background: #3d4466;
-      color: white;
-      transition: background 0.15s, opacity 0.15s;
-      margin-top: 0.5rem;
-      -webkit-tap-highlight-color: transparent;
-    }
+    .btn-submit { display: block; width: 100%; padding: 0.75rem; border-radius: 0.5rem; font-size: 1rem; font-weight: 600; cursor: pointer; border: none; background: #3d4466; color: white; transition: background 0.15s, opacity 0.15s; margin-top: 0.5rem; -webkit-tap-highlight-color: transparent; }
     .btn-submit:active { background: #1d2340; }
     .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
 
@@ -114,7 +90,11 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
     .message strong { display: block; margin-bottom: 0.25rem; font-size: 1rem; }
     .message p { font-size: 0.875rem; }
 
-    .another-btn { display: inline-block; font-size: 0.875rem; font-weight: 600; color: #42168A; cursor: pointer; background: none; border: none; text-decoration: underline; }
+    /* Progress */
+    .progress { margin-top: 0.75rem; }
+    .progress-bar { height: 4px; background: #e5e7eb; border-radius: 2px; overflow: hidden; }
+    .progress-fill { height: 100%; background: #3d4466; transition: width 0.3s; }
+    .progress-text { font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem; }
 
     /* Crop modal */
     .crop-overlay { position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.85); display: none; flex-direction: column; }
@@ -127,16 +107,20 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
   </style>
 </head>
 <body>
+  <div class="site-header">
+    <a href="/">{site.name}</a>
+  </div>
+  <div class="rainbow-bar" aria-hidden="true"></div>
+
   <div class="page">
-    <p style="margin-bottom: 0.75rem;"><a href="/" style="font-size: 0.875rem; color: #374151; text-decoration: none;">&larr; austinballrz.com</a></p>
-    <h1>Submit a Photo</h1>
-    <p class="subtitle">Share a team photo. It'll show on the site after it's reviewed.</p>
+    <h1>Submit Photos</h1>
+    <p class="subtitle">Share team photos. They'll appear at <a href="/photos/" style="color: #42168A;">austinballrz.com/photos</a> upon review.</p>
 
     <div class="message message-success" id="msg-success">
-      <strong>Photo submitted!</strong>
-      <p>It's been sent for review. Once approved, it'll appear on the site automatically.</p>
+      <strong id="success-title">Photos submitted!</strong>
+      <p id="success-text">They've been sent for review. Once approved, they'll appear on the site automatically.</p>
       <div style="display: flex; gap: 0.75rem; margin-top: 0.5rem; font-size: 0.875rem;">
-        <button class="another-btn" id="another-btn">Submit another</button>
+        <button style="font-weight: 600; color: #42168A; cursor: pointer; background: none; border: none; text-decoration: underline;" id="another-btn">Submit more</button>
         <a href="/" style="color: #065f46; text-decoration: underline;">Back to site</a>
       </div>
     </div>
@@ -145,34 +129,9 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
       <p id="error-text">Please try again.</p>
     </div>
 
-    <form id="photo-form" enctype="multipart/form-data">
-      {/* Photo — required, camera capture on mobile */}
-      <div class="form-group">
-        <label class="required">Photo</label>
-        <div class="upload-area" id="upload-area">
-          <input type="file" id="photo-file" accept="image/jpeg,image/png,image/webp" required />
-          <div id="upload-placeholder">
-            <div class="upload-icon">📷</div>
-            <p class="upload-text"><strong>Tap to choose a photo</strong></p>
-          </div>
-          <img class="upload-preview" id="upload-preview" style="display:none;" alt="Preview" />
-          <p class="upload-meta" id="upload-meta" style="display:none;"></p>
-        </div>
-        <div id="crop-actions" style="display:none; margin-top: 0.375rem;">
-          <button type="button" id="crop-btn" style="font-size: 0.875rem; color: #42168A; background: none; border: 1px solid #e2e2e6; border-radius: 0.375rem; cursor: pointer; padding: 0.25rem 0.75rem;">Crop photo</button>
-        </div>
-        <p class="help">JPG, PNG, or WebP. Max 10MB. Photos are automatically resized for the web.</p>
-      </div>
-
-      {/* Description — used as alt text and displayed as caption */}
-      <div class="form-group">
-        <label for="alt" class="required">What's in this photo?</label>
-        <input type="text" id="alt" required placeholder="D team after the Dallas tournament" />
-        <p class="help">This is shown as the caption below the photo on the site.</p>
-      </div>
-
-      {/* Year + Team */}
-      <div class="row">
+    <form id="photo-form">
+      {/* Shared fields — apply to all photos */}
+      <div class="row-3">
         <div class="form-group">
           <label for="year" class="required">Year</label>
           <select id="year" required>
@@ -184,32 +143,63 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
         <div class="form-group">
           <label for="team" class="required">Team</label>
           <select id="team" required>
-            <option value="">Select team</option>
-            <option value="both">Both / whole team</option>
+            <option value="">Select</option>
+            <option value="both">Both</option>
             <option value="d">D Team</option>
             <option value="e">E Team</option>
           </select>
         </div>
+        <div class="form-group">
+          <label for="photo-type" class="required">Type</label>
+          <select id="photo-type" required>
+            <option value="">Select</option>
+            <option value="Spring">Spring</option>
+            <option value="Fall">Fall</option>
+            <option value="Tournament">Tournament</option>
+            <option value="Social">Social</option>
+          </select>
+        </div>
       </div>
 
+      {/* Photos */}
+      <div class="form-group">
+        <label class="required">Photos</label>
+        <div class="upload-area" id="upload-area">
+          <input type="file" id="photo-file" accept="image/jpeg,image/png,image/webp" multiple />
+          <div id="upload-placeholder">
+            <div class="upload-icon">📷</div>
+            <p class="upload-text"><strong>Tap to choose photos</strong></p>
+          </div>
+        </div>
+        <div class="queue" id="queue" style="display:none;"></div>
+        <button type="button" class="add-more" id="add-more-btn" style="display:none;">
+          <input type="file" id="photo-file-more" accept="image/jpeg,image/png,image/webp" multiple />
+          + Add more photos
+        </button>
+        <p class="help">JPG, PNG, or WebP. Photos are automatically resized.</p>
+      </div>
 
       {/* Your name */}
       <div class="form-group">
         <label for="submitted-by">Your name</label>
         <input type="text" id="submitted-by" placeholder="Coach Mike" />
-        <p class="help">So we know who sent it. Optional.</p>
       </div>
 
-      {/* Turnstile */}
+      <button type="submit" class="btn-submit" id="submit-btn" disabled>Submit Photos</button>
+
+      {/* Turnstile — below submit */}
       {turnstileSiteKey && (
-        <div class="cf-turnstile" data-sitekey={turnstileSiteKey} style="min-height: 65px;"></div>
+        <div class="cf-turnstile" data-sitekey={turnstileSiteKey} style="min-height: 65px; margin-top: 0.75rem;"></div>
       )}
 
-      <button type="submit" class="btn-submit" id="submit-btn">Submit Photo</button>
+      <div class="progress" id="progress" style="display:none;">
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+        <p class="progress-text" id="progress-text"></p>
+      </div>
     </form>
   </div>
 
-  {/* Crop modal — outside form to avoid nested form issues */}
+  {/* Crop modal */}
   <div class="crop-overlay" id="crop-overlay">
     <div class="crop-header">
       <button type="button" id="crop-cancel">Cancel</button>
@@ -221,7 +211,18 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
     </div>
   </div>
 
-  {/* Turnstile script */}
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <nav>
+        <a href="/">Home</a>
+        {navigation.map(item => (
+          <a href={item.href}>{item.label}</a>
+        ))}
+      </nav>
+      <p class="credit">&copy; {new Date().getFullYear()} {site.name}</p>
+    </div>
+  </footer>
+
   {turnstileSiteKey && (
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer is:inline></script>
   )}
@@ -230,29 +231,37 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
   (function() {
     var form = document.getElementById('photo-form');
     var fileInput = document.getElementById('photo-file');
+    var fileInputMore = document.getElementById('photo-file-more');
     var uploadArea = document.getElementById('upload-area');
     var placeholder = document.getElementById('upload-placeholder');
-    var preview = document.getElementById('upload-preview');
-    var metaEl = document.getElementById('upload-meta');
+    var queueEl = document.getElementById('queue');
+    var addMoreBtn = document.getElementById('add-more-btn');
     var yearSelect = document.getElementById('year');
+    var teamSelect = document.getElementById('team');
+    var typeSelect = document.getElementById('photo-type');
     var submitBtn = document.getElementById('submit-btn');
     var msgSuccess = document.getElementById('msg-success');
+    var successTitle = document.getElementById('success-title');
+    var successText = document.getElementById('success-text');
     var msgError = document.getElementById('msg-error');
     var errorText = document.getElementById('error-text');
     var anotherBtn = document.getElementById('another-btn');
+    var progressEl = document.getElementById('progress');
+    var progressFill = document.getElementById('progress-fill');
+    var progressText = document.getElementById('progress-text');
 
-    var resizedBlob = null; // Holds the resized (or cropped+resized) image
-    var originalFileUrl = null; // Original file URL for cropping
-    var cropActions = document.getElementById('crop-actions');
-    var cropBtn = document.getElementById('crop-btn');
+    // Crop elements
     var cropOverlay = document.getElementById('crop-overlay');
     var cropImage = document.getElementById('crop-image');
     var cropCancel = document.getElementById('crop-cancel');
     var cropApply = document.getElementById('crop-apply');
     var cropperInstance = null;
     var cropperLoaded = false;
+    var cropTargetIdx = -1;
 
-    // Resize image client-side (max 1600px wide, JPEG 85% quality)
+    // Photo queue: [{file, blob, url, note, cropped}]
+    var photos = [];
+
     function resizeImage(source) {
       return new Promise(function(resolve) {
         var img = new Image();
@@ -260,68 +269,132 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
           var maxW = 1600;
           var w = img.width;
           var h = img.height;
-
-          if (w > maxW) {
-            h = Math.round(h * (maxW / w));
-            w = maxW;
-          }
-
+          if (w > maxW) { h = Math.round(h * (maxW / w)); w = maxW; }
           var canvas = document.createElement('canvas');
-          canvas.width = w;
-          canvas.height = h;
-          var ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, w, h);
-
-          canvas.toBlob(function(blob) {
-            resolve(blob);
-          }, 'image/jpeg', 0.85);
+          canvas.width = w; canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          canvas.toBlob(function(blob) { resolve(blob); }, 'image/jpeg', 0.85);
         };
-        if (source instanceof Blob) {
-          img.src = URL.createObjectURL(source);
-        } else {
-          img.src = source;
-        }
+        img.src = source instanceof Blob ? URL.createObjectURL(source) : source;
       });
     }
 
     function formatSize(bytes) {
-      if (bytes < 1024) return bytes + ' B';
       if (bytes < 1048576) return (bytes / 1024).toFixed(0) + ' KB';
       return (bytes / 1048576).toFixed(1) + ' MB';
     }
 
-    function updateMeta(name, blob, originalSize) {
-      var newSize = blob.size;
-      var savedPct = Math.round((1 - newSize / originalSize) * 100);
-      if (savedPct > 5) {
-        metaEl.innerHTML = name + ' &mdash; ' + formatSize(newSize) + ' <span class="size-saved">(reduced ' + savedPct + '%)</span>';
-      } else {
-        metaEl.textContent = name + ' — ' + formatSize(newSize);
-      }
+    // Build auto caption from shared fields
+    function autoCaption() {
+      var team = teamSelect.value;
+      var type = typeSelect.value;
+      var year = yearSelect.value;
+      if (!type || !year) return '';
+      var teamLabel = team === 'd' ? 'D Team' : team === 'e' ? 'E Team' : '';
+      var parts = [];
+      if (teamLabel) parts.push(teamLabel);
+      parts.push(type);
+      parts.push(year);
+      return parts.join(' - ');
     }
 
-    // File selection + resize
-    fileInput.addEventListener('change', async function() {
-      var file = this.files[0];
-      if (!file) return;
+    var MAX_PHOTOS = 20;
+    var isUploading = false;
 
-      uploadArea.classList.add('has-file');
+    async function addFiles(files) {
+      for (var i = 0; i < files.length; i++) {
+        if (photos.length >= MAX_PHOTOS) break;
+        var file = files[i];
+        if (!file.type.startsWith('image/')) continue;
+        if (file.size > 25 * 1024 * 1024) continue;
+        var blob = await resizeImage(file);
+        var url = URL.createObjectURL(blob);
+        photos.push({ file: file, blob: blob, url: url, note: '', cropped: false, originalUrl: URL.createObjectURL(file) });
+      }
+      renderQueue();
+    }
+
+    function renderQueue() {
+      if (photos.length === 0) {
+        queueEl.style.display = 'none';
+        addMoreBtn.style.display = 'none';
+        uploadArea.classList.remove('has-files');
+        placeholder.style.display = '';
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submit Photos';
+        return;
+      }
+
+      uploadArea.classList.add('has-files');
       placeholder.style.display = 'none';
-      preview.style.display = 'block';
-      metaEl.style.display = 'block';
-      metaEl.textContent = 'Optimizing...';
-      cropActions.style.display = 'block';
+      queueEl.style.display = 'block';
+      addMoreBtn.style.display = 'block';
+      submitBtn.disabled = isUploading;
+      submitBtn.textContent = photos.length === 1 ? 'Submit Photo' : 'Submit ' + photos.length + ' Photos';
+      // Hide add-more if at max or uploading
+      if (photos.length >= MAX_PHOTOS || isUploading) {
+        addMoreBtn.style.display = 'none';
+      }
 
-      // Store original for cropping
-      originalFileUrl = URL.createObjectURL(file);
-      preview.src = originalFileUrl;
+      queueEl.innerHTML = photos.map(function(p, i) {
+        return '<div class="queue-item" data-idx="' + i + '">' +
+          '<img class="queue-thumb" src="' + p.url + '" alt="" />' +
+          '<div class="queue-info">' +
+            '<div class="queue-meta">' + formatSize(p.blob.size) + (p.cropped ? ' (cropped)' : '') + '</div>' +
+            '<input type="text" placeholder="Add a note (optional)" value="' + escHtml(p.note) + '" data-note-idx="' + i + '" />' +
+            '<div class="queue-actions">' +
+              '<button type="button" data-crop-idx="' + i + '">Crop</button>' +
+              '<button type="button" class="remove-btn" data-remove-idx="' + i + '">Remove</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      }).join('');
 
-      // Resize
-      resizedBlob = await resizeImage(file);
-      updateMeta(file.name, resizedBlob, file.size);
+      // Bind note inputs
+      queueEl.querySelectorAll('[data-note-idx]').forEach(function(input) {
+        input.addEventListener('input', function() {
+          photos[parseInt(this.getAttribute('data-note-idx'))].note = this.value;
+        });
+      });
+
+      // Bind crop buttons
+      queueEl.querySelectorAll('[data-crop-idx]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          openCrop(parseInt(this.getAttribute('data-crop-idx')));
+        });
+      });
+
+      // Bind remove buttons
+      queueEl.querySelectorAll('[data-remove-idx]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var idx = parseInt(this.getAttribute('data-remove-idx'));
+          URL.revokeObjectURL(photos[idx].url);
+          URL.revokeObjectURL(photos[idx].originalUrl);
+          photos.splice(idx, 1);
+          renderQueue();
+        });
+      });
+    }
+
+    function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+    // File inputs
+    fileInput.addEventListener('change', function() { if (this.files.length) addFiles(this.files); this.value = ''; });
+    fileInputMore.addEventListener('change', function() { if (this.files.length) addFiles(this.files); this.value = ''; });
+
+    // Drag and drop
+    ['dragenter','dragover'].forEach(function(ev) {
+      uploadArea.addEventListener(ev, function(e) { e.preventDefault(); uploadArea.classList.add('dragover'); });
+    });
+    ['dragleave','drop'].forEach(function(ev) {
+      uploadArea.addEventListener(ev, function(e) { e.preventDefault(); uploadArea.classList.remove('dragover'); });
+    });
+    uploadArea.addEventListener('drop', function(e) {
+      var files = e.dataTransfer.files;
+      if (files.length) addFiles(files);
     });
 
-    // Load Cropper.js on demand
+    // Cropper
     function loadCropper() {
       return new Promise(function(resolve) {
         if (cropperLoaded) { resolve(); return; }
@@ -336,103 +409,58 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
       });
     }
 
-    // Open crop modal
-    cropBtn.addEventListener('click', async function() {
-      if (!originalFileUrl) return;
-      cropBtn.textContent = 'Loading...';
+    async function openCrop(idx) {
+      cropTargetIdx = idx;
       await loadCropper();
-      cropBtn.textContent = 'Crop photo';
-
-      cropImage.src = originalFileUrl;
+      cropImage.src = photos[idx].originalUrl;
       cropOverlay.classList.add('open');
       document.body.style.overflow = 'hidden';
-
-      // Wait for image to load then init cropper
       cropImage.onload = function() {
         if (cropperInstance) cropperInstance.destroy();
         cropperInstance = new Cropper(cropImage, {
-          viewMode: 1,
-          dragMode: 'move',
-          autoCropArea: 0.9,
-          responsive: true,
-          restore: false,
-          guides: true,
-          center: true,
-          background: false,
-          movable: true,
-          zoomable: true,
-          zoomOnTouch: true,
-          zoomOnWheel: true,
-          cropBoxResizable: true,
-          cropBoxMovable: true,
-          toggleDragModeOnDblclick: false,
+          viewMode: 1, dragMode: 'move', autoCropArea: 0.9, responsive: true,
+          restore: false, guides: true, center: true, background: false,
+          movable: true, zoomable: true, zoomOnTouch: true, zoomOnWheel: true,
+          cropBoxResizable: true, cropBoxMovable: true, toggleDragModeOnDblclick: false,
         });
       };
-    });
+    }
 
-    // Cancel crop
     cropCancel.addEventListener('click', function() {
       if (cropperInstance) { cropperInstance.destroy(); cropperInstance = null; }
       cropOverlay.classList.remove('open');
       document.body.style.overflow = '';
+      cropTargetIdx = -1;
     });
 
-    // Apply crop
-    cropApply.addEventListener('click', async function() {
-      if (!cropperInstance) return;
+    cropApply.addEventListener('click', function() {
+      if (!cropperInstance || cropTargetIdx < 0) return;
       cropApply.textContent = 'Applying...';
-
-      var croppedCanvas = cropperInstance.getCroppedCanvas({ maxWidth: 1600, maxHeight: 1600 });
-      croppedCanvas.toBlob(async function(blob) {
-        resizedBlob = blob;
-        preview.src = URL.createObjectURL(blob);
-        updateMeta(fileInput.files[0].name, blob, fileInput.files[0].size);
-
-        cropperInstance.destroy();
-        cropperInstance = null;
+      var canvas = cropperInstance.getCroppedCanvas({ maxWidth: 1600, maxHeight: 1600 });
+      canvas.toBlob(function(blob) {
+        var p = photos[cropTargetIdx];
+        URL.revokeObjectURL(p.url);
+        p.blob = blob;
+        p.url = URL.createObjectURL(blob);
+        p.cropped = true;
+        cropperInstance.destroy(); cropperInstance = null;
         cropOverlay.classList.remove('open');
         document.body.style.overflow = '';
         cropApply.textContent = 'Apply';
-        cropBtn.textContent = 'Crop again';
+        cropTargetIdx = -1;
+        renderQueue();
       }, 'image/jpeg', 0.85);
-    });
-
-    // Drag and drop (desktop fallback)
-    ['dragenter', 'dragover'].forEach(function(ev) {
-      uploadArea.addEventListener(ev, function(e) { e.preventDefault(); uploadArea.classList.add('dragover'); });
-    });
-    ['dragleave', 'drop'].forEach(function(ev) {
-      uploadArea.addEventListener(ev, function(e) { e.preventDefault(); uploadArea.classList.remove('dragover'); });
-    });
-    uploadArea.addEventListener('drop', function(e) {
-      var file = e.dataTransfer.files[0];
-      if (file && file.type.startsWith('image/')) {
-        var dt = new DataTransfer();
-        dt.items.add(file);
-        fileInput.files = dt.files;
-        fileInput.dispatchEvent(new Event('change'));
-      }
     });
 
     // Submit another
     anotherBtn.addEventListener('click', function() {
       msgSuccess.classList.remove('visible');
       form.style.display = '';
+      progressEl.style.display = 'none';
+      photos = [];
       form.reset();
-      resetUpload();
+      renderQueue();
     });
-
-    function resetUpload() {
-      uploadArea.classList.remove('has-file');
-      placeholder.style.display = '';
-      preview.style.display = 'none';
-      metaEl.style.display = 'none';
-      cropActions.style.display = 'none';
-      cropBtn.textContent = 'Crop photo';
-      resizedBlob = null;
-      if (originalFileUrl) { URL.revokeObjectURL(originalFileUrl); originalFileUrl = null; }
-      if (cropperInstance) { cropperInstance.destroy(); cropperInstance = null; }
-    }
 
     // Submit
     form.addEventListener('submit', async function(e) {
@@ -440,71 +468,110 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
       msgSuccess.classList.remove('visible');
       msgError.classList.remove('visible');
 
-      if (!resizedBlob) {
-        errorText.textContent = 'Please select a photo first.';
+      if (photos.length === 0) {
+        errorText.textContent = 'Please select at least one photo to submit.';
         msgError.classList.add('visible');
         return;
       }
 
-      var altVal = document.getElementById('alt').value.trim();
-      if (altVal.length < 5) {
-        errorText.textContent = 'Please describe what\'s in the photo.';
+      // Validate shared fields with clear messages
+      if (!teamSelect.value) {
+        errorText.textContent = 'Please select a team (D Team, E Team, or Both).';
         msgError.classList.add('visible');
+        teamSelect.focus();
+        return;
+      }
+      if (!typeSelect.value) {
+        errorText.textContent = 'Please select a photo type (Spring, Fall, Tournament, or Social).';
+        msgError.classList.add('visible');
+        typeSelect.focus();
         return;
       }
 
+      // Turnstile
+      var turnstileInput = form.querySelector('[name="cf-turnstile-response"]');
+      if (turnstileInput && !turnstileInput.value) {
+        errorText.textContent = 'Please complete the security check.';
+        msgError.classList.add('visible');
+        return;
+      }
+      var turnstileToken = turnstileInput ? turnstileInput.value : '';
+
+      isUploading = true;
       submitBtn.disabled = true;
       submitBtn.textContent = 'Uploading...';
+      addMoreBtn.style.display = 'none';
+      progressEl.style.display = 'block';
 
       var year = yearSelect.value;
+      var team = teamSelect.value;
+      var type = typeSelect.value;
+      var submittedBy = document.getElementById('submitted-by').value.trim();
+      var defaultCaption = autoCaption();
+      var succeeded = 0;
+      var failed = 0;
 
-      // Use original filename
-      var originalName = fileInput.files[0].name.replace(/\.[^.]+$/, '') + '.jpg';
+      for (var i = 0; i < photos.length; i++) {
+        var p = photos[i];
+        progressFill.style.width = Math.round((i / photos.length) * 100) + '%';
+        progressText.textContent = 'Uploading ' + (i + 1) + ' of ' + photos.length + '...';
 
-      var formData = new FormData();
-      formData.append('photo', resizedBlob, originalName);
-      formData.append('alt', altVal);
-      formData.append('caption', altVal);
-      formData.append('year', year);
-      formData.append('team', document.getElementById('team').value);
-      formData.append('submitted_by', document.getElementById('submitted-by').value.trim());
-      formData.append('submitted_at', new Date().toISOString());
+        var caption = p.note.trim() || defaultCaption;
+        // Generate clean filename from caption: "D Team - Spring 2026" → "d-team-spring-2026-001.jpg"
+        var cleanBase = caption.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        var cleanName = cleanBase + '-' + String(i + 1).padStart(3, '0') + '.jpg';
 
-      // Turnstile token
-      var turnstileInput = form.querySelector('[name="cf-turnstile-response"]');
-      if (turnstileInput) {
-        if (!turnstileInput.value) {
-          errorText.textContent = 'Please complete the security check.';
-          msgError.classList.add('visible');
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Submit Photo';
-          return;
+        var fd = new FormData();
+        fd.append('photo', p.blob, cleanName);
+        fd.append('alt', caption);
+        fd.append('caption', caption);
+        fd.append('year', year);
+        fd.append('team', team === 'both' ? '' : team);
+        fd.append('submitted_by', submittedBy);
+        fd.append('submitted_at', new Date().toISOString());
+        if (turnstileToken) fd.append('turnstileToken', turnstileToken);
+
+        // Upload with timeout (30s) and one retry
+        async function uploadWithRetry(formData, attempt) {
+          var controller = new AbortController();
+          var timeout = setTimeout(function() { controller.abort(); }, 30000);
+          try {
+            var res = await fetch('/api/photo-submit/', { method: 'POST', body: formData, signal: controller.signal });
+            clearTimeout(timeout);
+            var data = await res.json();
+            return data.success;
+          } catch (err) {
+            clearTimeout(timeout);
+            if (attempt < 1) {
+              progressText.textContent = 'Retrying ' + (i + 1) + ' of ' + photos.length + '...';
+              return uploadWithRetry(formData, attempt + 1);
+            }
+            return false;
+          }
         }
-        formData.append('turnstileToken', turnstileInput.value);
+        if (await uploadWithRetry(fd, 0)) { succeeded++; } else { failed++; }
       }
 
-      try {
-        var res = await fetch('/api/photo-submit/', {
-          method: 'POST',
-          body: formData,
-        });
-        var data = await res.json();
+      progressFill.style.width = '100%';
 
-        if (data.success) {
-          msgSuccess.classList.add('visible');
-          form.style.display = 'none';
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-          errorText.textContent = data.error || 'Please try again.';
-          msgError.classList.add('visible');
-        }
-      } catch (err) {
-        errorText.textContent = 'Network error. Check your connection and try again.';
+      if (succeeded > 0) {
+        successTitle.textContent = succeeded === 1 ? 'Photo submitted!' : succeeded + ' photos submitted!';
+        successText.textContent = failed > 0
+          ? succeeded + ' sent for review. ' + failed + ' failed — check your connection and try submitting those again.'
+          : (succeeded === 1
+            ? "It's been sent for review. Once approved, it'll appear on the site."
+            : "They've been sent for review. Once approved, they'll appear on the site.");
+        msgSuccess.classList.add('visible');
+        form.style.display = 'none';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        errorText.textContent = 'None of the photos could be uploaded. Check your internet connection and try again.';
         msgError.classList.add('visible');
       }
 
+      isUploading = false;
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Submit Photo';
+      submitBtn.textContent = 'Submit Photos';
     });
   })();
   </script>

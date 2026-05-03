@@ -65,16 +65,16 @@ export async function onRequestPost(context) {
       return new Response(JSON.stringify({ success: false, error: 'Only JPG, PNG, and WebP images are allowed.' }), { status: 400, headers });
     }
 
-    // Max 10MB
-    if (photo.size > 10 * 1024 * 1024) {
-      return new Response(JSON.stringify({ success: false, error: 'Photo must be under 10MB.' }), { status: 400, headers });
+    // Max 25MB
+    if (photo.size > 25 * 1024 * 1024) {
+      return new Response(JSON.stringify({ success: false, error: 'Photo must be under 25MB.' }), { status: 400, headers });
     }
 
     // Sanitize filename
     const originalName = photo.name.replace(/[^a-zA-Z0-9._-]/g, '-').toLowerCase();
     const ext = originalName.split('.').pop();
     const baseName = originalName.replace(/\.[^.]+$/, '');
-    const filename = `${baseName}-${year}.${ext}`;
+    let filename = `${baseName}-${year}.${ext}`;
 
     // GitHub config
     const token = env.GITHUB_TOKEN;
@@ -120,7 +120,15 @@ export async function onRequestPost(context) {
       return new Response(JSON.stringify({ success: false, error: 'Could not create branch: ' + (err.message || 'unknown') }), { status: 500, headers });
     }
 
-    // 3. Upload the image file
+    // 3. Check if filename already exists, append suffix if so
+    const checkRes = await gh(`/contents/public/images/team/${filename}?ref=${branchName}`);
+    if (checkRes.ok) {
+      const suffix = Date.now().toString(36).slice(-4);
+      const ext2 = filename.split('.').pop();
+      filename = filename.replace(/\.[^.]+$/, '') + '-' + suffix + '.' + ext2;
+    }
+
+    // Upload the image file
     const imageBuffer = await photo.arrayBuffer();
     const bytes = new Uint8Array(imageBuffer);
     let binary = '';
