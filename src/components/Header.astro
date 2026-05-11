@@ -7,20 +7,20 @@ const secondaryPages = allPages.filter(p => !navigation.some(n => n.href === p.h
 const currentPath = Astro.url.pathname;
 ---
 
-<header slot="header">
+<header slot="header" style="position: relative; z-index: 50;">
   <div style="background: var(--color-surface);">
     <div class="container flex items-center justify-between" style="padding-block: var(--space-4);">
-      <a href="/">
+      <a href="/" class="ballrz-logo-link">
         <img src="/images/logo-original.svg" alt={site.name} width="147" height="74" style="width: 140px;" />
       </a>
 
       {/* Desktop nav */}
-      <nav class="hidden lg:flex items-center" style="gap: var(--space-6); font-family: var(--font-heading);" aria-label="Main navigation">
+      <nav class="hidden md:flex items-center" style="gap: var(--space-6); font-family: var(--font-heading);" aria-label="Main navigation">
         {navigation.map(item => (
           <a
             href={item.href}
             class:list={[
-              'uppercase font-semibold transition-colors border-b-2',
+              'ballrz-nav-link uppercase font-semibold transition-colors border-b-2',
               currentPath === item.href
                 ? 'text-white border-[var(--color-accent-light)]'
                 : 'text-[var(--color-nav-inactive)] hover:text-white border-transparent hover:border-white/30',
@@ -33,21 +33,19 @@ const currentPath = Astro.url.pathname;
         ))}
       </nav>
 
-      {/* Mobile menu button — hamburger / X toggle */}
+      {/* Mobile menu button */}
       <button
         id="mobile-menu-btn"
-        class="lg:hidden text-white/70 hover:text-white"
-        style={`padding: var(--space-2); position: relative; width: 40px; height: 40px;`}
-        aria-label="Open menu"
+        class="ballrz-menu-btn flex md:hidden"
         aria-expanded="false"
         aria-controls="mobile-menu"
       >
-        <svg id="icon-menu" class="w-6 h-6 absolute inset-0 m-auto transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-        <svg id="icon-close" class="w-6 h-6 absolute inset-0 m-auto transition-opacity duration-200 opacity-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
+        <span class="ballrz-menu-label">Menu</span>
+        <span class="ballrz-menu-icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
       </button>
     </div>
   </div>
@@ -55,91 +53,234 @@ const currentPath = Astro.url.pathname;
   {/* Rainbow bar */}
   <div class="ballrz-rainbow" style="height: 4px;" aria-hidden="true"></div>
 
-  {/* Mobile nav — slide down */}
+  {/* Mobile nav */}
   <nav
     id="mobile-menu"
-    class="lg:hidden"
-    style={`background: var(--color-surface); font-family: var(--font-heading); overflow: hidden; max-height: 0; transition: max-height 0.3s ease;`}
+    class="ballrz-mobile-menu"
     aria-label="Mobile navigation"
   >
-    <div style={`padding: var(--space-4) var(--space-6);`}>
-      {navigation.map(item => (
-        <a
-          href={item.href}
-          class:list={[
-            'mobile-nav-link block uppercase font-semibold',
-            currentPath === item.href ? 'text-white' : 'text-[var(--color-nav-inactive)]',
-          ]}
-          style={`font-size: var(--text-base); letter-spacing: 0.06em; padding-block: var(--space-3); border-left: 3px solid ${currentPath === item.href ? 'var(--color-accent-light)' : 'transparent'}; padding-left: var(--space-3);`}
-          aria-current={currentPath === item.href ? 'page' : undefined}
-        >
-          {item.label}
-        </a>
-      ))}
-      {secondaryPages.length > 0 && (
-        <>
-          <div style={`border-top: 1px solid rgba(255,255,255,0.1); margin-block: var(--space-2);`} aria-hidden="true"></div>
-          {secondaryPages.map(item => (
-            <a
-              href={item.href}
-              class:list={[
-                'mobile-nav-link block font-semibold',
-                currentPath === item.href ? 'text-white' : 'text-[var(--color-nav-inactive)]',
-              ]}
-              style={`font-size: var(--text-sm); letter-spacing: 0.06em; padding-block: var(--space-3); border-left: 3px solid ${currentPath === item.href ? 'var(--color-accent-light)' : 'transparent'}; padding-left: var(--space-3);`}
-            >
-              {item.label}
-            </a>
-          ))}
-        </>
-      )}
+    <div class="ballrz-mobile-menu-inner">
+      <div style={`padding: var(--space-4) var(--space-12);`}>
+        {navigation.map(item => (
+          <a
+            href={item.href}
+            class:list={[
+              'ballrz-mobile-link block uppercase font-semibold',
+              currentPath === item.href
+                ? 'text-white ballrz-mobile-link--active'
+                : 'text-[var(--color-nav-inactive)]',
+            ]}
+            style={`font-family: var(--font-heading); font-size: var(--text-base); letter-spacing: 0.06em;`}
+            aria-current={currentPath === item.href ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        ))}
+        {secondaryPages.length > 0 && (
+          <>
+            <div style={`border-top: 1px solid rgba(255,255,255,0.1); margin-block: var(--space-2);`} aria-hidden="true"></div>
+            {secondaryPages.map(item => (
+              <a
+                href={item.href}
+                class:list={[
+                  'ballrz-mobile-link block font-semibold',
+                  currentPath === item.href
+                    ? 'text-white ballrz-mobile-link--active'
+                    : 'text-[var(--color-nav-inactive)]',
+                ]}
+                style={`font-family: var(--font-heading); font-size: var(--text-sm); letter-spacing: 0.06em;`}
+              >
+                {item.label}
+              </a>
+            ))}
+          </>
+        )}
+      </div>
     </div>
   </nav>
 </header>
+
+<style>
+  /* Desktop nav focus */
+  .ballrz-nav-link:focus-visible {
+    outline: 2px solid var(--color-accent-light);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  .ballrz-logo-link:focus-visible {
+    outline: 2px solid var(--color-accent-light);
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+
+  /* Mobile menu button */
+  .ballrz-menu-btn {
+    align-items: center;
+    gap: 0.375rem;
+    height: 44px;
+    padding: 0 var(--space-2);
+    background: none;
+    border: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .ballrz-menu-btn:focus-visible {
+    outline: 2px solid var(--color-accent-light);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  .ballrz-menu-label {
+    font-family: var(--font-heading);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-nav-inactive);
+    transition: color 0.15s;
+    line-height: 1;
+  }
+  .ballrz-menu-btn[aria-expanded="true"] .ballrz-menu-label {
+    color: var(--color-accent-light);
+  }
+
+  /* Hamburger icon → X */
+  .ballrz-menu-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    width: 22px;
+    height: 22px;
+  }
+  .ballrz-menu-icon span {
+    display: block;
+    height: 2px;
+    background: var(--color-nav-inactive);
+    border-radius: 1px;
+    transition: transform 0.25s ease, opacity 0.15s ease, background 0.15s;
+    transform-origin: center;
+  }
+  .ballrz-menu-btn[aria-expanded="true"] .ballrz-menu-icon span {
+    background: var(--color-accent-light);
+  }
+  .ballrz-menu-btn[aria-expanded="true"] .ballrz-menu-icon span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  .ballrz-menu-btn[aria-expanded="true"] .ballrz-menu-icon span:nth-child(2) {
+    opacity: 0;
+  }
+  .ballrz-menu-btn[aria-expanded="true"] .ballrz-menu-icon span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  /* Mobile menu — dropdown card anchored right */
+  .ballrz-mobile-menu {
+    position: absolute;
+    top: 100%;
+    right: var(--space-4);
+    left: auto;
+    min-width: 300px;
+    background: var(--color-surface);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+    z-index: 50;
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.25s ease, opacity 0.2s ease;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .ballrz-mobile-menu--open {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  @media (min-width: 768px) {
+    .ballrz-mobile-menu {
+      display: none;
+    }
+  }
+
+  .ballrz-mobile-menu-inner {
+    overflow: hidden;
+    border-radius: 4px;
+  }
+
+  /* Mobile nav links */
+  .ballrz-mobile-link {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    padding-block: var(--space-3);
+    padding-left: var(--space-3);
+    border-left: 3px solid transparent;
+    text-decoration: none;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .ballrz-mobile-link--active {
+    border-left-color: var(--color-accent-light);
+  }
+  .ballrz-mobile-link:hover {
+    color: white;
+  }
+  .ballrz-mobile-link:focus-visible {
+    outline: 2px solid var(--color-accent-light);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+</style>
 
 <script is:inline>
 (function() {
   var btn = document.getElementById('mobile-menu-btn');
   var menu = document.getElementById('mobile-menu');
-  var iconMenu = document.getElementById('icon-menu');
-  var iconClose = document.getElementById('icon-close');
   if (!btn || !menu) return;
 
-  var isOpen = false;
-
-  function toggle() {
-    isOpen = !isOpen;
-    btn.setAttribute('aria-expanded', isOpen);
-    btn.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
-
-    if (isOpen) {
-      menu.style.maxHeight = menu.scrollHeight + 'px';
-    } else {
-      menu.style.maxHeight = '0';
-    }
-
-    // Icon swap
-    iconMenu.style.opacity = isOpen ? '0' : '1';
-    iconClose.style.opacity = isOpen ? '1' : '0';
+  function isOpen() {
+    return menu.classList.contains('ballrz-mobile-menu--open');
   }
 
-  function close() {
-    if (!isOpen) return;
-    toggle();
+  function openMenu() {
+    menu.classList.add('ballrz-mobile-menu--open');
+    btn.setAttribute('aria-expanded', 'true');
   }
 
-  btn.addEventListener('click', toggle);
+  function closeMenu() {
+    menu.classList.remove('ballrz-mobile-menu--open');
+    btn.setAttribute('aria-expanded', 'false');
+  }
+
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    isOpen() ? closeMenu() : openMenu();
+  });
 
   // Close when a nav link is tapped
-  menu.querySelectorAll('.mobile-nav-link').forEach(function(link) {
-    link.addEventListener('click', close);
+  menu.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', closeMenu);
   });
 
   // Close on outside click
   document.addEventListener('click', function(e) {
-    if (isOpen && !menu.contains(e.target) && !btn.contains(e.target)) {
-      close();
+    if (isOpen() && !menu.contains(e.target) && !btn.contains(e.target)) {
+      closeMenu();
     }
+  });
+
+  // Close on Escape, return focus to button
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && isOpen()) {
+      closeMenu();
+      btn.focus();
+    }
+  });
+
+  // Close on resize to desktop
+  var mq = window.matchMedia('(min-width: 768px)');
+  mq.addEventListener('change', function(e) {
+    if (e.matches) closeMenu();
   });
 })();
 </script>
