@@ -42,7 +42,7 @@ export function organizationSchema() {
           url: 'https://www.ipridesoftball.org/',
         },
       ],
-      image: `${site.url}/images/team/gsws-2023.jpg`,
+      image: `${site.url}/images/team/2023/team-gsws-minneapolis-2023.jpg`,
       logo: `${site.url}/images/logo.svg`,
       ...(site.social.facebook ? { sameAs: [site.social.facebook] } : {}),
     },

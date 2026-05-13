@@ -10,7 +10,7 @@ interface Props {
   jsonLd?: object | object[];
 }
 
-const { title, description = site.description, ogType = 'website', ogImage = '/images/team/gsws-2023.jpg', jsonLd } = Astro.props;
+const { title, description = site.description, ogType = 'website', ogImage = '/images/team/2023/team-gsws-minneapolis-2023.jpg', jsonLd } = Astro.props;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
 const ogImageUrl = new URL(ogImage, Astro.site).href;
 const ga4Id = 'G-LEV5K76WRK';

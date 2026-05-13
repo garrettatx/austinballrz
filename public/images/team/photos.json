@@ -3,21 +3,21 @@
     "year": "2026",
     "photos": [
       {
-        "src": "6fe0069d31acd3dfdad1ea2c6ebf31e8-2026.jpg",
+        "src": "2026/team-e-team-spring-2026.jpg",
         "alt": "E Ball'rz Spring 2026",
         "caption": "E Ball'rz Spring 2026",
         "team": "e"
       },
       {
-        "src": "att.gk4rfxj9_0ch7jml40jig1rqemg9a0p4oaoo6oyveoo-2026.jpg",
+        "src": "2026/team-d-team-spring-2026.jpg",
         "alt": "D Team - Spring 2026",
         "caption": "D Team - Spring 2026",
         "team": "d"
       },
       {
-        "src": "d-team-spring-2026-2026.jpg",
-        "alt": "D Team - Spring - 2026",
-        "caption": "D Team - Spring - 2026",
+        "src": "2026/team-d-team-spring-2026-2.jpg",
+        "alt": "D Team - Spring 2026",
+        "caption": "D Team - Spring 2026",
         "team": "d"
       }
     ]
@@ -26,13 +26,13 @@
     "year": "2025",
     "photos": [
       {
-        "src": "4443401028175671495_heic-2026.jpg",
+        "src": "2025/team-e-team-fall-2025.jpg",
         "alt": "E Team Fall 2025",
         "caption": "E Team Fall 2025",
         "team": "e"
       },
       {
-        "src": "e73816832097ecec0d8bb4c242c5562c-2025.jpg",
+        "src": "2025/team-e-team-hoedown-2025.jpg",
         "alt": "E Team - Austin Hoedown Tournament",
         "caption": "E Team - Austin Hoedown Tournament",
         "team": "e"
@@ -43,7 +43,7 @@
     "year": "2024",
     "photos": [
       {
-        "src": "img_2527-2024.jpg",
+        "src": "2024/team-d-team-2024.jpg",
         "alt": "D Team",
         "caption": "D Team",
         "team": "d"
@@ -54,13 +54,13 @@
     "year": "2023",
     "photos": [
       {
-        "src": "gsws-2023.jpg",
+        "src": "2023/team-gsws-minneapolis-2023.jpg",
         "alt": "Austin Ball'rz at the Gay Softball World Series in Minneapolis, 2023",
         "caption": "GSWS Minneapolis 2023",
         "hero": true
       },
       {
-        "src": "team-2023.jpg",
+        "src": "2023/team-2023.jpg",
         "alt": "Austin Ball'rz 2023 team photo on the field",
         "caption": "2023 Team Photo"
       }
@@ -70,7 +70,7 @@
     "year": "2022",
     "photos": [
       {
-        "src": "team-2022.jpg",
+        "src": "2022/team-fall-2022.jpg",
         "alt": "Austin Ball'rz Fall 2022 team photo",
         "caption": "Ball'rz Fall 2022"
       }
@@ -80,7 +80,7 @@
     "year": "2021",
     "photos": [
       {
-        "src": "team-2021.jpg",
+        "src": "2021/team-2021.jpg",
         "alt": "Austin Ball'rz 2021 team photo",
         "caption": "Ball'rz 2021"
       }
@@ -90,7 +90,7 @@
     "year": "2020",
     "photos": [
       {
-        "src": "team-2020.jpg",
+        "src": "2020/team-e-team-spring-2020.jpg",
         "alt": "EZ Ball'rz and Blue Ball'rz Spring 2020",
         "caption": "Spring 2020 - EZ & Blue Ball'rz",
         "team": "e"
@@ -101,7 +101,7 @@
     "year": "2019",
     "photos": [
       {
-        "src": "team-2019.jpg",
+        "src": "2019/team-2019.jpg",
         "alt": "Austin Ball'rz 2019 team photo",
         "caption": "Ball'rz 2019"
       }
@@ -111,9 +111,165 @@
     "year": "2017",
     "photos": [
       {
-        "src": "team-2017.jpg",
+        "src": "2017/team-2017.jpg",
         "alt": "Austin Ball'rz 2017 team photo",
         "caption": "Ball'rz 2017"
+      }
+    ]
+  },
+  {
+    "year": "2016",
+    "description": "D Team - Fall 2016",
+    "photos": [
+      {
+        "src": "2016/team-d-team-fall-2016.jpg",
+        "alt": "D Team - Fall 2016",
+        "caption": "D Team - Fall 2016",
+        "team": "d"
+      },
+      {
+        "src": "2016/team-d-team-fall-2016-2.jpg",
+        "alt": "D Team - Fall 2016",
+        "caption": "D Team - Fall 2016",
+        "team": "d"
+      },
+      {
+        "src": "2016/albert-d-team-fall-2016.jpg",
+        "alt": "Albert - D Team Fall 2016",
+        "caption": "Albert - D Team Fall 2016",
+        "team": "d"
+      },
+      {
+        "src": "2016/alfred-d-team-fall-2016.jpg",
+        "alt": "Alfred - D Team Fall 2016",
+        "caption": "Alfred - D Team Fall 2016",
+        "team": "d"
+      },
+      {
+        "src": "2016/alfred-d-team-fall-2016-2.jpg",
+        "alt": "Alfred - D Team Fall 2016",
+        "caption": "Alfred - D Team Fall 2016",
+        "team": "d"
+      },
+      {
+        "src": "2016/arthur-d-team-fall-2016.jpg",
+        "alt": "Arthur - D Team Fall 2016",
+        "caption": "Arthur - D Team Fall 2016",
+        "team": "d"
+      },
+      {
+        "src": "2016/claude-d-team-fall-2016.jpg",
+        "alt": "Claude - D Team Fall 2016",
+        "caption": "Claude - D Team Fall 2016",
+        "team": "d"
+      },
+      {
+        "src": "2016/garrett-d-team-fall-2016.jpg",
+        "alt": "Garrett - D Team Fall 2016",
+        "caption": "Garrett - D Team Fall 2016",
+        "team": "d"
+      },
+      {
+        "src": "2016/garrett-d-team-fall-2016-2.jpg",
+        "alt": "Garrett - D Team Fall 2016",
+        "caption": "Garrett - D Team Fall 2016",
+        "team": "d"
+      },
+      {
+        "src": "2016/jd-d-team-fall-2016.jpg",
+        "alt": "JD - D Team Fall 2016",
+        "caption": "JD - D Team Fall 2016",
+        "team": "d"
+      },
+      {
+        "src": "2016/jd-d-team-fall-2016-2.jpg",
+        "alt": "JD - D Team Fall 2016",
+        "caption": "JD - D Team Fall 2016",
+        "team": "d"
+      },
+      {
+        "src": "2016/jd-d-team-fall-2016-3.jpg",
+        "alt": "JD - D Team Fall 2016",
+        "caption": "JD - D Team Fall 2016",
+        "team": "d"
+      },
+      {
+        "src": "2016/john-d-team-fall-2016-2.jpg",
+        "alt": "John - D Team Fall 2016",
+        "caption": "John - D Team Fall 2016",
+        "team": "d"
+      },
+      {
+        "src": "2016/johng-d-team-fall-2016.jpg",
+        "alt": "John G - D Team Fall 2016",
+        "caption": "John G - D Team Fall 2016",
+        "team": "d"
+      },
+      {
+        "src": "2016/johng-tim-d-team-fall-2016.jpg",
+        "alt": "John G and Tim - D Team Fall 2016",
+        "caption": "John G and Tim - D Team Fall 2016",
+        "team": "d"
+      },
+      {
+        "src": "2016/johng-d-team-fall-2016-3.jpg",
+        "alt": "John G - D Team Fall 2016",
+        "caption": "John G - D Team Fall 2016",
+        "team": "d"
+      },
+      {
+        "src": "2016/mcmike-d-team-fall-2016.jpg",
+        "alt": "McMike - D Team Fall 2016",
+        "caption": "McMike - D Team Fall 2016",
+        "team": "d"
+      },
+      {
+        "src": "2016/tim-d-team-fall-2016.jpg",
+        "alt": "Tim - D Team Fall 2016",
+        "caption": "Tim - D Team Fall 2016",
+        "team": "d"
+      },
+      {
+        "src": "2016/tim-d-team-fall-2016-2.jpg",
+        "alt": "Tim - D Team Fall 2016",
+        "caption": "Tim - D Team Fall 2016",
+        "team": "d"
+      },
+      {
+        "src": "2016/tim-d-team-fall-2016-3.jpg",
+        "alt": "Tim - D Team Fall 2016",
+        "caption": "Tim - D Team Fall 2016",
+        "team": "d"
+      },
+      {
+        "src": "2016/trace-d-team-fall-2016.jpg",
+        "alt": "Trace - D Team Fall 2016",
+        "caption": "Trace - D Team Fall 2016",
+        "team": "d"
+      },
+      {
+        "src": "2016/trace-d-team-fall-2016-2.jpg",
+        "alt": "Trace - D Team Fall 2016",
+        "caption": "Trace - D Team Fall 2016",
+        "team": "d"
+      },
+      {
+        "src": "2016/val-d-team-fall-2016.jpg",
+        "alt": "Val - D Team Fall 2016",
+        "caption": "Val - D Team Fall 2016",
+        "team": "d"
+      },
+      {
+        "src": "2016/walter-d-team-fall-2016.jpg",
+        "alt": "Walter - D Team Fall 2016",
+        "caption": "Walter - D Team Fall 2016",
+        "team": "d"
+      },
+      {
+        "src": "2016/walter-d-team-fall-2016-2.jpg",
+        "alt": "Walter - D Team Fall 2016",
+        "caption": "Walter - D Team Fall 2016",
+        "team": "d"
       }
     ]
   },
@@ -121,7 +277,7 @@
     "year": "2015",
     "photos": [
       {
-        "src": "team-2015.jpg",
+        "src": "2015/team-houston-2015.jpg",
         "alt": "Austin Ball'rz Houston 2015",
         "caption": "Houston 2015"
       }
@@ -131,7 +287,7 @@
     "year": "2013",
     "photos": [
       {
-        "src": "team-2013.jpg",
+        "src": "2013/team-founding-2013.jpg",
         "alt": "Austin Ball'rz founding team 2013",
         "caption": "Founding Team 2013"
       }

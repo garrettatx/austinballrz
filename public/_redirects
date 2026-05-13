@@ -2,6 +2,23 @@
 /home/  /  301
 /contact-us/  /contact/  301
 
+# Old photo paths — moved to year subfolders (May 2026)
+/images/team/gsws-2023.jpg  /images/team/2023/team-gsws-minneapolis-2023.jpg  301
+/images/team/team-2023.jpg  /images/team/2023/team-2023.jpg  301
+/images/team/team-2022.jpg  /images/team/2022/team-fall-2022.jpg  301
+/images/team/team-2021.jpg  /images/team/2021/team-2021.jpg  301
+/images/team/team-2020.jpg  /images/team/2020/team-e-team-spring-2020.jpg  301
+/images/team/team-2019.jpg  /images/team/2019/team-2019.jpg  301
+/images/team/team-2017.jpg  /images/team/2017/team-2017.jpg  301
+/images/team/team-2015.jpg  /images/team/2015/team-houston-2015.jpg  301
+/images/team/team-2013.jpg  /images/team/2013/team-founding-2013.jpg  301
+/images/team/6fe0069d31acd3dfdad1ea2c6ebf31e8-2026.jpg  /images/team/2026/team-e-team-spring-2026.jpg  301
+/images/team/att.gk4rfxj9_0ch7jml40jig1rqemg9a0p4oaoo6oyveoo-2026.jpg  /images/team/2026/team-d-team-spring-2026.jpg  301
+/images/team/d-team-spring-2026-2026.jpg  /images/team/2026/team-d-team-spring-2026-2.jpg  301
+/images/team/4443401028175671495_heic-2026.jpg  /images/team/2025/team-e-team-fall-2025.jpg  301
+/images/team/e73816832097ecec0d8bb4c242c5562c-2025.jpg  /images/team/2025/team-e-team-hoedown-2025.jpg  301
+/images/team/img_2527-2024.jpg  /images/team/2024/team-d-team-2024.jpg  301
+
 # Pages moved to drafts or removed — redirect to homepage
 /scorekeeping/  /  301
 /info/  /  301
