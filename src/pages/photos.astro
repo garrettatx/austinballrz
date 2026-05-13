@@ -13,6 +13,28 @@ import { breadcrumbSchema } from '../lib/schema';
 const breadcrumbs = [{ label: 'Photos' }];
 
 /**
+ * Shuffle photos within a year group: team/group shots stay first, individual photos get shuffled.
+ * Uses a seeded random so the order is stable per build but not alphabetical.
+ */
+function shufflePhotos(photos: typeof photoYears[0]['photos']) {
+  const teamPhotos = photos.filter(p => p.src.includes('/team-'));
+  const individualPhotos = photos.filter(p => !p.src.includes('/team-'));
+
+  // Fisher-Yates shuffle with a simple seed from the first photo src
+  const seed = individualPhotos.length > 0
+    ? individualPhotos[0].src.split('').reduce((a, c) => a + c.charCodeAt(0), 0)
+    : 0;
+  let rng = seed;
+  for (let i = individualPhotos.length - 1; i > 0; i--) {
+    rng = (rng * 1664525 + 1013904223) & 0x7fffffff;
+    const j = rng % (i + 1);
+    [individualPhotos[i], individualPhotos[j]] = [individualPhotos[j], individualPhotos[i]];
+  }
+
+  return [...teamPhotos, ...individualPhotos];
+}
+
+/**
  * Pick a grid layout class based on photo count.
  * Ensures any number of photos looks intentional, not accidental.
  */
@@ -41,12 +63,14 @@ function gridClass(count: number): string {
 
   <section class="section-sm">
     <div class="container" style="display: flex; flex-direction: column; gap: var(--space-10);">
-      {photoYears.map(group => (
+      {photoYears.map(group => {
+        const photos = shufflePhotos(group.photos);
+        return (
         <div>
           <h2 class="heading h4" style="margin-bottom: var(--space-2);">{group.heading || group.year}</h2>
           {group.description && <p class="mb-3" style="color: var(--color-muted); font-size: var(--text-sm);">{group.description}</p>}
-          <div class={`gallery ${gridClass(group.photos.length)}`}>
-            {group.photos.map((photo, i) => (
+          <div class={`gallery ${gridClass(photos.length)}`}>
+            {photos.map((photo, i) => (
               <button
                 class={`gallery-item overflow-hidden rounded-lg cursor-pointer photo-open ${i === 0 && group.photos.length >= 3 ? 'gallery-feature' : ''}`}
                 data-src={photo.src}
@@ -59,7 +83,8 @@ function gridClass(count: number): string {
             ))}
           </div>
         </div>
-      ))}
+        );
+      })}
     </div>
   </section>
 
