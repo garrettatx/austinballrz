@@ -426,6 +426,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
       fd.append('caption', caption);
       fd.append('year', yearSelect.value);
       fd.append('team', team);
+      fd.append('photo_type', season);
       fd.append('submitted_by', document.getElementById('submitted-by').value.trim());
       fd.append('submitted_at', new Date().toISOString());
       if (turnstileInput) fd.append('turnstileToken', turnstileInput.value);

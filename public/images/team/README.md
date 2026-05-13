@@ -64,14 +64,14 @@ The `src` field includes the year subfolder path:
   "photos": [
     {
       "src": "2016/team-d-team-fall-2016.jpg",
-      "alt": "D Team - Fall 2016",
+      "alt": "D Team group photo on the field, Fall 2016 season",
       "caption": "D Team - Fall 2016",
       "team": "d"
     },
     {
       "src": "2016/albert-d-team-fall-2016.jpg",
-      "alt": "Albert - D Team Fall 2016",
-      "caption": "Albert - D Team Fall 2016",
+      "alt": "Albert on the softball field, D Team Fall 2016",
+      "caption": "Albert",
       "team": "d"
     }
   ]
@@ -83,8 +83,8 @@ The `src` field includes the year subfolder path:
 | Field | Required | Default | What it does |
 |-------|----------|---------|--------------|
 | `src` | Yes | — | Year subfolder + filename (e.g. `2016/albert-d-team-fall-2016.jpg`) |
-| `alt` | Yes | — | Description for accessibility and caption |
-| `caption` | No | — | Short caption (defaults to alt if omitted) |
+| `alt` | Yes | — | Descriptive text for screen readers (see alt text rules below) |
+| `caption` | No | — | Short display caption (e.g. "Albert", "GSWS Minneapolis 2023") |
 | `team` | No | — | `"d"` or `"e"` — omit for whole-team photos |
 | `featured` | No | `true` | Set `false` to hide from carousels on other pages |
 | `hero` | No | `false` | Set `true` for homepage hero rotation |
@@ -96,3 +96,22 @@ The `src` field includes the year subfolder path:
 | Photos page (`/photos/`) | All photos, grouped by year |
 | Carousels (all other pages) | All unless `"featured": false` |
 | Homepage hero | Randomly picks from `"hero": true` |
+
+## Alt text rules
+
+Alt text is read aloud by screen readers. It should describe what is in the image, not just label it.
+
+**Pattern:** `{who} {doing what or where}, {context}`
+
+**Good examples:**
+- `"D Team group photo on the field, Fall 2016 season"`
+- `"Albert on the softball field, D Team Fall 2016"`
+- `"John G and Tim on the softball field, D Team Fall 2016"`
+- `"Austin Ball'rz at the Gay Softball World Series in Minneapolis, 2023"`
+
+**Bad examples:**
+- `"D Team"` (too vague, doesn't describe the image)
+- `"photo.jpg"` (filename, not a description)
+- `"Albert - D Team Fall 2016"` (reads like a label, not a description)
+
+**Caption** is separate from alt. Caption is the short text shown on screen (e.g. "Albert"). Alt is the full description for accessibility.

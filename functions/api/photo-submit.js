@@ -169,8 +169,17 @@ export async function onRequestPost(context) {
               .replace(/[\u2013\u2014]/g, '-')
               .replace(/\u2026/g, '...');
     }
-    const newPhoto = { src: `${yearFolder}/${filename}`, alt: cleanText(alt.trim()) };
-    if (caption) newPhoto.caption = cleanText(caption);
+    // Build descriptive alt text for accessibility
+    // Pattern: "{who} {context}, {team} {season} {year}"
+    const cleanAlt = cleanText(alt.trim());
+    const teamLabel = team === 'd' ? 'D Team' : team === 'e' ? 'E Team' : "Austin Ball'rz";
+    const seasonType = formData.get('photo_type') || '';
+    const altText = cleanAlt
+      ? `${cleanAlt} on the softball field, ${teamLabel} ${seasonType} ${year}`.replace(/\s+/g, ' ').trim()
+      : `${teamLabel} photo, ${seasonType} ${year}`.replace(/\s+/g, ' ').trim();
+
+    const newPhoto = { src: `${yearFolder}/${filename}`, alt: altText };
+    if (cleanAlt) newPhoto.caption = cleanAlt;
     if (team) newPhoto.team = team;
     if (hero) newPhoto.hero = true;
     if (featured === false) newPhoto.featured = false;

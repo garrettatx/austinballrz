@@ -36,12 +36,19 @@ export const photoYears: PhotoYear[] = raw.map(group => ({
   })),
 }));
 
-/** All photos flattened (newest first) */
-export const allPhotos = photoYears.flatMap(y => y.photos);
+/** Sort team/group photos before individual photos */
+function teamFirst(photos: Photo[]): Photo[] {
+  const team = photos.filter(p => p.src.includes('/team-'));
+  const individual = photos.filter(p => !p.src.includes('/team-'));
+  return [...team, ...individual];
+}
+
+/** All photos flattened (newest first, team photos before individuals) */
+export const allPhotos = photoYears.flatMap(y => teamFirst(y.photos));
 
 /** Featured photos — all unless explicitly excluded (featured: false) */
 export const featuredPhotos = photoYears.flatMap(y =>
-  y.photos.filter(p => p.featured !== false)
+  teamFirst(y.photos.filter(p => p.featured !== false))
 );
 
 /** Hero photos — for homepage hero rotation */
