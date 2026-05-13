@@ -177,6 +177,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
       </div>
 
       <button type="submit" class="btn-submit" id="submit-btn">Submit Photo</button>
+      <p class="help" style="margin-top: 0.5rem; text-align: center;">Use the highest quality photo you have. You can crop after uploading, but for best results crop on your device first.</p>
 
       {turnstileSiteKey && (
         <div class="cf-turnstile" data-sitekey={turnstileSiteKey} style="min-height: 65px; margin-top: 0.75rem;"></div>
