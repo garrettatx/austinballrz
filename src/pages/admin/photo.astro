@@ -166,14 +166,14 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
       </div>
 
       <div class="form-group">
-        <label for="note">Add a note</label>
-        <input type="text" id="note" placeholder="Dallas Tournament" />
-        <p class="help">Optional. Overrides the auto-generated caption.</p>
+        <label for="note">Who or what is in the photo?</label>
+        <input type="text" id="note" placeholder="Garrett & Joe" />
+        <p class="help">Names or a short description. Used as the photo caption.</p>
       </div>
 
       <div class="form-group">
         <label for="submitted-by">Your name</label>
-        <input type="text" id="submitted-by" placeholder="Coach Mike" />
+        <input type="text" id="submitted-by" placeholder="Coach John" />
       </div>
 
       <button type="submit" class="btn-submit" id="submit-btn">Submit Photo</button>
@@ -402,8 +402,22 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
 
       var note = document.getElementById('note').value.trim();
       var caption = note || autoCaption();
-      var cleanName = caption.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '.jpg';
       var team = teamSelect.value === 'both' ? '' : teamSelect.value;
+      var season = typeSelect.value.toLowerCase();
+      var yearVal = yearSelect.value;
+
+      // Build filename per naming convention: {context}-{team}-{season}-{year}.jpg
+      var nameParts = [];
+      if (note) {
+        // Custom note becomes the base (e.g. "garrett" or "team-dallas-tournament")
+        nameParts.push(note.toLowerCase().replace(/&/g, '-and-').replace(/[^a-z0-9]+/g, '-').replace(/-{2,}/g, '-').replace(/^-|-$/g, ''));
+      } else {
+        nameParts.push('team');
+      }
+      if (team) nameParts.push(team + '-team');
+      nameParts.push(season);
+      nameParts.push(yearVal);
+      var cleanName = nameParts.join('-') + '.jpg';
 
       var fd = new FormData();
       fd.append('photo', resizedBlob, cleanName);

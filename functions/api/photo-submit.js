@@ -120,13 +120,19 @@ export async function onRequestPost(context) {
       return new Response(JSON.stringify({ success: false, error: 'Could not create branch: ' + (err.message || 'unknown') }), { status: 500, headers });
     }
 
-    // 3. Check if filename already exists, append suffix if so
-    const checkRes = await gh(`/contents/public/images/team/${filename}?ref=${branchName}`);
+    // 3. Upload into year subfolder: public/images/team/{year}/{filename}
+    const yearFolder = year;
+    const uploadPath = `public/images/team/${yearFolder}/${filename}`;
+
+    // Check if filename already exists, append suffix if so
+    const checkRes = await gh(`/contents/${uploadPath}?ref=${branchName}`);
     if (checkRes.ok) {
       const suffix = Date.now().toString(36).slice(-4);
       const ext2 = filename.split('.').pop();
       filename = filename.replace(/\.[^.]+$/, '') + '-' + suffix + '.' + ext2;
     }
+
+    const finalUploadPath = `public/images/team/${yearFolder}/${filename}`;
 
     // Upload the image file
     const imageBuffer = await photo.arrayBuffer();
@@ -137,10 +143,10 @@ export async function onRequestPost(context) {
     }
     const imageBase64 = btoa(binary);
 
-    const uploadRes = await gh(`/contents/public/images/team/${filename}`, {
+    const uploadRes = await gh(`/contents/${finalUploadPath}`, {
       method: 'PUT',
       body: JSON.stringify({
-        message: `Add photo: ${filename}`,
+        message: `Add photo: ${yearFolder}/${filename}`,
         content: imageBase64,
         branch: branchName,
       }),
@@ -163,7 +169,7 @@ export async function onRequestPost(context) {
               .replace(/[\u2013\u2014]/g, '-')
               .replace(/\u2026/g, '...');
     }
-    const newPhoto = { src: filename, alt: cleanText(alt.trim()) };
+    const newPhoto = { src: `${yearFolder}/${filename}`, alt: cleanText(alt.trim()) };
     if (caption) newPhoto.caption = cleanText(caption);
     if (team) newPhoto.team = team;
     if (hero) newPhoto.hero = true;
@@ -204,7 +210,7 @@ export async function onRequestPost(context) {
     const prBody = [
       `## New Photo Submission`,
       ``,
-      `**File:** \`${filename}\``,
+      `**File:** \`${yearFolder}/${filename}\``,
       `**Year:** ${year}`,
       team ? `**Team:** ${team.toUpperCase()}` : '',
       `**Description:** ${alt}`,
@@ -245,7 +251,7 @@ export async function onRequestPost(context) {
       const textBody = [
         `New photo submission for austinballrz.com`,
         ``,
-        `File: ${filename}`,
+        `File: ${yearFolder}/${filename}`,
         `Year: ${year}`,
         team ? `Team: ${team.toUpperCase()}` : null,
         `Description: ${alt.trim()}`,
@@ -256,7 +262,7 @@ export async function onRequestPost(context) {
       ].filter(Boolean).join('\n');
       const htmlBody = [
         `<h2>New Photo Submission</h2>`,
-        `<p><strong>File:</strong> ${filename}</p>`,
+        `<p><strong>File:</strong> ${yearFolder}/${filename}</p>`,
         `<p><strong>Year:</strong> ${year}</p>`,
         team ? `<p><strong>Team:</strong> ${team.toUpperCase()}</p>` : null,
         `<p><strong>Description:</strong> ${alt.trim()}</p>`,
