@@ -394,7 +394,11 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
 
       var turnstileInput = form.querySelector('[name="cf-turnstile-response"]');
       if (turnstileInput && !turnstileInput.value) {
-        showError('Please complete the security check below.');
+        showError('Security check expired. Scroll down, wait for the check to refresh, then try again.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Photo';
+        // Let Turnstile refresh itself
+        if (typeof turnstile !== 'undefined') { try { turnstile.reset(); } catch(e) {} }
         return;
       }
 

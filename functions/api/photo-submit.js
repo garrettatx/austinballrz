@@ -29,7 +29,7 @@ export async function onRequestPost(context) {
     const team = formData.get('team') || '';
     const hero = formData.get('hero') === 'true';
     const featured = formData.get('featured') === 'false' ? false : undefined;
-    const submittedBy = formData.get('submitted_by') || 'Unknown';
+    const submittedBy = formData.get('submitted_by')?.trim() || '';
     const submittedAt = formData.get('submitted_at') || new Date().toISOString();
 
     // Turnstile verification
@@ -228,7 +228,9 @@ export async function onRequestPost(context) {
       featured === false ? `**Visibility:** Photos page only` : '',
       ``,
       `---`,
-      `Submitted by **${submittedBy}** on ${new Date(submittedAt).toLocaleDateString()}`,
+      submittedBy
+        ? `Submitted by **${submittedBy}** on ${new Date(submittedAt).toLocaleDateString()}`
+        : `Submitted on ${new Date(submittedAt).toLocaleDateString()}`,
       ``,
       `> Merge this PR to publish the photo. Close to reject.`,
     ].filter(Boolean).join('\n');
@@ -256,7 +258,9 @@ export async function onRequestPost(context) {
     const emailFrom = env.CONTACT_EMAIL_FROM;
     if (sgKey && emailTo && emailFrom) {
       const toAddresses = emailTo.split(',').map(e => ({ email: e.trim() }));
-      const subject = `📷 Photo submitted by ${submittedBy}: ${alt.trim()} (${year})`;
+      const subject = submittedBy
+        ? `📷 Photo from ${submittedBy}: ${alt.trim()} (${year})`
+        : `📷 New photo: ${alt.trim()} (${year})`;
       const textBody = [
         `New photo submission for austinballrz.com`,
         ``,
@@ -264,7 +268,7 @@ export async function onRequestPost(context) {
         `Year: ${year}`,
         team ? `Team: ${team.toUpperCase()}` : null,
         `Description: ${alt.trim()}`,
-        `Submitted by: ${submittedBy}`,
+        submittedBy ? `Submitted by: ${submittedBy}` : null,
         ``,
         `Review and merge the PR to publish:`,
         prData.html_url,
@@ -275,7 +279,7 @@ export async function onRequestPost(context) {
         `<p><strong>Year:</strong> ${year}</p>`,
         team ? `<p><strong>Team:</strong> ${team.toUpperCase()}</p>` : null,
         `<p><strong>Description:</strong> ${alt.trim()}</p>`,
-        `<p><strong>Submitted by:</strong> ${submittedBy}</p>`,
+        submittedBy ? `<p><strong>Submitted by:</strong> ${submittedBy}</p>` : null,
         `<hr>`,
         `<p><a href="${prData.html_url}">Review the pull request</a> — merge to publish, close to reject.</p>`,
       ].filter(Boolean).join('\n');
