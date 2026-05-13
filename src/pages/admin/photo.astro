@@ -113,6 +113,28 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
     </div>
 
     <form id="photo-form">
+      <div class="form-group">
+        <label class="required">Photo</label>
+        <div class="upload-area" id="upload-area">
+          <input type="file" id="photo-file" accept="image/jpeg,image/png,image/webp" required />
+          <div id="upload-placeholder">
+            <span class="upload-icon">📷</span>
+            <span class="upload-text">Tap to choose a photo</span>
+          </div>
+        </div>
+        <div class="preview" id="preview">
+          <img class="preview-thumb" id="preview-thumb" src="" alt="" />
+          <div class="preview-info">
+            <div class="preview-meta" id="preview-meta"></div>
+            <div class="preview-actions">
+              <button type="button" class="crop-btn" id="crop-btn">Crop</button>
+              <button type="button" class="remove-btn" id="remove-btn">Remove</button>
+            </div>
+          </div>
+        </div>
+        <p class="help">JPG, PNG, or WebP. Use the best quality you have. You can crop here, but for best results crop on your device first.</p>
+      </div>
+
       <div class="row-3">
         <div class="form-group">
           <label for="year" class="required">Year</label>
@@ -144,28 +166,6 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
       </div>
 
       <div class="form-group">
-        <label class="required">Photo</label>
-        <div class="upload-area" id="upload-area">
-          <input type="file" id="photo-file" accept="image/jpeg,image/png,image/webp" required />
-          <div id="upload-placeholder">
-            <span class="upload-icon">📷</span>
-            <span class="upload-text">Tap to choose a photo</span>
-          </div>
-        </div>
-        <div class="preview" id="preview">
-          <img class="preview-thumb" id="preview-thumb" src="" alt="" />
-          <div class="preview-info">
-            <div class="preview-meta" id="preview-meta"></div>
-            <div class="preview-actions">
-              <button type="button" class="crop-btn" id="crop-btn">Crop</button>
-              <button type="button" class="remove-btn" id="remove-btn">Remove</button>
-            </div>
-          </div>
-        </div>
-        <p class="help">JPG, PNG, or WebP. Automatically resized.</p>
-      </div>
-
-      <div class="form-group">
         <label for="note">Who or what is in the photo? <span style="font-weight: 400; color: #9ca3af;">(optional)</span></label>
         <input type="text" id="note" placeholder="Garrett & Joe" />
         <p class="help">Names or a short description. Used as the photo caption.</p>
@@ -176,12 +176,11 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
         <input type="text" id="submitted-by" placeholder="Coach John" />
       </div>
 
-      <button type="submit" class="btn-submit" id="submit-btn">Submit Photo</button>
-      <p class="help" style="margin-top: 0.5rem; text-align: center;">Use the highest quality photo you have. You can crop after uploading, but for best results crop on your device first.</p>
-
       {turnstileSiteKey && (
-        <div class="cf-turnstile" data-sitekey={turnstileSiteKey} style="min-height: 65px; margin-top: 0.75rem;"></div>
+        <div class="cf-turnstile" data-sitekey={turnstileSiteKey} style="min-height: 65px; margin-bottom: 0.75rem;"></div>
       )}
+
+      <button type="submit" class="btn-submit" id="submit-btn">Submit Photo</button>
     </form>
   </div>
 
@@ -381,6 +380,8 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
       form.style.display = '';
       form.reset();
       resetPhoto();
+      // Reset Turnstile for the next submission
+      if (typeof turnstile !== 'undefined') { try { turnstile.reset(); } catch(e) {} }
     });
 
     // Submit
@@ -455,9 +456,12 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
       if (result.success) {
         msgSuccess.classList.add('visible');
         form.style.display = 'none';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        msgSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
       } else {
         showError(result.error || 'Upload failed. Please try again.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Photo';
+        return;
       }
 
       submitBtn.disabled = false;
