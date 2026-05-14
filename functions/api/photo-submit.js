@@ -275,13 +275,18 @@ export async function onRequestPost(context) {
       ].filter(Boolean).join('\n');
       const htmlBody = [
         `<h2>New Photo Submission</h2>`,
+        `<p><img src="cid:photo-preview" alt="${cleanText(alt.trim())}" style="max-width: 400px; max-height: 300px; border-radius: 8px; border: 1px solid #e2e2e6;" /></p>`,
         `<p><strong>File:</strong> ${yearFolder}/${filename}</p>`,
         `<p><strong>Year:</strong> ${year}</p>`,
         team ? `<p><strong>Team:</strong> ${team.toUpperCase()}</p>` : null,
         `<p><strong>Description:</strong> ${alt.trim()}</p>`,
         submittedBy ? `<p><strong>Submitted by:</strong> ${submittedBy}</p>` : null,
         `<hr>`,
-        `<p><a href="${prData.html_url}">Review the pull request</a> — merge to publish, close to reject.</p>`,
+        env.PHOTO_REVIEW_TOKEN ? `<p style="margin: 1rem 0;">` +
+          `<a href="https://www.austinballrz.com/api/photo-review/?pr=${prData.number}&action=approve&token=${env.PHOTO_REVIEW_TOKEN}" style="display: inline-block; padding: 0.625rem 1.25rem; background: #065f46; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; margin-right: 0.75rem;">Approve</a>` +
+          `<a href="https://www.austinballrz.com/api/photo-review/?pr=${prData.number}&action=reject&token=${env.PHOTO_REVIEW_TOKEN}" style="display: inline-block; padding: 0.625rem 1.25rem; background: #991b1b; color: white; text-decoration: none; border-radius: 6px; font-weight: 600;">Reject</a>` +
+          `</p>` : null,
+        `<p style="font-size: 0.8rem; color: #6b7280;"><a href="${prData.html_url}">Or review on GitHub</a></p>`,
       ].filter(Boolean).join('\n');
 
       await fetch('https://api.sendgrid.com/v3/mail/send', {
@@ -298,6 +303,13 @@ export async function onRequestPost(context) {
             { type: 'text/plain', value: textBody },
             { type: 'text/html', value: htmlBody },
           ],
+          attachments: [{
+            content: imageBase64,
+            filename: filename,
+            type: 'image/jpeg',
+            disposition: 'inline',
+            content_id: 'photo-preview',
+          }],
         }),
       });
       // Email is best-effort — don't fail the submission if it doesn't send
