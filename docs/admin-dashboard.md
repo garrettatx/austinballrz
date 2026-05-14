@@ -4,7 +4,7 @@
 
 The admin system has two tiers:
 - **Public** (`/admin/`, `/admin/photo/`): Anyone can submit photos. Protected by Turnstile CAPTCHA only.
-- **Protected** (`/admin/dashboard/*`): Messages and photo management. Protected by Cloudflare Access.
+- **Protected** (`/admin/dashboard/*`): Messages and photo review. Protected by Cloudflare Access.
 
 ## Pages
 
@@ -14,7 +14,7 @@ The admin system has two tiers:
 | `/admin/photo/` | Public | Photo submission form |
 | `/admin/dashboard/` | Login | Dashboard hub |
 | `/admin/dashboard/messages/` | Login | View contact form submissions |
-| `/admin/dashboard/photos/` | Login | Review/manage photo submissions |
+| `/admin/dashboard/photos/` | Login | Photo Review (review/approve photo submissions) |
 
 ## API Endpoints
 
@@ -51,6 +51,34 @@ Protects `/admin/dashboard/*` and `/api/admin/*`.
 6. Auth: One-time PIN
 
 No code changes needed. Access works at the edge before requests reach the site.
+
+## UI Details
+
+### Navigation and Layout
+- Photo submission page (`/admin/photo/`) includes a breadcrumb linking back to `/admin/`.
+- Dashboard pages use `max-width: 720px` for readable content width.
+- The dashboard nav label is "Photo Review" (not "Photo Management" or "Photos").
+
+### Photo Thumbnails
+- Thumbnails render at 160x120px on the dashboard photos page.
+- Caption is shown with a "shows on site" label to distinguish it from internal metadata.
+- Submitter name is displayed separately in italic, not appended to the meta line.
+
+### Quick Approve
+- A green "Approve" button appears on each photo card in the dashboard, calling the `/api/photo-review/` endpoint directly (no need to open the full review page).
+
+### Button Consistency
+- Both approve and reject buttons use `line-height: 1` to ensure equal height regardless of label length.
+
+### Loading States
+- Both dashboard pages (messages and photos) show loading skeletons with a shimmer animation while data is fetched.
+- Loaded content fades in with a CSS fade-in animation.
+
+### Messages
+- Pronouns are stored in KV alongside the message and displayed when expanding a message. Only messages submitted after the pronouns field was added will have this data.
+
+### Security
+- All dynamic content rendered in the dashboard is XSS-escaped before insertion into the DOM.
 
 ## Environment Variables
 

@@ -35,6 +35,9 @@ export async function onRequestPost(context) {
     // Turnstile verification
     const turnstileToken = formData.get('turnstileToken');
     const turnstileSecret = env.TURNSTILE_SECRET_KEY;
+    if (turnstileSecret && !turnstileToken) {
+      return new Response(JSON.stringify({ success: false, error: 'Security check required. Please try again.' }), { status: 400, headers });
+    }
     if (turnstileSecret && turnstileToken) {
       const ip = request.headers.get('CF-Connecting-IP') || '';
       const tsRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
