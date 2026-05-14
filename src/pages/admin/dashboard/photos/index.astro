@@ -223,9 +223,9 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
         letter-spacing: 0.04em;
       }
       .photo-submitter {
-        font-size: 0.75rem;
-        color: #6b7280;
-        font-style: italic;
+        font-size: 0.8125rem;
+        color: #1a1a2e;
+        margin-bottom: 4px;
       }
       .photo-actions {
         display: flex;
@@ -404,7 +404,7 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
     if (p.caption && p.caption !== p.description) {
       captionHtml = '<div class="photo-caption"><span class="photo-caption-label">Site caption: </span>' + esc(p.caption) + '</div>';
     }
-    var submitterHtml = p.submitted_by ? '<div class="photo-submitter">from ' + esc(p.submitted_by) + '</div>' : '';
+    var submitterHtml = p.submitted_by ? '<div class="photo-submitter"><span class="photo-caption-label">From: </span>' + esc(p.submitted_by) + '</div>' : '';
     return '<div class="photo-card" style="animation-delay: ' + (i * 0.04) + 's;">' +
       (showThumb ? '<a href="' + esc(p.review_url) + '" class="photo-thumb-link"><img src="' + esc(p.image_url) + '" alt="' + esc(p.description || 'Photo') + '" loading="lazy" width="200" height="150" /></a>' : '') +
       '<div class="photo-info">' +

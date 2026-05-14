@@ -478,7 +478,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
 
       var note = document.getElementById('note').value.trim();
       var caption = note || autoCaption();
-      var team = teamSelect.value === 'both' ? '' : teamSelect.value;
+      var team = teamSelect.value;
       var season = typeSelect.value.toLowerCase();
       var yearVal = yearSelect.value;
 
@@ -490,7 +490,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
       } else {
         nameParts.push('team');
       }
-      if (team) nameParts.push(team + '-team');
+      if (team && team !== 'both') nameParts.push(team + '-team');
       nameParts.push(season);
       nameParts.push(yearVal);
       var cleanName = nameParts.join('-') + '.jpg';
