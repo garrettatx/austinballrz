@@ -31,12 +31,43 @@ const { tools = defaultTools, current } = Astro.props;
       <a
         href={tool.href}
         class:list={['admin-nav-pill', { active: isActive }]}
+        data-nav-href={tool.href}
       >
-        {tool.protected && !isActive ? <span aria-hidden="true" class="lock-icon">&#x1f512; </span> : ''}{tool.label}
+        {tool.protected && !isActive ? <span aria-hidden="true" class="lock-icon">&#x1f512; </span> : ''}{tool.label}<span class="admin-nav-badge" data-badge-for={tool.href}></span>
       </a>
     );
   })}
 </nav>
+
+<script is:inline>
+(function() {
+  function setBadge(href, count) {
+    if (!count) return;
+    document.querySelectorAll('[data-badge-for="' + href + '"]').forEach(function(el) {
+      el.textContent = count;
+      el.style.display = '';
+    });
+  }
+
+  // Fetch unread messages count
+  fetch('/api/admin/messages/').then(function(r) { return r.json(); }).then(function(data) {
+    var msgs = data.messages || [];
+    var unread = msgs.filter(function(m) { return !m.read; }).length;
+    setBadge('/admin/dashboard/messages/', unread);
+    // Also update dashboard card if present
+    var msgCard = document.querySelector('[data-dash-card="messages"]');
+    if (msgCard && unread) msgCard.querySelector('.dash-card-desc').textContent = unread + ' unread message' + (unread === 1 ? '' : 's');
+  }).catch(function() {});
+
+  // Fetch pending photos count
+  fetch('/api/admin/photos/').then(function(r) { return r.json(); }).then(function(data) {
+    var pending = (data.pending || []).length;
+    setBadge('/admin/dashboard/photos/', pending);
+    var photoCard = document.querySelector('[data-dash-card="photos"]');
+    if (photoCard && pending) photoCard.querySelector('.dash-card-desc').textContent = pending + ' pending review';
+  }).catch(function() {});
+})();
+</script>
 
 <style>
   .admin-nav {
@@ -69,5 +100,24 @@ const { tools = defaultTools, current } = Astro.props;
   }
   .lock-icon {
     font-size: 0.625rem;
+  }
+  .admin-nav-badge {
+    display: none;
+    font-size: 0.625rem;
+    font-weight: 700;
+    background: #dc2626;
+    color: white;
+    min-width: 16px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
+    border-radius: 100px;
+    margin-left: 4px;
+    padding: 0 4px;
+    vertical-align: middle;
+  }
+  .admin-nav-pill.active .admin-nav-badge {
+    background: white;
+    color: #42168A;
   }
 </style>
