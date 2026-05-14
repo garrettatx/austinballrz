@@ -163,23 +163,77 @@ function shell(title, bodyContent) {
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>${title} | Austin Ball'rz</title>
   <meta name="robots" content="noindex, nofollow">
   <style>
     @font-face { font-family: 'Barlow Condensed'; font-style: normal; font-weight: 700; font-display: swap; src: url('https://www.austinballrz.com/fonts/barlow-condensed-700.woff2') format('woff2'); }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #ffffff; color: #1a1a2e; line-height: 1.6; min-height: 100dvh; display: flex; flex-direction: column; -webkit-text-size-adjust: 100%; }
+
+    /* Header */
     .site-header { background: #263a5a; padding: 0.5rem 1.25rem; }
     .site-header a { color: white; text-decoration: none; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1.125rem; letter-spacing: 0.04em; text-transform: uppercase; }
     .rainbow-bar { height: 4px; background: linear-gradient(90deg, #D92638, #E08A00, #D4AD00, #3DA812, #1094D4, #6A2BE0); }
+
+    /* Page container */
     .page { padding: 1.25rem 1.25rem 2rem; max-width: 520px; margin: 0 auto; flex: 1; width: 100%; }
+    .page-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.125rem; }
+    .page-subtitle { color: #6b7280; font-size: 0.85rem; margin-bottom: 1.25rem; }
+
+    /* Photo frame */
+    .photo-frame { background: #f5f5f5; border-radius: 8px; overflow: hidden; border: 1px solid #e2e2e6; margin-bottom: 1.25rem; }
+    .photo-frame img { display: block; width: 100%; height: auto; max-height: 450px; object-fit: contain; }
+    .photo-frame .no-preview { padding: 3rem 1.5rem; text-align: center; color: #9ca3af; font-size: 0.875rem; }
+
+    /* Metadata */
+    .meta { margin-bottom: 1.5rem; }
+    .meta-row { display: flex; gap: 0.5rem; padding: 0.5rem 0; font-size: 0.875rem; border-bottom: 1px solid #f0f0f0; }
+    .meta-row:last-child { border-bottom: none; }
+    .meta-label { color: #6b7280; font-weight: 600; min-width: 90px; flex-shrink: 0; }
+    .meta-value { color: #1a1a2e; word-break: break-word; }
+
+    /* Publish button */
+    .btn-publish { display: block; width: 100%; text-align: center; background: #065f46; color: white; padding: 0.875rem; border-radius: 8px; font-size: 1rem; font-weight: 600; text-decoration: none; margin-bottom: 1.25rem; -webkit-tap-highlight-color: transparent; }
+    .btn-publish:hover { opacity: 0.9; }
+    .btn-publish:active { opacity: 0.8; }
+
+    /* Reject disclosure */
+    .reject-toggle { font-size: 0.8125rem; color: #991b1b; cursor: pointer; font-weight: 500; padding: 0.5rem 0; -webkit-tap-highlight-color: transparent; }
+    .reject-toggle::-webkit-details-marker { color: #991b1b; }
+    .reject-form { margin-top: 0.75rem; }
+    .reject-label { display: block; font-size: 0.8125rem; font-weight: 600; color: #374151; margin-bottom: 0.25rem; }
+    .reject-input { width: 100%; padding: 0.625rem 0.875rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 0.875rem; font-family: inherit; -webkit-appearance: none; appearance: none; }
+    .reject-input:focus { outline: none; border-color: #991b1b; box-shadow: 0 0 0 3px rgba(153, 27, 27, 0.1); }
+    .reject-btn { display: block; width: 100%; padding: 0.625rem; margin-top: 0.75rem; background: #991b1b; color: white; border: none; border-radius: 6px; font-size: 0.875rem; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    .reject-btn:active { opacity: 0.8; }
+    .reject-note { font-size: 0.75rem; color: #9ca3af; margin-top: 0.5rem; }
+
+    /* Helper text */
+    .help-text { font-size: 0.75rem; color: #9ca3af; text-align: center; }
+    .help-text a { color: #6b7280; }
+
+    /* Result cards */
+    .result-card { border-radius: 8px; padding: 1.5rem; margin-top: 1rem; }
+    .result-card h2 { font-size: 1.125rem; margin-bottom: 0.5rem; }
+    .result-card p { font-size: 0.9375rem; color: #374151; line-height: 1.6; }
+    .result-card a { color: inherit; }
+    .result-link { display: inline-block; margin-top: 1.25rem; font-size: 0.875rem; color: #42168A; text-decoration: none; font-weight: 600; }
+    .result-link:hover { text-decoration: underline; }
+
+    /* Footer */
     .site-footer { background: #263a5a; color: rgba(255,255,255,0.6); padding: 1.25rem; margin-top: auto; }
     .site-footer-inner { max-width: 520px; margin: 0 auto; }
     .site-footer nav { display: flex; flex-wrap: wrap; gap: 0.375rem 1rem; margin-bottom: 0.75rem; }
     .site-footer a { font-size: 0.8rem; color: rgba(255,255,255,0.6); text-decoration: none; }
     .site-footer a:hover { color: white; }
     .site-footer .credit { font-size: 0.7rem; color: rgba(255,255,255,0.35); }
+
+    /* Responsive */
+    @media (max-width: 380px) {
+      .page { padding: 1rem 1rem 1.5rem; }
+      .meta-label { min-width: 75px; }
+    }
   </style>
 </head>
 <body>
@@ -206,32 +260,32 @@ function shell(title, bodyContent) {
 
 function reviewPageHtml(imageUrl, photoDesc, photoYear, photoTeam, baseUrl) {
   return shell('Review Photo', `
-    <h1 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.125rem;">Review Photo</h1>
-    <p style="color: #6b7280; font-size: 0.85rem; margin-bottom: 1.25rem;">Publish to add it to the site, or reject to discard.</p>
+    <h1 class="page-title">Review Photo</h1>
+    <p class="page-subtitle">Publish to add it to the site, or reject to discard.</p>
 
-    <div style="background: white; border-radius: 8px; overflow: hidden; border: 1px solid #e2e2e6; margin-bottom: 1.25rem;">
-      ${imageUrl ? `<img src="${imageUrl}" alt="${photoDesc}" style="display: block; width: 100%; height: auto; max-height: 450px; object-fit: contain; background: #f5f5f5;" />` : `<div style="padding: 3rem 1.5rem; text-align: center; color: #9ca3af; font-size: 0.875rem;">Photo preview unavailable</div>`}
+    <div class="photo-frame">
+      ${imageUrl ? `<img src="${imageUrl}" alt="${photoDesc}" />` : `<div class="no-preview">Photo preview unavailable</div>`}
     </div>
 
-    ${(photoDesc || photoYear || photoTeam) ? `<div style="margin-bottom: 1.5rem;">
-      ${photoDesc ? `<div style="display: flex; gap: 0.5rem; padding: 0.375rem 0; font-size: 0.875rem; border-bottom: 1px solid #f0f0f0;"><span style="color: #6b7280; font-weight: 600; min-width: 90px;">Description</span><span>${photoDesc}</span></div>` : ''}
-      ${photoYear ? `<div style="display: flex; gap: 0.5rem; padding: 0.375rem 0; font-size: 0.875rem; border-bottom: 1px solid #f0f0f0;"><span style="color: #6b7280; font-weight: 600; min-width: 90px;">Year</span><span>${photoYear}</span></div>` : ''}
-      ${photoTeam ? `<div style="display: flex; gap: 0.5rem; padding: 0.375rem 0; font-size: 0.875rem;"><span style="color: #6b7280; font-weight: 600; min-width: 90px;">Team</span><span>${photoTeam}</span></div>` : ''}
+    ${(photoDesc || photoYear || photoTeam) ? `<div class="meta">
+      ${photoDesc ? `<div class="meta-row"><span class="meta-label">Description</span><span class="meta-value">${photoDesc}</span></div>` : ''}
+      ${photoYear ? `<div class="meta-row"><span class="meta-label">Year</span><span class="meta-value">${photoYear}</span></div>` : ''}
+      ${photoTeam ? `<div class="meta-row"><span class="meta-label">Team</span><span class="meta-value">${photoTeam}</span></div>` : ''}
     </div>` : ''}
 
-    <a href="${baseUrl}&action=approve" style="display: block; text-align: center; background: #065f46; color: white; padding: 0.875rem; border-radius: 8px; font-size: 1rem; font-weight: 600; text-decoration: none; margin-bottom: 1.25rem; transition: opacity 0.15s;">Publish Photo</a>
+    <a href="${baseUrl}&action=approve" class="btn-publish">Publish Photo</a>
 
-    <details style="margin-bottom: 1rem;">
-      <summary style="font-size: 0.8125rem; color: #991b1b; cursor: pointer; font-weight: 500; padding: 0.375rem 0;">Reject this photo</summary>
-      <form method="POST" action="${baseUrl}" style="margin-top: 0.75rem;">
-        <label style="display: block; font-size: 0.8125rem; font-weight: 600; color: #374151; margin-bottom: 0.25rem;">Reason (optional)</label>
-        <input type="text" name="reason" placeholder="Wrong photo, blurry, duplicate, etc." style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 0.875rem; font-family: inherit; margin-bottom: 0.75rem;" />
-        <button type="submit" style="display: block; width: 100%; padding: 0.625rem; background: #991b1b; color: white; border: none; border-radius: 6px; font-size: 0.875rem; font-weight: 600; cursor: pointer;">Yes, reject this photo</button>
-        <p style="font-size: 0.75rem; color: #9ca3af; margin-top: 0.5rem;">Rejecting removes it from the publishing queue. The photo stays on GitHub and can be reconsidered later.</p>
+    <details>
+      <summary class="reject-toggle">Reject this photo</summary>
+      <form method="POST" action="${baseUrl}" class="reject-form">
+        <label class="reject-label">Reason (optional)</label>
+        <input type="text" name="reason" placeholder="Wrong photo, blurry, duplicate, etc." class="reject-input" />
+        <button type="submit" class="reject-btn">Yes, reject this photo</button>
+        <p class="reject-note">Rejecting removes it from the publishing queue. The photo stays on GitHub and can be reconsidered later.</p>
       </form>
     </details>
 
-    <p style="font-size: 0.75rem; color: #9ca3af; text-align: center;">Publishing adds this photo to <a href="https://www.austinballrz.com/photos/" style="color: #6b7280;">austinballrz.com/photos</a>.</p>
+    <p class="help-text">Publishing adds this photo to <a href="https://www.austinballrz.com/photos/">austinballrz.com/photos</a>.</p>
   `);
 }
 
@@ -244,11 +298,11 @@ function resultPage(title, message, type, linkPath) {
   const c = colors[type] || colors.info;
 
   return new Response(shell(title, `
-    <div style="background: ${c.bg}; border: 1px solid ${c.border}; border-radius: 8px; padding: 1.5rem; margin-top: 1rem;">
-      <h2 style="color: ${c.text}; font-size: 1.125rem; margin-bottom: 0.5rem;">${title}</h2>
-      <p style="font-size: 0.9375rem; color: #374151; line-height: 1.6;">${message}</p>
+    <div class="result-card" style="background: ${c.bg}; border: 1px solid ${c.border};">
+      <h2 style="color: ${c.text};">${title}</h2>
+      <p>${message}</p>
     </div>
-    ${linkPath ? `<a href="https://www.austinballrz.com${linkPath}" style="display: inline-block; margin-top: 1.25rem; font-size: 0.875rem; color: #42168A; text-decoration: none; font-weight: 600;">View photos page &rarr;</a>` : ''}
+    ${linkPath ? `<a href="https://www.austinballrz.com${linkPath}" class="result-link">View photos page &rarr;</a>` : ''}
   `), {
     status: type === 'error' ? 400 : 200,
     headers: { 'Content-Type': 'text/html; charset=utf-8' },
