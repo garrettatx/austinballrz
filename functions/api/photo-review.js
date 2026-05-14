@@ -94,7 +94,11 @@ export async function onRequestGet(context) {
 
   // --- Execute reject ---
   if (action === 'reject') {
-    // Add rejection note as PR comment if provided
+    if (!reason.trim()) {
+      return resultPage('Reason Required', 'Please provide a reason for rejecting this photo. Use your browser\'s back button to try again.', 'error');
+    }
+
+    // Add rejection note as PR comment
     if (reason) {
       await gh(`/issues/${pr}/comments`, {
         method: 'POST',
@@ -274,18 +278,17 @@ function reviewPageHtml(imageUrl, photoDesc, photoYear, photoTeam, baseUrl) {
     </div>` : ''}
 
     <a href="${baseUrl}&action=approve" class="btn-publish">Publish Photo</a>
+    <p class="help-text">Publishing adds this photo to <a href="https://www.austinballrz.com/photos/">austinballrz.com/photos</a>.</p>
 
-    <details>
+    <details style="margin-top: 1.5rem;">
       <summary class="reject-toggle">Reject this photo</summary>
-      <form method="POST" action="${baseUrl}" class="reject-form">
-        <label class="reject-label">Reason (optional)</label>
-        <input type="text" name="reason" placeholder="Wrong photo, blurry, duplicate, etc." class="reject-input" />
+      <form method="POST" action="${baseUrl}" class="reject-form" id="reject-form">
+        <label class="reject-label">Reason (required)</label>
+        <input type="text" name="reason" placeholder="Wrong photo, blurry, duplicate, etc." class="reject-input" required />
         <button type="submit" class="reject-btn">Yes, reject this photo</button>
         <p class="reject-note">Rejecting removes it from the publishing queue. The photo stays on GitHub and can be reconsidered later.</p>
       </form>
     </details>
-
-    <p class="help-text">Publishing adds this photo to <a href="https://www.austinballrz.com/photos/">austinballrz.com/photos</a>.</p>
   `);
 }
 
