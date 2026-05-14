@@ -19,11 +19,6 @@
         "alt": "D Team group photo, Spring 2026 season",
         "caption": "D Team - Spring 2026",
         "team": "d"
-      },
-      {
-        "src": "2026/team-spring-2026.jpg",
-        "alt": "Spring - 2026 on the softball field, Austin Ball'rz spring 2026",
-        "caption": "Spring - 2026"
       }
     ]
   },
@@ -50,18 +45,23 @@
       {
         "src": "2024/team-d-team-2024.jpg",
         "alt": "D Team group photo on the field, 2024",
-        "caption": "D Team",
+        "caption": "D Team - 2024",
         "team": "d"
       },
       {
         "src": "2024/team-spring-2024.jpg",
-        "alt": "Spring - 2024 on the softball field, Austin Ball'rz spring 2024",
-        "caption": "Spring - 2024"
+        "alt": "Austin Ball'rz team photo, Spring 2024",
+        "caption": "Spring 2024"
       },
       {
         "src": "2024/2024-team-social-gathering-social-2024.jpg",
-        "alt": "2024 Team Social Gathering on the softball field, Austin Ball'rz social 2024",
-        "caption": "2024 Team Social Gathering"
+        "alt": "Austin Ball'rz team at a social gathering, 2024",
+        "caption": "Team Social Gathering - 2024"
+      },
+      {
+        "src": "2024/team-spring-2024-2.jpg",
+        "alt": "Austin Ball'rz team photo on the field, Spring 2024",
+        "caption": "Spring 2024"
       }
     ]
   },
@@ -81,8 +81,8 @@
       },
       {
         "src": "2023/team-in-dugout-fall-2023.jpg",
-        "alt": "Team in Dugout on the softball field, Austin Ball'rz fall 2023",
-        "caption": "Team in Dugout"
+        "alt": "Austin Ball'rz team in the dugout, Fall 2023",
+        "caption": "Team in Dugout - Fall 2023"
       }
     ]
   },
