@@ -66,6 +66,27 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
             </div>
 
             <div>
+              <label for="pronouns" class="label mb-1" style="display: block; color: var(--color-dark);">Pronouns <span style="font-weight: 400; color: var(--color-muted);">(optional)</span></label>
+              <select
+                id="pronouns"
+                name="pronouns"
+                class="w-full rounded-lg transition-colors"
+                style={`padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); font-size: var(--text-base); font-family: var(--font-body); background: white;`}
+              >
+                <option value="">Prefer not to say</option>
+                <option value="he/him">he/him</option>
+                <option value="she/her">she/her</option>
+                <option value="they/them">they/them</option>
+                <option value="he/they">he/they</option>
+                <option value="she/they">she/they</option>
+                <option value="ze/zir">ze/zir</option>
+                <option value="xe/xem">xe/xem</option>
+                <option value="any pronouns">any pronouns</option>
+                <option value="ask me">ask me</option>
+              </select>
+            </div>
+
+            <div>
               <label for="email" class="label mb-1" style="display: block; color: var(--color-dark);">Email</label>
               <input
                 type="email"
