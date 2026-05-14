@@ -219,69 +219,46 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
       }
       .photo-actions {
         display: flex;
-        gap: 8px;
-        margin-top: 8px;
+        gap: 12px;
+        margin-top: 10px;
         align-items: center;
       }
-      /* Review button: filled / prominent */
-      .photo-btn-review {
+      /* Shared action button base */
+      .photo-btn {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        font-size: 0.6875rem;
+        font-size: 0.75rem;
         font-weight: 600;
         color: #ffffff;
         text-decoration: none;
-        padding: 8px 16px;
+        padding: 0 20px;
+        height: 36px;
         border: none;
         border-radius: 6px;
-        background: #42168A;
-        min-height: 44px;
-        min-width: 44px;
         line-height: 1;
         font-family: inherit;
+        cursor: pointer;
         -webkit-tap-highlight-color: transparent;
         transition: background 0.15s;
+        box-sizing: border-box;
       }
-      .photo-btn-review:hover {
-        background: #331267;
-      }
-      .photo-btn-review:active {
-        background: #2a0f55;
-      }
+      .photo-btn-approve { background: #065f46; }
+      .photo-btn-approve:hover { background: #047857; }
+      .photo-btn-approve:disabled { opacity: 0.5; cursor: not-allowed; }
+      .photo-btn-review { background: #42168A; }
+      .photo-btn-review:hover { background: #331267; }
       /* GitHub link: subtle secondary */
       .photo-link-github {
-        font-size: 0.625rem;
+        font-size: 0.6875rem;
         color: #9ca3af;
         text-decoration: none;
-        align-self: center;
+        margin-left: 4px;
         transition: color 0.15s;
       }
       .photo-link-github:hover {
         color: #42168A;
       }
-      /* Quick approve button */
-      .photo-btn-approve {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.6875rem;
-        font-weight: 600;
-        color: #ffffff;
-        text-decoration: none;
-        padding: 8px 16px;
-        border: none;
-        border-radius: 6px;
-        background: #065f46;
-        min-height: 44px;
-        line-height: 1;
-        cursor: pointer;
-        -webkit-tap-highlight-color: transparent;
-        transition: background 0.15s;
-        font-family: inherit;
-      }
-      .photo-btn-approve:hover { background: #047857; }
-      .photo-btn-approve:disabled { opacity: 0.5; cursor: not-allowed; }
 
       /* Status badges */
       .photo-status {
@@ -393,7 +370,7 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
     if (p.caption && p.caption !== p.description) {
       captionHtml = '<div class="photo-caption"><span class="photo-caption-label">Caption (shows on site): </span>' + esc(p.caption) + '</div>';
     }
-    var submitterHtml = p.submitted_by ? '<div class="photo-submitter">Submitted by ' + esc(p.submitted_by) + '</div>' : '';
+    var submitterHtml = p.submitted_by ? '<div class="photo-submitter">from ' + esc(p.submitted_by) + '</div>' : '';
     return '<div class="photo-card" style="animation-delay: ' + (i * 0.04) + 's;">' +
       (showThumb ? '<img src="' + esc(p.image_url) + '" alt="' + esc(p.description || 'Photo') + '" loading="lazy" width="160" height="120" />' : '') +
       '<div class="photo-info">' +
@@ -402,8 +379,8 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
         captionHtml +
         submitterHtml +
         '<div class="photo-actions">' +
-          '<button class="photo-btn-approve" onclick="approvePhoto(' + p.number + ', this)">Approve</button>' +
-          '<a class="photo-btn-review" href="' + esc(p.review_url) + '">Review</a>' +
+          '<button class="photo-btn photo-btn-approve" onclick="approvePhoto(' + p.number + ', this)">Approve</button>' +
+          '<a class="photo-btn photo-btn-review" href="' + esc(p.review_url) + '">Review</a>' +
           '<a class="photo-link-github" href="' + esc(p.github_url) + '">GitHub</a>' +
         '</div>' +
       '</div>' +
