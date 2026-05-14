@@ -54,8 +54,10 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
   }
 
   function photoCard(p) {
+    // Only show thumbnail for pending photos (merged/closed branches are deleted, URLs break)
+    var showThumb = p.state === 'open' && p.image_url;
     return '<div class="photo-card">' +
-      (p.image_url ? '<img src="' + p.image_url + '" alt="' + (p.description || 'Photo') + '" loading="lazy" />' : '') +
+      (showThumb ? '<img src="' + p.image_url + '" alt="' + (p.description || 'Photo') + '" loading="lazy" width="80" height="60" />' : '') +
       '<div class="photo-info">' +
         '<div class="photo-desc">' + (p.description || p.file || 'Untitled') + '</div>' +
         '<div class="photo-meta">' + [p.year, p.team, formatDate(p.created_at)].filter(Boolean).join(' · ') + ' ' + statusBadge(p.state) + '</div>' +

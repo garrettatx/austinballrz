@@ -73,7 +73,7 @@ export async function onRequestGet(context) {
     }
 
     const pending = (Array.isArray(openPRs) ? openPRs : []).filter(isPhotoPR).map(parsePR);
-    const recent = (Array.isArray(closedPRs) ? closedPRs : []).filter(isPhotoPR).slice(0, 10).map(parsePR);
+    const recent = (Array.isArray(closedPRs) ? closedPRs : []).filter(isPhotoPR).slice(0, 5).map(parsePR);
 
     return new Response(JSON.stringify({ pending, recent }), { status: 200, headers });
   } catch (err) {
