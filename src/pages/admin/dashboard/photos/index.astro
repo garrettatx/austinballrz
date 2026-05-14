@@ -169,16 +169,26 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
         background: #ffffff;
         animation: photosFadeIn 0.2s ease-out both;
       }
+      .photo-thumb-link {
+        flex-shrink: 0;
+        border-radius: 6px;
+        overflow: hidden;
+        display: block;
+      }
+      .photo-thumb-link:focus-visible {
+        outline: 2px solid #42168A;
+        outline-offset: 2px;
+      }
       .photo-card img {
         width: 200px;
         height: 150px;
         object-fit: cover;
         border-radius: 6px;
         background: #f0f0f4;
-        flex-shrink: 0;
+        display: block;
         transition: transform 0.2s;
       }
-      .photo-card:hover img {
+      .photo-card img:hover {
         transform: scale(1.04);
       }
       .photo-info {
@@ -396,7 +406,7 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
     }
     var submitterHtml = p.submitted_by ? '<div class="photo-submitter">from ' + esc(p.submitted_by) + '</div>' : '';
     return '<div class="photo-card" style="animation-delay: ' + (i * 0.04) + 's;">' +
-      (showThumb ? '<img src="' + esc(p.image_url) + '" alt="' + esc(p.description || 'Photo') + '" loading="lazy" width="200" height="150" />' : '') +
+      (showThumb ? '<a href="' + esc(p.review_url) + '" class="photo-thumb-link"><img src="' + esc(p.image_url) + '" alt="' + esc(p.description || 'Photo') + '" loading="lazy" width="200" height="150" /></a>' : '') +
       '<div class="photo-info">' +
         '<div class="photo-desc">' + esc(p.description || p.file || 'Untitled') + '</div>' +
         '<div class="photo-meta">' + [teamLabel(p.team), p.year].filter(Boolean).join(' \u00b7 ') + ' \u00b7 submitted ' + formatDate(p.created_at) + '</div>' +
