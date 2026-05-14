@@ -358,6 +358,15 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
     return el.innerHTML;
   }
 
+  function teamLabel(t) {
+    if (!t) return '';
+    var lower = t.toLowerCase();
+    if (lower === 'd') return 'D Team';
+    if (lower === 'e') return 'E Team';
+    if (lower === 'both') return 'Both Teams';
+    return t;
+  }
+
   function statusBadge(state) {
     if (state === 'merged') return '<span class="photo-status status-merged">Published</span>';
     if (state === 'closed') return '<span class="photo-status status-closed">Rejected</span>';
@@ -368,14 +377,14 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
     var showThumb = p.state === 'open' && p.image_url;
     var captionHtml = '';
     if (p.caption && p.caption !== p.description) {
-      captionHtml = '<div class="photo-caption"><span class="photo-caption-label">Caption (shows on site): </span>' + esc(p.caption) + '</div>';
+      captionHtml = '<div class="photo-caption"><span class="photo-caption-label">Site caption: </span>' + esc(p.caption) + '</div>';
     }
     var submitterHtml = p.submitted_by ? '<div class="photo-submitter">from ' + esc(p.submitted_by) + '</div>' : '';
     return '<div class="photo-card" style="animation-delay: ' + (i * 0.04) + 's;">' +
       (showThumb ? '<img src="' + esc(p.image_url) + '" alt="' + esc(p.description || 'Photo') + '" loading="lazy" width="160" height="120" />' : '') +
       '<div class="photo-info">' +
         '<div class="photo-desc">' + esc(p.description || p.file || 'Untitled') + '</div>' +
-        '<div class="photo-meta">' + [p.year, p.team, formatDate(p.created_at)].filter(Boolean).join(' \u00b7 ') + '</div>' +
+        '<div class="photo-meta">' + [teamLabel(p.team), p.year].filter(Boolean).join(' \u00b7 ') + ' \u00b7 submitted ' + formatDate(p.created_at) + '</div>' +
         captionHtml +
         submitterHtml +
         '<div class="photo-actions">' +
@@ -392,7 +401,7 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
     return '<div class="recent-item">' +
       '<div class="recent-item-left">' +
         '<div class="recent-item-desc">' + esc(p.description || p.file || 'Untitled') + '</div>' +
-        '<div class="recent-item-meta">' + [p.year, p.team, formatDate(p.created_at)].filter(Boolean).join(' \u00b7 ') + submitter + '</div>' +
+        '<div class="recent-item-meta">' + [teamLabel(p.team), p.year, formatDate(p.created_at)].filter(Boolean).join(' \u00b7 ') + submitter + '</div>' +
       '</div>' +
       statusBadge(p.state) +
     '</div>';
