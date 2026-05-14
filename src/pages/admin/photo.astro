@@ -55,6 +55,10 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
     .preview-actions .crop-btn { color: #42168A; border-color: #d1d5db; }
     .preview-actions .remove-btn { color: #dc2626; border-color: #fecaca; }
 
+    /* Summary */
+    .submit-summary { background: #f0f4ff; border: 1px solid #c7d2fe; border-radius: 0.5rem; padding: 0.625rem 0.875rem; font-size: 0.8125rem; color: #3730a3; margin-bottom: 0.75rem; text-align: center; }
+    .detected-badge { display: inline-block; font-size: 0.6875rem; color: #065f46; background: #ecfdf5; padding: 0.125rem 0.5rem; border-radius: 100px; margin-left: 0.375rem; font-weight: 500; }
+
     /* Submit */
     .btn-submit { display: block; width: 100%; padding: 0.75rem; border-radius: 0.5rem; font-size: 1rem; font-weight: 600; cursor: pointer; border: none; background: #3d4466; color: white; transition: background 0.15s; margin-top: 0.5rem; -webkit-tap-highlight-color: transparent; }
     .btn-submit:active { background: #1d2340; }
@@ -176,6 +180,8 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
         <input type="text" id="submitted-by" placeholder="Coach John" />
       </div>
 
+      <div id="submit-summary" class="submit-summary" style="display: none;"></div>
+
       {turnstileSiteKey && (
         <div class="cf-turnstile" data-sitekey={turnstileSiteKey} style="min-height: 65px; margin-bottom: 0.75rem;"></div>
       )}
@@ -287,6 +293,61 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
       });
     }
 
+    var summaryEl = document.getElementById('submit-summary');
+    var autoDetected = false;
+
+    // Auto-detect year and season from photo file date
+    function detectFromFile(file) {
+      if (!file || !file.lastModified) return;
+      var date = new Date(file.lastModified);
+      var fileYear = date.getFullYear();
+      var fileMonth = date.getMonth(); // 0-indexed
+
+      // Only auto-fill if the year is reasonable (2013 to current year)
+      var currentYear = new Date().getFullYear();
+      if (fileYear >= 2013 && fileYear <= currentYear) {
+        // Auto-select year if user hasn't changed it from default
+        if (yearSelect.value === String(currentYear)) {
+          yearSelect.value = String(fileYear);
+        }
+
+        // Auto-select season from month
+        // Jan-May = Spring, Jun-Aug = Tournament (summer), Sep-Dec = Fall
+        if (!typeSelect.value) {
+          if (fileMonth <= 4) typeSelect.value = 'Spring';
+          else if (fileMonth <= 7) typeSelect.value = 'Tournament';
+          else typeSelect.value = 'Fall';
+        }
+
+        autoDetected = true;
+        updateSummary();
+      }
+    }
+
+    // Update confirmation summary
+    function updateSummary() {
+      var team = teamSelect.value;
+      var type = typeSelect.value;
+      var year = yearSelect.value;
+
+      if (!resizedBlob || !team || !type) {
+        summaryEl.style.display = 'none';
+        return;
+      }
+
+      var teamName = team === 'd' ? 'D Team' : team === 'e' ? 'E Team' : team === 'both' ? 'Both Teams' : '';
+      var parts = [teamName, type, year].filter(Boolean);
+      var text = 'Submitting: ' + parts.join(', ') + ' photo';
+      if (autoDetected) text += ' <span class="detected-badge">Year/season detected from photo</span>';
+      summaryEl.innerHTML = text;
+      summaryEl.style.display = '';
+    }
+
+    // Update summary when any field changes
+    yearSelect.addEventListener('change', function() { autoDetected = false; updateSummary(); });
+    teamSelect.addEventListener('change', updateSummary);
+    typeSelect.addEventListener('change', function() { autoDetected = false; updateSummary(); });
+
     // File selection
     fileInput.addEventListener('change', async function() {
       var file = this.files[0];
@@ -301,6 +362,9 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
       previewMeta.textContent = formatSize(resizedBlob.size);
       uploadArea.style.display = 'none';
       previewEl.classList.add('visible');
+
+      // Auto-detect year and season from file date
+      detectFromFile(file);
     });
 
     // Remove photo
@@ -315,6 +379,8 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
       fileInput.value = '';
       uploadArea.style.display = '';
       previewEl.classList.remove('visible');
+      summaryEl.style.display = 'none';
+      autoDetected = false;
       if (cropperInstance) { cropperInstance.destroy(); cropperInstance = null; }
     }
 
