@@ -182,24 +182,28 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
 
   function pendingCard(p) {
     var showThumb = p.state === 'open' && p.image_url;
+    var submitter = p.submitted_by ? ' \u00b7 from ' + esc(p.submitted_by) : '';
+    var caption = p.caption && p.caption !== p.description ? '<div class="photo-meta" style="margin-top: 0.125rem;">' + esc(p.caption) + '</div>' : '';
     return '<div class="photo-card">' +
       (showThumb ? '<img src="' + esc(p.image_url) + '" alt="' + esc(p.description || 'Photo') + '" loading="lazy" width="120" height="90" />' : '') +
       '<div class="photo-info">' +
         '<div class="photo-desc">' + esc(p.description || p.file || 'Untitled') + '</div>' +
-        '<div class="photo-meta">' + [p.year, p.team, formatDate(p.created_at)].filter(Boolean).join(' \u00b7 ') + ' ' + statusBadge(p.state) + '</div>' +
+        '<div class="photo-meta">' + [p.year, p.team, formatDate(p.created_at)].filter(Boolean).join(' \u00b7 ') + submitter + '</div>' +
+        caption +
         '<div class="photo-actions">' +
           '<a class="photo-btn" href="' + esc(p.review_url) + '">Review</a>' +
-          '<a class="photo-btn" href="' + esc(p.github_url) + '">GitHub</a>' +
+          '<a href="' + esc(p.github_url) + '" style="font-size: 0.625rem; color: #9ca3af; text-decoration: none; align-self: center;">GitHub</a>' +
         '</div>' +
       '</div>' +
     '</div>';
   }
 
   function recentItem(p) {
+    var submitter = p.submitted_by ? ' \u00b7 ' + esc(p.submitted_by) : '';
     return '<div class="recent-item">' +
       '<div class="recent-item-left">' +
         '<div class="recent-item-desc">' + esc(p.description || p.file || 'Untitled') + '</div>' +
-        '<div class="recent-item-meta">' + [p.year, p.team, formatDate(p.created_at)].filter(Boolean).join(' \u00b7 ') + '</div>' +
+        '<div class="recent-item-meta">' + [p.year, p.team, formatDate(p.created_at)].filter(Boolean).join(' \u00b7 ') + submitter + '</div>' +
       '</div>' +
       statusBadge(p.state) +
     '</div>';

@@ -155,7 +155,7 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
 
   function formatDate(iso) {
     var d = new Date(iso);
-    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + ' at ' + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
   }
 
   function esc(str) {

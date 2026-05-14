@@ -48,6 +48,8 @@ export async function onRequestGet(context) {
       const yearMatch = body.match(/\*\*Year:\*\*\s*(\d{4})/);
       const teamMatch = body.match(/\*\*Team:\*\*\s*(\w+)/);
       const descMatch = body.match(/\*\*Description:\*\*\s*(.+)/);
+      const captionMatch = body.match(/\*\*Caption:\*\*\s*(.+)/);
+      const submitterMatch = body.match(/Submitted by \*\*([^*]+)\*\*/);
 
       const fileName = fileMatch ? fileMatch[1] : '';
       const imageUrl = fileName
@@ -64,6 +66,8 @@ export async function onRequestGet(context) {
         year: yearMatch ? yearMatch[1] : '',
         team: teamMatch ? teamMatch[1] : '',
         description: descMatch ? descMatch[1].trim() : '',
+        caption: captionMatch ? captionMatch[1].trim() : '',
+        submitted_by: submitterMatch ? submitterMatch[1].trim() : '',
         image_url: imageUrl,
         review_url: env.PHOTO_REVIEW_TOKEN
           ? `/api/photo-review/?pr=${pr.number}&token=${env.PHOTO_REVIEW_TOKEN}`
