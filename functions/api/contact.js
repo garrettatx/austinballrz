@@ -20,7 +20,7 @@ export async function onRequestPost(context) {
 
   try {
     const body = await request.json();
-    const { name, email, phone, reason, message, turnstileToken, honeypot } = body;
+    const { name, pronouns, email, phone, reason, message, turnstileToken, honeypot } = body;
 
     // ── Honeypot (silent success for bots) ──
     if (honeypot) {
@@ -86,8 +86,11 @@ export async function onRequestPost(context) {
     const reasonLabel = reason || 'General';
     const sanitize = (str) => str.trim().replace(/[<>]/g, '');
 
+    const pronounsLabel = pronouns?.trim() || '';
+
     const emailBody = [
       `Name: ${sanitize(name)}`,
+      pronounsLabel ? `Pronouns: ${pronounsLabel}` : null,
       `Email: ${sanitize(email)}`,
       phone?.trim() ? `Phone: ${sanitize(phone)}` : null,
       `Reason: ${reasonLabel}`,
@@ -97,7 +100,7 @@ export async function onRequestPost(context) {
     ].filter(Boolean).join('\n');
 
     const emailHtml = [
-      `<p><strong>Name:</strong> ${sanitize(name)}</p>`,
+      `<p><strong>Name:</strong> ${sanitize(name)}${pronounsLabel ? ` <span style="color: #6b7280;">(${pronounsLabel})</span>` : ''}</p>`,
       `<p><strong>Email:</strong> ${sanitize(email)}</p>`,
       phone?.trim() ? `<p><strong>Phone:</strong> ${sanitize(phone)}</p>` : null,
       `<p><strong>Reason:</strong> ${reasonLabel}</p>`,

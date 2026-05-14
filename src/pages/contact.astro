@@ -256,6 +256,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             name: form.name.value,
+            pronouns: form.pronouns ? form.pronouns.value : '',
             email: form.email.value,
             phone: form.phone.value,
             reason: form.reason.value,
