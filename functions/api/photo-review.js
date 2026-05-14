@@ -112,7 +112,7 @@ export async function onRequestGet(context) {
       return resultPage('Could Not Reject', `Something went wrong. Try again or <a href="${prData.html_url}">review on GitHub</a>.`, 'error');
     }
 
-    return resultPage('Photo Rejected', 'The photo has been rejected and will not appear on the site.', 'info');
+    return resultPage('Photo Rejected', 'The photo has been rejected and will not appear on the site. The original photo is still saved and can be reconsidered later if needed.', 'info');
   }
 
   // --- Show review page (no action yet) ---
