@@ -1,0 +1,24 @@
+---
+import AdminLayout from '../../../components/admin/AdminLayout.astro';
+import AdminNav from '../../../components/admin/AdminNav.astro';
+---
+
+<AdminLayout title="Dashboard">
+  <AdminNav current="/admin/dashboard/" />
+  <h1 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem;">Dashboard</h1>
+
+  <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+    <a href="/admin/dashboard/messages/" style="display: block; padding: 1rem; border: 1px solid #e2e2e6; border-radius: 8px; text-decoration: none; color: #1a1a2e; transition: border-color 0.15s;">
+      <p style="font-weight: 600; margin-bottom: 0.125rem;">Messages</p>
+      <p style="font-size: 0.8125rem; color: #6b7280;">Contact form submissions.</p>
+    </a>
+    <a href="/admin/dashboard/photos/" style="display: block; padding: 1rem; border: 1px solid #e2e2e6; border-radius: 8px; text-decoration: none; color: #1a1a2e; transition: border-color 0.15s;">
+      <p style="font-weight: 600; margin-bottom: 0.125rem;">Photos</p>
+      <p style="font-size: 0.8125rem; color: #6b7280;">Review and manage submitted photos.</p>
+    </a>
+  </div>
+</AdminLayout>
+
+<style>
+  a:hover { border-color: #42168A !important; }
+</style>

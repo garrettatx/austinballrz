@@ -1,0 +1,148 @@
+---
+import AdminLayout from '../../../../components/admin/AdminLayout.astro';
+import AdminNav from '../../../../components/admin/AdminNav.astro';
+---
+
+<AdminLayout title="Messages" maxWidth="640px">
+  <AdminNav current="/admin/dashboard/messages/" />
+  <h1 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.25rem;">Messages</h1>
+  <p id="msg-count" style="font-size: 0.8125rem; color: #6b7280; margin-bottom: 1.25rem;">Loading...</p>
+
+  <div id="msg-list"></div>
+  <div id="msg-empty" style="display: none; text-align: center; padding: 2rem 0; color: #9ca3af; font-size: 0.875rem;">
+    No messages yet. Submissions from the contact form will appear here.
+  </div>
+  <div id="msg-error" style="display: none; text-align: center; padding: 2rem 0; color: #991b1b; font-size: 0.875rem;"></div>
+
+  <Fragment slot="head">
+    <style>
+      .msg-card { border: 1px solid #e2e2e6; border-radius: 8px; margin-bottom: 0.625rem; overflow: hidden; }
+      .msg-header { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; cursor: pointer; gap: 0.5rem; -webkit-tap-highlight-color: transparent; }
+      .msg-header:hover { background: #fafafa; }
+      .msg-unread { border-left: 3px solid #42168A; }
+      .msg-name { font-weight: 600; font-size: 0.875rem; }
+      .msg-reason { font-size: 0.75rem; color: #6b7280; }
+      .msg-date { font-size: 0.6875rem; color: #9ca3af; white-space: nowrap; }
+      .msg-body { display: none; padding: 0 1rem 1rem; font-size: 0.875rem; line-height: 1.6; border-top: 1px solid #f0f0f4; }
+      .msg-body.open { display: block; }
+      .msg-field { margin-bottom: 0.5rem; }
+      .msg-label { font-size: 0.6875rem; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.04em; }
+      .msg-value { color: #1a1a2e; }
+      .msg-value a { color: #42168A; }
+      .msg-text { white-space: pre-wrap; background: #f8f9fa; padding: 0.75rem; border-radius: 6px; margin-top: 0.5rem; font-size: 0.8125rem; }
+      .msg-actions { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
+      .msg-actions button { font-size: 0.75rem; padding: 0.25rem 0.625rem; border-radius: 4px; cursor: pointer; border: 1px solid #e2e2e6; background: white; color: #374151; -webkit-tap-highlight-color: transparent; }
+      .msg-actions button:hover { border-color: #9ca3af; }
+      .msg-actions .delete-btn { color: #991b1b; border-color: #fecaca; }
+      .msg-actions .delete-btn:hover { background: #fef2f2; }
+    </style>
+  </Fragment>
+</AdminLayout>
+
+<script is:inline>
+(function() {
+  var listEl = document.getElementById('msg-list');
+  var countEl = document.getElementById('msg-count');
+  var emptyEl = document.getElementById('msg-empty');
+  var errorEl = document.getElementById('msg-error');
+
+  function formatDate(iso) {
+    var d = new Date(iso);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
+  async function loadList() {
+    try {
+      var res = await fetch('/api/admin/messages/');
+      if (!res.ok) throw new Error('Could not load messages.');
+      var data = await res.json();
+      var messages = data.messages || [];
+
+      if (messages.length === 0) {
+        emptyEl.style.display = '';
+        countEl.textContent = '0 messages';
+        return;
+      }
+
+      var unread = messages.filter(function(m) { return !m.read; }).length;
+      countEl.textContent = messages.length + ' message' + (messages.length === 1 ? '' : 's') + (unread > 0 ? ' (' + unread + ' unread)' : '');
+
+      listEl.innerHTML = messages.map(function(m) {
+        return '<div class="msg-card' + (!m.read ? ' msg-unread' : '') + '" data-id="' + m.id + '">' +
+          '<div class="msg-header" onclick="toggleMsg(this)">' +
+            '<div><span class="msg-name">' + (m.name || 'No name') + '</span> <span class="msg-reason">' + (m.reason || '') + '</span></div>' +
+            '<span class="msg-date">' + (m.submitted_at ? formatDate(m.submitted_at) : '') + '</span>' +
+          '</div>' +
+          '<div class="msg-body">Loading...</div>' +
+        '</div>';
+      }).join('');
+    } catch (err) {
+      errorEl.textContent = err.message;
+      errorEl.style.display = '';
+    }
+  }
+
+  window.toggleMsg = async function(header) {
+    var card = header.parentElement;
+    var body = card.querySelector('.msg-body');
+    if (body.classList.contains('open')) {
+      body.classList.remove('open');
+      return;
+    }
+
+    var id = card.getAttribute('data-id');
+
+    // Load full message if not already loaded
+    if (body.textContent === 'Loading...') {
+      try {
+        var res = await fetch('/api/admin/messages/?id=' + encodeURIComponent(id));
+        if (!res.ok) { body.innerHTML = '<p style="color: #991b1b;">Could not load message.</p>'; body.classList.add('open'); return; }
+        var msg = await res.json();
+
+        body.innerHTML =
+          '<div style="padding-top: 0.75rem;">' +
+          (msg.pronouns ? '<div class="msg-field"><span class="msg-label">Pronouns</span><br><span class="msg-value">' + msg.pronouns + '</span></div>' : '') +
+          '<div class="msg-field"><span class="msg-label">Email</span><br><span class="msg-value"><a href="mailto:' + msg.email + '">' + msg.email + '</a></span></div>' +
+          (msg.phone ? '<div class="msg-field"><span class="msg-label">Phone</span><br><span class="msg-value"><a href="tel:' + msg.phone.replace(/[^\d+]/g, '') + '">' + msg.phone + '</a></span></div>' : '') +
+          '<div class="msg-text">' + msg.message.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</div>' +
+          '<div class="msg-actions">' +
+            '<button onclick="toggleRead(\'' + id + '\', this)">' + (msg.read ? 'Mark unread' : 'Mark read') + '</button>' +
+            '<button class="delete-btn" onclick="deleteMsg(\'' + id + '\', this)">Delete</button>' +
+          '</div>' +
+          '</div>';
+
+        // Mark as read on open
+        if (!msg.read) {
+          fetch('/api/admin/messages/?id=' + encodeURIComponent(id), { method: 'PUT' });
+          card.classList.remove('msg-unread');
+        }
+      } catch (err) {
+        body.innerHTML = '<p style="color: #991b1b;">Error loading message.</p>';
+      }
+    }
+
+    body.classList.add('open');
+  };
+
+  window.toggleRead = async function(id, btn) {
+    var res = await fetch('/api/admin/messages/?id=' + encodeURIComponent(id), { method: 'PUT' });
+    var data = await res.json();
+    btn.textContent = data.read ? 'Mark unread' : 'Mark read';
+    var card = btn.closest('.msg-card');
+    if (data.read) card.classList.remove('msg-unread');
+    else card.classList.add('msg-unread');
+  };
+
+  window.deleteMsg = async function(id, btn) {
+    if (!confirm('Delete this message?')) return;
+    await fetch('/api/admin/messages/?id=' + encodeURIComponent(id), { method: 'DELETE' });
+    btn.closest('.msg-card').remove();
+    // Update count
+    var remaining = document.querySelectorAll('.msg-card').length;
+    countEl.textContent = remaining + ' message' + (remaining === 1 ? '' : 's');
+    if (remaining === 0) emptyEl.style.display = '';
+  };
+
+  loadList();
+})();
+</script>

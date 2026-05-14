@@ -1,0 +1,43 @@
+---
+/**
+ * AdminNav — navigation between admin tools.
+ * Shows public and protected tools with visual distinction.
+ */
+interface Tool {
+  label: string;
+  href: string;
+  protected?: boolean;
+}
+
+interface Props {
+  tools?: Tool[];
+  current?: string;
+}
+
+const defaultTools: Tool[] = [
+  { label: 'Admin', href: '/admin/' },
+  { label: 'Submit Photo', href: '/admin/photo/' },
+  { label: 'Messages', href: '/admin/dashboard/messages/', protected: true },
+  { label: 'Photos', href: '/admin/dashboard/photos/', protected: true },
+];
+
+const { tools = defaultTools, current } = Astro.props;
+---
+
+<nav style="display: flex; flex-wrap: wrap; gap: 0.375rem; margin-bottom: 1.25rem;">
+  {tools.map(tool => {
+    const isActive = current === tool.href;
+    return (
+      <a
+        href={tool.href}
+        style={`font-size: 0.75rem; font-weight: 600; text-decoration: none; padding: 0.25rem 0.625rem; border-radius: 100px; transition: background 0.15s, color 0.15s; ${
+          isActive
+            ? 'background: #263a5a; color: white;'
+            : 'background: #f0f0f4; color: #475569;'
+        }`}
+      >
+        {tool.protected && !isActive ? '🔒 ' : ''}{tool.label}
+      </a>
+    );
+  })}
+</nav>

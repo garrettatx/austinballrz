@@ -82,6 +82,37 @@ export async function onRequestPost(context) {
       }
     }
 
+    // ── Store in KV (backup, in case email fails) ──
+    if (env.CONTACT_MESSAGES) {
+      try {
+        const msgId = `msg:${Date.now()}:${Math.random().toString(36).slice(2, 6)}`;
+        const msgValue = {
+          id: msgId,
+          name: name.trim(),
+          pronouns: pronouns?.trim() || '',
+          email: email.trim(),
+          phone: phone?.trim() || '',
+          reason: reason || 'General',
+          message: message.trim(),
+          submitted_at: new Date().toISOString(),
+          ip: request.headers.get('CF-Connecting-IP') || '',
+          read: false,
+        };
+        await env.CONTACT_MESSAGES.put(msgId, JSON.stringify(msgValue), {
+          expirationTtl: 7776000, // 90 days
+          metadata: {
+            submitted_at: msgValue.submitted_at,
+            name: msgValue.name,
+            reason: msgValue.reason,
+            read: false,
+          },
+        });
+      } catch (kvErr) {
+        // KV write is best-effort. Never fail the request.
+        console.error('KV write failed:', kvErr.message);
+      }
+    }
+
     // ── Build email ──
     const reasonLabel = reason || 'General';
     const sanitize = (str) => str.trim().replace(/[<>]/g, '');

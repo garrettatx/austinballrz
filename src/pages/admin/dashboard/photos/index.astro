@@ -1,0 +1,95 @@
+---
+import AdminLayout from '../../../../components/admin/AdminLayout.astro';
+import AdminNav from '../../../../components/admin/AdminNav.astro';
+---
+
+<AdminLayout title="Photo Management" maxWidth="640px">
+  <AdminNav current="/admin/dashboard/photos/" />
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+    <h1 style="font-size: 1.25rem; font-weight: 700;">Photos</h1>
+    <a href="/admin/photo/" style="font-size: 0.8125rem; font-weight: 600; color: #42168A; text-decoration: none;">+ Submit new</a>
+  </div>
+
+  <div id="photos-pending"></div>
+  <div id="photos-recent"></div>
+  <div id="photos-empty" style="display: none; text-align: center; padding: 2rem 0; color: #9ca3af; font-size: 0.875rem;">
+    No photo submissions found.
+  </div>
+  <div id="photos-error" style="display: none; text-align: center; padding: 2rem 0; color: #991b1b; font-size: 0.875rem;"></div>
+
+  <Fragment slot="head">
+    <style>
+      .section-label { font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #6b7280; margin-bottom: 0.5rem; }
+      .photo-card { display: flex; gap: 0.75rem; padding: 0.75rem; border: 1px solid #e2e2e6; border-radius: 8px; margin-bottom: 0.5rem; align-items: flex-start; }
+      .photo-card img { width: 80px; height: 60px; object-fit: cover; border-radius: 4px; background: #f0f0f4; flex-shrink: 0; }
+      .photo-info { flex: 1; min-width: 0; }
+      .photo-desc { font-size: 0.8125rem; font-weight: 600; color: #1a1a2e; margin-bottom: 0.125rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .photo-meta { font-size: 0.6875rem; color: #9ca3af; }
+      .photo-actions { display: flex; gap: 0.375rem; margin-top: 0.375rem; }
+      .photo-actions a { font-size: 0.6875rem; font-weight: 600; color: #42168A; text-decoration: none; padding: 0.125rem 0.5rem; border: 1px solid #e2e2e6; border-radius: 4px; }
+      .photo-actions a:hover { border-color: #42168A; }
+      .photo-status { font-size: 0.6875rem; font-weight: 600; padding: 0.125rem 0.5rem; border-radius: 100px; }
+      .status-open { background: #fef3c7; color: #92400e; }
+      .status-merged { background: #ecfdf5; color: #065f46; }
+      .status-closed { background: #fef2f2; color: #991b1b; }
+    </style>
+  </Fragment>
+</AdminLayout>
+
+<script is:inline>
+(function() {
+  var pendingEl = document.getElementById('photos-pending');
+  var recentEl = document.getElementById('photos-recent');
+  var emptyEl = document.getElementById('photos-empty');
+  var errorEl = document.getElementById('photos-error');
+
+  function formatDate(iso) {
+    return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  }
+
+  function statusBadge(state) {
+    if (state === 'merged') return '<span class="photo-status status-merged">Published</span>';
+    if (state === 'closed') return '<span class="photo-status status-closed">Rejected</span>';
+    return '<span class="photo-status status-open">Pending</span>';
+  }
+
+  function photoCard(p) {
+    return '<div class="photo-card">' +
+      (p.image_url ? '<img src="' + p.image_url + '" alt="' + (p.description || 'Photo') + '" loading="lazy" />' : '') +
+      '<div class="photo-info">' +
+        '<div class="photo-desc">' + (p.description || p.file || 'Untitled') + '</div>' +
+        '<div class="photo-meta">' + [p.year, p.team, formatDate(p.created_at)].filter(Boolean).join(' · ') + ' ' + statusBadge(p.state) + '</div>' +
+        (p.state === 'open' ? '<div class="photo-actions"><a href="' + p.review_url + '">Review</a> <a href="' + p.github_url + '">GitHub</a></div>' : '') +
+      '</div>' +
+    '</div>';
+  }
+
+  async function load() {
+    try {
+      var res = await fetch('/api/admin/photos/');
+      if (!res.ok) throw new Error('Could not load photos.');
+      var data = await res.json();
+
+      if (data.pending.length === 0 && data.recent.length === 0) {
+        emptyEl.style.display = '';
+        return;
+      }
+
+      if (data.pending.length > 0) {
+        pendingEl.innerHTML = '<p class="section-label">Pending review (' + data.pending.length + ')</p>' +
+          data.pending.map(photoCard).join('');
+      }
+
+      if (data.recent.length > 0) {
+        recentEl.innerHTML = '<p class="section-label" style="margin-top: 1.5rem;">Recent</p>' +
+          data.recent.map(photoCard).join('');
+      }
+    } catch (err) {
+      errorEl.textContent = err.message;
+      errorEl.style.display = '';
+    }
+  }
+
+  load();
+})();
+</script>
