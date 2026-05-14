@@ -3,10 +3,10 @@ import AdminLayout from '../../../../components/admin/AdminLayout.astro';
 import AdminNav from '../../../../components/admin/AdminNav.astro';
 ---
 
-<AdminLayout title="Photo Management" maxWidth="720px">
+<AdminLayout title="Photo Review" maxWidth="720px">
   <AdminNav current="/admin/dashboard/photos/" />
   <div class="photos-header">
-    <h1 class="photos-h1">Photos</h1>
+    <h1 class="photos-h1">Photo Review</h1>
     <a href="/admin/photo/" class="photos-submit-link">+ Submit new</a>
   </div>
 
@@ -87,8 +87,8 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
         align-items: flex-start;
       }
       .photos-skeleton-thumb {
-        width: 160px;
-        height: 120px;
+        width: 200px;
+        height: 150px;
         border-radius: 6px;
         background: linear-gradient(90deg, #f0f0f4 25%, #e8e8ec 50%, #f0f0f4 75%);
         background-size: 200% 100%;
@@ -170,8 +170,8 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
         animation: photosFadeIn 0.2s ease-out both;
       }
       .photo-card img {
-        width: 160px;
-        height: 120px;
+        width: 200px;
+        height: 150px;
         object-fit: cover;
         border-radius: 6px;
         background: #f0f0f4;
@@ -322,8 +322,23 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
         animation: photosFadeIn 0.2s ease-out both;
       }
 
+      /* Focus states for keyboard navigation */
+      .photo-btn:focus-visible {
+        outline: 2px solid #42168A;
+        outline-offset: 2px;
+      }
+      .photo-link-github:focus-visible {
+        outline: 2px solid #42168A;
+        outline-offset: 2px;
+        border-radius: 2px;
+      }
+      .photos-submit-link:focus-visible {
+        outline: 2px solid #42168A;
+        outline-offset: 2px;
+      }
+
       /* Responsive adjustments */
-      @media (max-width: 380px) {
+      @media (max-width: 480px) {
         .photo-card {
           flex-direction: column;
           gap: 12px;
@@ -331,7 +346,7 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
         .photo-card img {
           width: 100%;
           height: auto;
-          max-height: 160px;
+          max-height: 200px;
         }
       }
     </style>
@@ -381,7 +396,7 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
     }
     var submitterHtml = p.submitted_by ? '<div class="photo-submitter">from ' + esc(p.submitted_by) + '</div>' : '';
     return '<div class="photo-card" style="animation-delay: ' + (i * 0.04) + 's;">' +
-      (showThumb ? '<img src="' + esc(p.image_url) + '" alt="' + esc(p.description || 'Photo') + '" loading="lazy" width="160" height="120" />' : '') +
+      (showThumb ? '<img src="' + esc(p.image_url) + '" alt="' + esc(p.description || 'Photo') + '" loading="lazy" width="200" height="150" />' : '') +
       '<div class="photo-info">' +
         '<div class="photo-desc">' + esc(p.description || p.file || 'Untitled') + '</div>' +
         '<div class="photo-meta">' + [teamLabel(p.team), p.year].filter(Boolean).join(' \u00b7 ') + ' \u00b7 submitted ' + formatDate(p.created_at) + '</div>' +
@@ -454,7 +469,20 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
         var card = btn.closest('.photo-card');
         card.style.opacity = '0';
         card.style.transform = 'translateY(-8px)';
-        setTimeout(function() { card.remove(); }, 300);
+        card.style.transition = 'opacity 0.25s, transform 0.25s';
+        setTimeout(function() {
+          card.remove();
+          var remaining = document.querySelectorAll('.photo-card').length;
+          var label = document.querySelector('#photos-pending .section-label');
+          if (label) {
+            if (remaining > 0) {
+              label.textContent = 'Pending review (' + remaining + ')';
+            } else {
+              pendingEl.innerHTML = '';
+              emptyPendingEl.style.display = '';
+            }
+          }
+        }, 300);
       } else {
         btn.textContent = 'Failed';
         setTimeout(function() { btn.textContent = 'Approve'; btn.disabled = false; }, 2000);

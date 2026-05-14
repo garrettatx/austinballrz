@@ -247,19 +247,20 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
       /* Actions */
       .msg-actions {
         display: flex;
-        gap: 8px;
+        gap: 12px;
         margin-top: 16px;
       }
       .msg-actions button {
         font-size: 0.75rem;
-        padding: 8px 12px;
+        padding: 0 16px;
+        height: 36px;
         border-radius: 6px;
         cursor: pointer;
         border: 1px solid #e2e2e6;
         background: #ffffff;
         color: #374151;
-        min-height: 44px;
-        min-width: 44px;
+        line-height: 1;
+        font-family: inherit;
         -webkit-tap-highlight-color: transparent;
         font-weight: 500;
         transition: border-color 0.15s, background 0.15s;
@@ -281,6 +282,22 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
       }
       .msg-actions .delete-btn:active {
         background: #fee2e2;
+      }
+
+      /* Focus states for keyboard navigation */
+      .msg-header:focus-visible {
+        outline: 2px solid #42168A;
+        outline-offset: -2px;
+        border-radius: 8px;
+      }
+      .msg-actions button:focus-visible {
+        outline: 2px solid #42168A;
+        outline-offset: 2px;
+      }
+      .msg-value a:focus-visible {
+        outline: 2px solid #42168A;
+        outline-offset: 2px;
+        border-radius: 2px;
       }
 
       /* Responsive: stack contact on narrow */
@@ -340,7 +357,7 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
 
       listEl.innerHTML = messages.map(function(m, i) {
         return '<div class="msg-card' + (!m.read ? ' msg-unread' : '') + '" data-id="' + esc(m.id) + '" style="animation-delay: ' + (i * 0.04) + 's;">' +
-          '<div class="msg-header" onclick="toggleMsg(this)">' +
+          '<div class="msg-header" role="button" tabindex="0" onclick="toggleMsg(this)" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();toggleMsg(this)}">' +
             '<div class="msg-header-left">' +
               '<span class="msg-name">' + esc(m.name || 'No name') + '</span>' +
               (m.reason ? ' <span class="msg-reason">' + esc(m.reason) + '</span>' : '') +
@@ -419,28 +436,41 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
 
   window.toggleRead = async function(id, btn) {
     btn.disabled = true;
-    var res = await fetch('/api/admin/messages/?id=' + encodeURIComponent(id), { method: 'PUT' });
-    var data = await res.json();
-    btn.textContent = data.read ? 'Mark unread' : 'Mark read';
-    var card = btn.closest('.msg-card');
-    if (data.read) card.classList.remove('msg-unread');
-    else card.classList.add('msg-unread');
+    try {
+      var res = await fetch('/api/admin/messages/?id=' + encodeURIComponent(id), { method: 'PUT' });
+      if (!res.ok) throw new Error();
+      var data = await res.json();
+      btn.textContent = data.read ? 'Mark unread' : 'Mark read';
+      var card = btn.closest('.msg-card');
+      if (data.read) card.classList.remove('msg-unread');
+      else card.classList.add('msg-unread');
+      updateCount();
+    } catch (e) {
+      btn.textContent = 'Error';
+      setTimeout(function() { btn.textContent = 'Retry'; }, 1500);
+    }
     btn.disabled = false;
-    updateCount();
   };
 
   window.deleteMsg = async function(id, btn) {
     if (!confirm('Delete this message?')) return;
     btn.disabled = true;
-    await fetch('/api/admin/messages/?id=' + encodeURIComponent(id), { method: 'DELETE' });
-    var card = btn.closest('.msg-card');
-    card.classList.add('msg-removing');
-    setTimeout(function() {
-      card.remove();
-      updateCount();
-      var remaining = document.querySelectorAll('.msg-card').length;
-      if (remaining === 0) emptyEl.style.display = '';
-    }, 250);
+    try {
+      var res = await fetch('/api/admin/messages/?id=' + encodeURIComponent(id), { method: 'DELETE' });
+      if (!res.ok) throw new Error();
+      var card = btn.closest('.msg-card');
+      card.classList.add('msg-removing');
+      setTimeout(function() {
+        card.remove();
+        updateCount();
+        var remaining = document.querySelectorAll('.msg-card').length;
+        if (remaining === 0) emptyEl.style.display = '';
+      }, 250);
+    } catch (e) {
+      btn.disabled = false;
+      btn.textContent = 'Failed';
+      setTimeout(function() { btn.textContent = 'Delete'; }, 2000);
+    }
   };
 
   loadList();

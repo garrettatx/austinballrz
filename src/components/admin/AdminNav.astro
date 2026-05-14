@@ -17,8 +17,8 @@ interface Props {
 const defaultTools: Tool[] = [
   { label: 'Admin', href: '/admin/' },
   { label: 'Submit Photo', href: '/admin/photo/' },
-  { label: 'Messages', href: '/admin/dashboard/messages/', protected: true },
   { label: 'Photo Review', href: '/admin/dashboard/photos/', protected: true },
+  { label: 'Messages', href: '/admin/dashboard/messages/', protected: true },
 ];
 
 const { tools = defaultTools, current } = Astro.props;
