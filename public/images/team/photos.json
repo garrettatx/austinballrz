@@ -6,19 +6,22 @@
         "src": "2026/team-e-team-spring-2026.jpg",
         "alt": "E Ball'rz team photo, Spring 2026 season",
         "caption": "E Ball'rz Spring 2026",
-        "team": "e"
+        "team": "e",
+        "hero": true
       },
       {
         "src": "2026/team-d-team-spring-2026.jpg",
         "alt": "D Team group photo, Spring 2026 season",
         "caption": "D Team - Spring 2026",
-        "team": "d"
+        "team": "d",
+        "hero": true
       },
       {
         "src": "2026/team-d-team-spring-2026-2.jpg",
         "alt": "D Team group photo, Spring 2026 season",
         "caption": "D Team - Spring 2026",
-        "team": "d"
+        "team": "d",
+        "hero": true
       }
     ]
   },
@@ -29,13 +32,15 @@
         "src": "2025/team-e-team-fall-2025.jpg",
         "alt": "E Team group photo, Fall 2025 season",
         "caption": "E Team Fall 2025",
-        "team": "e"
+        "team": "e",
+        "hero": true
       },
       {
         "src": "2025/team-e-team-hoedown-2025.jpg",
         "alt": "E Team at the Austin Hoedown Tournament, 2025",
         "caption": "E Team - Austin Hoedown Tournament",
-        "team": "e"
+        "team": "e",
+        "hero": true
       }
     ],
     "description": "The D Team placed 3rd and E Team took 2nd in Spring. Both teams hit tournaments in Dallas and Houston."
