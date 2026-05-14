@@ -86,11 +86,11 @@ export async function onRequestPost(context) {
     const reasonLabel = reason || 'General';
     const sanitize = (str) => str.trim().replace(/[<>]/g, '');
 
-    const pronounsLabel = pronouns?.trim() || '';
+    const pronounsLabel = pronouns?.trim() || 'Prefer not to say';
 
     const emailBody = [
       `Name: ${sanitize(name)}`,
-      pronounsLabel ? `Pronouns: ${pronounsLabel}` : null,
+      `Pronouns: ${pronounsLabel}`,
       `Email: ${sanitize(email)}`,
       phone?.trim() ? `Phone: ${sanitize(phone)}` : null,
       `Reason: ${reasonLabel}`,
@@ -100,12 +100,11 @@ export async function onRequestPost(context) {
     ].filter(Boolean).join('\n');
 
     const emailHtml = [
-      `<p><strong>Name:</strong> ${sanitize(name)}${pronounsLabel ? ` <span style="color: #6b7280;">(${pronounsLabel})</span>` : ''}</p>`,
+      `<p><strong>Name:</strong> ${sanitize(name)} <span style="color: #6b7280;">(${pronounsLabel})</span></p>`,
       `<p><strong>Email:</strong> ${sanitize(email)}</p>`,
       phone?.trim() ? `<p><strong>Phone:</strong> ${sanitize(phone)}</p>` : null,
       `<p><strong>Reason:</strong> ${reasonLabel}</p>`,
-      '<hr>',
-      `<p>${sanitize(message).replace(/\n/g, '<br>')}</p>`,
+      `<p style="margin-top: 1rem;">${sanitize(message).replace(/\n/g, '<br>')}</p>`,
     ].filter(Boolean).join('\n');
 
     // ── Send via SendGrid ──
