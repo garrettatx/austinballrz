@@ -187,7 +187,7 @@ function shell(title, bodyContent) {
 
     /* Photo frame */
     .photo-frame { background: #f5f5f5; border-radius: 8px; overflow: hidden; border: 1px solid #e2e2e6; margin-bottom: 1.25rem; }
-    .photo-frame img { display: block; width: 100%; height: auto; max-height: 450px; object-fit: contain; }
+    .photo-frame img { display: block; width: 100%; height: auto; max-height: 560px; object-fit: contain; }
     .photo-frame .no-preview { padding: 3rem 1.5rem; text-align: center; color: #9ca3af; font-size: 0.875rem; }
 
     /* Metadata */
