@@ -5,20 +5,80 @@ import AdminNav from '../../../components/admin/AdminNav.astro';
 
 <AdminLayout title="Dashboard">
   <AdminNav current="/admin/dashboard/" />
-  <h1 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem;">Dashboard</h1>
+  <h1 class="dash-h1">Dashboard</h1>
+  <!-- Future: show unread message count and pending photo count on each card -->
 
-  <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-    <a href="/admin/dashboard/messages/" style="display: block; padding: 1rem; border: 1px solid #e2e2e6; border-radius: 8px; text-decoration: none; color: #1a1a2e; transition: border-color 0.15s;">
-      <p style="font-weight: 600; margin-bottom: 0.125rem;">Messages</p>
-      <p style="font-size: 0.8125rem; color: #6b7280;">Contact form submissions.</p>
+  <div class="dash-cards">
+    <a href="/admin/dashboard/messages/" class="dash-card">
+      <div class="dash-card-content">
+        <p class="dash-card-title">Messages</p>
+        <p class="dash-card-desc">Contact form submissions.</p>
+      </div>
+      <svg class="dash-card-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M7.5 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
     </a>
-    <a href="/admin/dashboard/photos/" style="display: block; padding: 1rem; border: 1px solid #e2e2e6; border-radius: 8px; text-decoration: none; color: #1a1a2e; transition: border-color 0.15s;">
-      <p style="font-weight: 600; margin-bottom: 0.125rem;">Photos</p>
-      <p style="font-size: 0.8125rem; color: #6b7280;">Review and manage submitted photos.</p>
+    <a href="/admin/dashboard/photos/" class="dash-card">
+      <div class="dash-card-content">
+        <p class="dash-card-title">Photos</p>
+        <p class="dash-card-desc">Review and manage submitted photos.</p>
+      </div>
+      <svg class="dash-card-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M7.5 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
     </a>
   </div>
 </AdminLayout>
 
 <style>
-  a:hover { border-color: #42168A !important; }
+  .dash-h1 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+  .dash-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .dash-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    border: 1px solid #e2e2e6;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #1a1a2e;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    gap: 12px;
+  }
+  .dash-card:hover {
+    border-color: #42168A;
+    box-shadow: 0 1px 4px rgba(66, 22, 138, 0.08);
+  }
+  .dash-card:active {
+    background: #faf8fd;
+  }
+  .dash-card-content {
+    flex: 1;
+    min-width: 0;
+  }
+  .dash-card-title {
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .dash-card-desc {
+    font-size: 0.8125rem;
+    color: #6b7280;
+  }
+  .dash-card-chevron {
+    flex-shrink: 0;
+    color: #9ca3af;
+    transition: color 0.15s, transform 0.15s;
+  }
+  .dash-card:hover .dash-card-chevron {
+    color: #42168A;
+    transform: translateX(2px);
+  }
 </style>
