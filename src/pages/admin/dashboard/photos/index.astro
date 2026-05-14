@@ -195,9 +195,27 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
         text-overflow: ellipsis;
       }
       .photo-meta {
-        font-size: 0.6875rem;
+        font-size: 0.75rem;
+        color: #6b7280;
+        margin-bottom: 4px;
+      }
+      .photo-caption {
+        font-size: 0.8125rem;
+        color: #1a1a2e;
+        margin-bottom: 4px;
+        line-height: 1.4;
+      }
+      .photo-caption-label {
+        font-size: 0.625rem;
+        font-weight: 600;
         color: #9ca3af;
-        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .photo-submitter {
+        font-size: 0.75rem;
+        color: #6b7280;
+        font-style: italic;
       }
       .photo-actions {
         display: flex;
@@ -220,6 +238,8 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
         background: #42168A;
         min-height: 44px;
         min-width: 44px;
+        line-height: 1;
+        font-family: inherit;
         -webkit-tap-highlight-color: transparent;
         transition: background 0.15s;
       }
@@ -254,6 +274,7 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
         border-radius: 6px;
         background: #065f46;
         min-height: 44px;
+        line-height: 1;
         cursor: pointer;
         -webkit-tap-highlight-color: transparent;
         transition: background 0.15s;
@@ -368,14 +389,18 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
 
   function pendingCard(p, i) {
     var showThumb = p.state === 'open' && p.image_url;
-    var submitter = p.submitted_by ? ' \u00b7 from ' + esc(p.submitted_by) : '';
-    var caption = p.caption && p.caption !== p.description ? '<div class="photo-meta" style="margin-top: 2px;">' + esc(p.caption) + '</div>' : '';
+    var captionHtml = '';
+    if (p.caption && p.caption !== p.description) {
+      captionHtml = '<div class="photo-caption"><span class="photo-caption-label">Caption (shows on site): </span>' + esc(p.caption) + '</div>';
+    }
+    var submitterHtml = p.submitted_by ? '<div class="photo-submitter">Submitted by ' + esc(p.submitted_by) + '</div>' : '';
     return '<div class="photo-card" style="animation-delay: ' + (i * 0.04) + 's;">' +
       (showThumb ? '<img src="' + esc(p.image_url) + '" alt="' + esc(p.description || 'Photo') + '" loading="lazy" width="160" height="120" />' : '') +
       '<div class="photo-info">' +
         '<div class="photo-desc">' + esc(p.description || p.file || 'Untitled') + '</div>' +
-        '<div class="photo-meta">' + [p.year, p.team, formatDate(p.created_at)].filter(Boolean).join(' \u00b7 ') + submitter + '</div>' +
-        caption +
+        '<div class="photo-meta">' + [p.year, p.team, formatDate(p.created_at)].filter(Boolean).join(' \u00b7 ') + '</div>' +
+        captionHtml +
+        submitterHtml +
         '<div class="photo-actions">' +
           '<button class="photo-btn-approve" onclick="approvePhoto(' + p.number + ', this)">Approve</button>' +
           '<a class="photo-btn-review" href="' + esc(p.review_url) + '">Review</a>' +
