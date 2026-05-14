@@ -15,26 +15,133 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
   <div id="msg-error" style="display: none; text-align: center; padding: 2rem 0; color: #991b1b; font-size: 0.875rem;"></div>
 
   <Fragment slot="head">
-    <style>
-      .msg-card { border: 1px solid #e2e2e6; border-radius: 8px; margin-bottom: 0.625rem; overflow: hidden; }
-      .msg-header { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; cursor: pointer; gap: 0.5rem; -webkit-tap-highlight-color: transparent; }
-      .msg-header:hover { background: #fafafa; }
-      .msg-unread { border-left: 3px solid #42168A; }
-      .msg-name { font-weight: 600; font-size: 0.875rem; }
-      .msg-reason { font-size: 0.75rem; color: #6b7280; }
-      .msg-date { font-size: 0.6875rem; color: #9ca3af; white-space: nowrap; }
-      .msg-body { display: none; padding: 0 1rem 1rem; font-size: 0.875rem; line-height: 1.6; border-top: 1px solid #f0f0f4; }
-      .msg-body.open { display: block; }
-      .msg-field { margin-bottom: 0.5rem; }
-      .msg-label { font-size: 0.6875rem; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.04em; }
-      .msg-value { color: #1a1a2e; }
-      .msg-value a { color: #42168A; }
-      .msg-text { white-space: pre-wrap; background: #f8f9fa; padding: 0.75rem; border-radius: 6px; margin-top: 0.5rem; font-size: 0.8125rem; }
-      .msg-actions { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
-      .msg-actions button { font-size: 0.75rem; padding: 0.25rem 0.625rem; border-radius: 4px; cursor: pointer; border: 1px solid #e2e2e6; background: white; color: #374151; -webkit-tap-highlight-color: transparent; }
-      .msg-actions button:hover { border-color: #9ca3af; }
-      .msg-actions .delete-btn { color: #991b1b; border-color: #fecaca; }
-      .msg-actions .delete-btn:hover { background: #fef2f2; }
+    <style is:global>
+      .msg-card {
+        border: 1px solid #e2e2e6;
+        border-radius: 8px;
+        margin-bottom: 0.75rem;
+        overflow: hidden;
+        background: #ffffff;
+      }
+      .msg-card.msg-unread {
+        border-left: 3px solid #42168A;
+      }
+      .msg-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        cursor: pointer;
+        gap: 0.75rem;
+        -webkit-tap-highlight-color: transparent;
+        min-height: 44px;
+      }
+      .msg-header:hover {
+        background: #f8f9fa;
+      }
+      .msg-header-left {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        min-width: 0;
+        flex: 1;
+      }
+      .msg-name {
+        font-weight: 600;
+        font-size: 0.875rem;
+        color: #1a1a2e;
+        white-space: nowrap;
+      }
+      .msg-reason {
+        font-size: 0.75rem;
+        color: #6b7280;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .msg-date {
+        font-size: 0.6875rem;
+        color: #9ca3af;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .msg-body {
+        display: none;
+        padding: 0 1rem 1rem;
+        font-size: 0.875rem;
+        line-height: 1.6;
+        border-top: 1px solid #f0f0f4;
+      }
+      .msg-body.open {
+        display: block;
+      }
+      .msg-body-inner {
+        padding-top: 0.75rem;
+      }
+      .msg-field {
+        margin-bottom: 0.625rem;
+      }
+      .msg-label {
+        font-size: 0.6875rem;
+        font-weight: 600;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin-bottom: 0.125rem;
+        display: block;
+      }
+      .msg-value {
+        color: #1a1a2e;
+        font-size: 0.875rem;
+      }
+      .msg-value a {
+        color: #42168A;
+        text-decoration: none;
+      }
+      .msg-value a:hover {
+        text-decoration: underline;
+      }
+      .msg-text {
+        white-space: pre-wrap;
+        background: #f8f9fa;
+        padding: 0.75rem;
+        border-radius: 6px;
+        margin-top: 0.75rem;
+        font-size: 0.8125rem;
+        color: #1a1a2e;
+        line-height: 1.6;
+        border: 1px solid #f0f0f4;
+      }
+      .msg-actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 1rem;
+      }
+      .msg-actions button {
+        font-size: 0.75rem;
+        padding: 0.375rem 0.75rem;
+        border-radius: 6px;
+        cursor: pointer;
+        border: 1px solid #e2e2e6;
+        background: #ffffff;
+        color: #374151;
+        min-height: 44px;
+        min-width: 44px;
+        -webkit-tap-highlight-color: transparent;
+        font-weight: 500;
+      }
+      .msg-actions button:hover {
+        border-color: #9ca3af;
+        background: #f8f9fa;
+      }
+      .msg-actions .delete-btn {
+        color: #991b1b;
+        border-color: #fecaca;
+      }
+      .msg-actions .delete-btn:hover {
+        background: #fef2f2;
+        border-color: #f87171;
+      }
     </style>
   </Fragment>
 </AdminLayout>
@@ -49,6 +156,13 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
   function formatDate(iso) {
     var d = new Date(iso);
     return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
+  function esc(str) {
+    if (!str) return '';
+    var el = document.createElement('span');
+    el.textContent = str;
+    return el.innerHTML;
   }
 
   async function loadList() {
@@ -68,12 +182,15 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
       countEl.textContent = messages.length + ' message' + (messages.length === 1 ? '' : 's') + (unread > 0 ? ' (' + unread + ' unread)' : '');
 
       listEl.innerHTML = messages.map(function(m) {
-        return '<div class="msg-card' + (!m.read ? ' msg-unread' : '') + '" data-id="' + m.id + '">' +
+        return '<div class="msg-card' + (!m.read ? ' msg-unread' : '') + '" data-id="' + esc(m.id) + '">' +
           '<div class="msg-header" onclick="toggleMsg(this)">' +
-            '<div><span class="msg-name">' + (m.name || 'No name') + '</span> <span class="msg-reason">' + (m.reason || '') + '</span></div>' +
+            '<div class="msg-header-left">' +
+              '<span class="msg-name">' + esc(m.name || 'No name') + '</span>' +
+              (m.reason ? ' <span class="msg-reason">' + esc(m.reason) + '</span>' : '') +
+            '</div>' +
             '<span class="msg-date">' + (m.submitted_at ? formatDate(m.submitted_at) : '') + '</span>' +
           '</div>' +
-          '<div class="msg-body">Loading...</div>' +
+          '<div class="msg-body"><div class="msg-body-inner">Loading...</div></div>' +
         '</div>';
       }).join('');
     } catch (err) {
@@ -91,33 +208,40 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
     }
 
     var id = card.getAttribute('data-id');
+    var inner = body.querySelector('.msg-body-inner');
 
-    // Load full message if not already loaded
-    if (body.textContent === 'Loading...') {
+    if (inner && inner.textContent === 'Loading...') {
       try {
         var res = await fetch('/api/admin/messages/?id=' + encodeURIComponent(id));
-        if (!res.ok) { body.innerHTML = '<p style="color: #991b1b;">Could not load message.</p>'; body.classList.add('open'); return; }
+        if (!res.ok) {
+          inner.innerHTML = '<p style="color: #991b1b;">Could not load message.</p>';
+          body.classList.add('open');
+          return;
+        }
         var msg = await res.json();
 
-        body.innerHTML =
-          '<div style="padding-top: 0.75rem;">' +
-          (msg.pronouns ? '<div class="msg-field"><span class="msg-label">Pronouns</span><br><span class="msg-value">' + msg.pronouns + '</span></div>' : '') +
-          '<div class="msg-field"><span class="msg-label">Email</span><br><span class="msg-value"><a href="mailto:' + msg.email + '">' + msg.email + '</a></span></div>' +
-          (msg.phone ? '<div class="msg-field"><span class="msg-label">Phone</span><br><span class="msg-value"><a href="tel:' + msg.phone.replace(/[^\d+]/g, '') + '">' + msg.phone + '</a></span></div>' : '') +
-          '<div class="msg-text">' + msg.message.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</div>' +
-          '<div class="msg-actions">' +
-            '<button onclick="toggleRead(\'' + id + '\', this)">' + (msg.read ? 'Mark unread' : 'Mark read') + '</button>' +
-            '<button class="delete-btn" onclick="deleteMsg(\'' + id + '\', this)">Delete</button>' +
-          '</div>' +
-          '</div>';
+        var html = '';
+        if (msg.pronouns) {
+          html += '<div class="msg-field"><span class="msg-label">Pronouns</span><span class="msg-value">' + esc(msg.pronouns) + '</span></div>';
+        }
+        html += '<div class="msg-field"><span class="msg-label">Email</span><span class="msg-value"><a href="mailto:' + esc(msg.email) + '">' + esc(msg.email) + '</a></span></div>';
+        if (msg.phone) {
+          html += '<div class="msg-field"><span class="msg-label">Phone</span><span class="msg-value"><a href="tel:' + msg.phone.replace(/[^\d+]/g, '') + '">' + esc(msg.phone) + '</a></span></div>';
+        }
+        html += '<div class="msg-text">' + esc(msg.message) + '</div>';
+        html += '<div class="msg-actions">';
+        html += '<button onclick="toggleRead(\'' + esc(id) + '\', this)">' + (msg.read ? 'Mark unread' : 'Mark read') + '</button>';
+        html += '<button class="delete-btn" onclick="deleteMsg(\'' + esc(id) + '\', this)">Delete</button>';
+        html += '</div>';
 
-        // Mark as read on open
+        inner.innerHTML = html;
+
         if (!msg.read) {
           fetch('/api/admin/messages/?id=' + encodeURIComponent(id), { method: 'PUT' });
           card.classList.remove('msg-unread');
         }
       } catch (err) {
-        body.innerHTML = '<p style="color: #991b1b;">Error loading message.</p>';
+        inner.innerHTML = '<p style="color: #991b1b;">Error loading message.</p>';
       }
     }
 
@@ -137,9 +261,9 @@ import AdminNav from '../../../../components/admin/AdminNav.astro';
     if (!confirm('Delete this message?')) return;
     await fetch('/api/admin/messages/?id=' + encodeURIComponent(id), { method: 'DELETE' });
     btn.closest('.msg-card').remove();
-    // Update count
     var remaining = document.querySelectorAll('.msg-card').length;
-    countEl.textContent = remaining + ' message' + (remaining === 1 ? '' : 's');
+    var unread = document.querySelectorAll('.msg-card.msg-unread').length;
+    countEl.textContent = remaining + ' message' + (remaining === 1 ? '' : 's') + (unread > 0 ? ' (' + unread + ' unread)' : '');
     if (remaining === 0) emptyEl.style.display = '';
   };
 
