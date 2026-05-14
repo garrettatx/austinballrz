@@ -273,20 +273,30 @@ export async function onRequestPost(context) {
         `Review and merge the PR to publish:`,
         prData.html_url,
       ].filter(Boolean).join('\n');
+      // Photo preview via raw GitHub URL (repo is public)
+      const imagePreviewUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${branchName}/${finalUploadPath}`;
+
+      // Review page URL (single link with photo preview + approve/reject)
+      const reviewToken = env.PHOTO_REVIEW_TOKEN || '';
+      const reviewUrl = reviewToken
+        ? `https://www.austinballrz.com/api/photo-review/?pr=${prData.number}&token=${reviewToken}`
+        : prData.html_url;
+
       const htmlBody = [
-        `<h2>New Photo Submission</h2>`,
-        `<p><img src="cid:photo-preview" alt="${cleanText(alt.trim())}" style="max-width: 400px; max-height: 300px; border-radius: 8px; border: 1px solid #e2e2e6;" /></p>`,
-        `<p><strong>File:</strong> ${yearFolder}/${filename}</p>`,
-        `<p><strong>Year:</strong> ${year}</p>`,
-        team ? `<p><strong>Team:</strong> ${team.toUpperCase()}</p>` : null,
-        `<p><strong>Description:</strong> ${alt.trim()}</p>`,
-        submittedBy ? `<p><strong>Submitted by:</strong> ${submittedBy}</p>` : null,
-        `<hr>`,
-        env.PHOTO_REVIEW_TOKEN ? `<p style="margin: 1rem 0;">` +
-          `<a href="https://www.austinballrz.com/api/photo-review/?pr=${prData.number}&action=approve&token=${env.PHOTO_REVIEW_TOKEN}" style="display: inline-block; padding: 0.625rem 1.25rem; background: #065f46; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; margin-right: 0.75rem;">Approve</a>` +
-          `<a href="https://www.austinballrz.com/api/photo-review/?pr=${prData.number}&action=reject&token=${env.PHOTO_REVIEW_TOKEN}" style="display: inline-block; padding: 0.625rem 1.25rem; background: #991b1b; color: white; text-decoration: none; border-radius: 6px; font-weight: 600;">Reject</a>` +
-          `</p>` : null,
-        `<p style="font-size: 0.8rem; color: #6b7280;"><a href="${prData.html_url}">Or review on GitHub</a></p>`,
+        `<h2 style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #1a1a2e;">New Photo Submission</h2>`,
+        `<p><img src="${imagePreviewUrl}" alt="${cleanText(alt.trim())}" style="max-width: 480px; width: 100%; border-radius: 8px; border: 1px solid #e2e2e6;" /></p>`,
+        `<table style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; color: #374151; line-height: 1.6; margin: 1rem 0;">`,
+        `<tr><td style="padding: 2px 12px 2px 0; font-weight: 600; color: #6b7280;">Year</td><td>${year}</td></tr>`,
+        team ? `<tr><td style="padding: 2px 12px 2px 0; font-weight: 600; color: #6b7280;">Team</td><td>${team.toUpperCase()}</td></tr>` : null,
+        `<tr><td style="padding: 2px 12px 2px 0; font-weight: 600; color: #6b7280;">Description</td><td>${cleanText(alt.trim())}</td></tr>`,
+        submittedBy ? `<tr><td style="padding: 2px 12px 2px 0; font-weight: 600; color: #6b7280;">From</td><td>${submittedBy}</td></tr>` : null,
+        `</table>`,
+        `<p style="margin: 1.5rem 0;">`,
+        `<a href="${reviewUrl}" style="display: inline-block; padding: 0.75rem 1.5rem; background: #3d4466; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;">Review Photo</a>`,
+        `</p>`,
+        `<p style="font-size: 12px; color: #9ca3af; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;">`,
+        `<a href="${prData.html_url}" style="color: #9ca3af;">View on GitHub</a>`,
+        `</p>`,
       ].filter(Boolean).join('\n');
 
       await fetch('https://api.sendgrid.com/v3/mail/send', {
@@ -303,13 +313,6 @@ export async function onRequestPost(context) {
             { type: 'text/plain', value: textBody },
             { type: 'text/html', value: htmlBody },
           ],
-          attachments: [{
-            content: imageBase64,
-            filename: filename,
-            type: 'image/jpeg',
-            disposition: 'inline',
-            content_id: 'photo-preview',
-          }],
         }),
       });
       // Email is best-effort — don't fail the submission if it doesn't send
