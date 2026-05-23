@@ -1,5 +1,5 @@
 ---
-import { site, navigation } from '../../data/site';
+import { site, navigation } from '../../../data/site';
 
 const currentYear = new Date().getFullYear();
 const allYears: string[] = [];
@@ -14,7 +14,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Submit a Photo | {site.name}</title>
   <meta name="robots" content="noindex, nofollow" />
   <style>
@@ -25,6 +25,9 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
     .site-header a { color: white; text-decoration: none; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1.125rem; letter-spacing: 0.04em; text-transform: uppercase; }
     .rainbow-bar { height: 4px; background: linear-gradient(90deg, #D92638, #E08A00, #D4AD00, #3DA812, #1094D4, #6A2BE0); }
     .page { padding: 1.25rem 1.25rem 2rem; max-width: 480px; margin: 0 auto; flex: 1; width: 100%; }
+    .breadcrumb { font-size: 0.75rem; color: #9ca3af; margin-bottom: 8px; }
+    .breadcrumb a { color: #6b7280; text-decoration: none; }
+    .breadcrumb a:hover { color: #42168A; }
     h1 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.125rem; }
     .subtitle { color: #6b7280; font-size: 0.85rem; margin-bottom: 1.25rem; }
     .subtitle a { color: #42168A; }
@@ -100,6 +103,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
   <div class="rainbow-bar" aria-hidden="true"></div>
 
   <div class="page">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/admin/">Admin</a> / Submit a Photo</nav>
     <h1>Submit a Photo</h1>
     <p class="subtitle">It'll appear at <a href="https://www.austinballrz.com/photos/">austinballrz.com/photos</a> upon review.</p>
 
@@ -474,7 +478,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
 
       var note = document.getElementById('note').value.trim();
       var caption = note || autoCaption();
-      var team = teamSelect.value === 'both' ? '' : teamSelect.value;
+      var team = teamSelect.value;
       var season = typeSelect.value.toLowerCase();
       var yearVal = yearSelect.value;
 
@@ -486,7 +490,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
       } else {
         nameParts.push('team');
       }
-      if (team) nameParts.push(team + '-team');
+      if (team && team !== 'both') nameParts.push(team + '-team');
       nameParts.push(season);
       nameParts.push(yearVal);
       var cleanName = nameParts.join('-') + '.jpg';

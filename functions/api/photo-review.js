@@ -167,7 +167,7 @@ function shell(title, bodyContent) {
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${title} | Austin Ball'rz</title>
   <meta name="robots" content="noindex, nofollow">
   <style>
@@ -187,7 +187,7 @@ function shell(title, bodyContent) {
 
     /* Photo frame */
     .photo-frame { background: #f5f5f5; border-radius: 8px; overflow: hidden; border: 1px solid #e2e2e6; margin-bottom: 1.25rem; }
-    .photo-frame img { display: block; width: 100%; height: auto; max-height: 450px; object-fit: contain; }
+    .photo-frame img { display: block; width: 100%; height: auto; max-height: 560px; object-fit: contain; }
     .photo-frame .no-preview { padding: 3rem 1.5rem; text-align: center; color: #9ca3af; font-size: 0.875rem; }
 
     /* Metadata */
@@ -262,19 +262,24 @@ function shell(title, bodyContent) {
 </html>`;
 }
 
+function esc(str) {
+  if (!str) return '';
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
 function reviewPageHtml(imageUrl, photoDesc, photoYear, photoTeam, baseUrl) {
   return shell('Review Photo', `
     <h1 class="page-title">Review Photo</h1>
     <p class="page-subtitle">Publish to add it to the site, or reject to discard.</p>
 
     <div class="photo-frame">
-      ${imageUrl ? `<img src="${imageUrl}" alt="${photoDesc}" />` : `<div class="no-preview">Photo preview unavailable</div>`}
+      ${imageUrl ? `<img src="${esc(imageUrl)}" alt="${esc(photoDesc)}" />` : `<div class="no-preview">Photo preview unavailable</div>`}
     </div>
 
     ${(photoDesc || photoYear || photoTeam) ? `<div class="meta">
-      ${photoDesc ? `<div class="meta-row"><span class="meta-label">Description</span><span class="meta-value">${photoDesc}</span></div>` : ''}
-      ${photoYear ? `<div class="meta-row"><span class="meta-label">Year</span><span class="meta-value">${photoYear}</span></div>` : ''}
-      ${photoTeam ? `<div class="meta-row"><span class="meta-label">Team</span><span class="meta-value">${photoTeam}</span></div>` : ''}
+      ${photoDesc ? `<div class="meta-row"><span class="meta-label">Description</span><span class="meta-value">${esc(photoDesc)}</span></div>` : ''}
+      ${photoYear ? `<div class="meta-row"><span class="meta-label">Year</span><span class="meta-value">${esc(photoYear)}</span></div>` : ''}
+      ${photoTeam ? `<div class="meta-row"><span class="meta-label">Team</span><span class="meta-value">${esc(photoTeam)}</span></div>` : ''}
     </div>` : ''}
 
     <a href="${baseUrl}&action=approve" class="btn-publish">Publish Photo</a>

@@ -20,7 +20,7 @@ export async function onRequestPost(context) {
 
   try {
     const body = await request.json();
-    const { name, email, phone, reason, message, turnstileToken, honeypot } = body;
+    const { name, pronouns, email, phone, reason, message, turnstileToken, honeypot } = body;
 
     // ── Honeypot (silent success for bots) ──
     if (honeypot) {
@@ -82,12 +82,46 @@ export async function onRequestPost(context) {
       }
     }
 
+    // ── Store in KV (backup, in case email fails) ──
+    if (env.CONTACT_MESSAGES) {
+      try {
+        const msgId = `msg:${Date.now()}:${Math.random().toString(36).slice(2, 6)}`;
+        const msgValue = {
+          id: msgId,
+          name: name.trim(),
+          pronouns: pronouns?.trim() || '',
+          email: email.trim(),
+          phone: phone?.trim() || '',
+          reason: reason || 'General',
+          message: message.trim(),
+          submitted_at: new Date().toISOString(),
+          ip: request.headers.get('CF-Connecting-IP') || '',
+          read: false,
+        };
+        await env.CONTACT_MESSAGES.put(msgId, JSON.stringify(msgValue), {
+          expirationTtl: 7776000, // 90 days
+          metadata: {
+            submitted_at: msgValue.submitted_at,
+            name: msgValue.name,
+            reason: msgValue.reason,
+            read: false,
+          },
+        });
+      } catch (kvErr) {
+        // KV write is best-effort. Never fail the request.
+        console.error('KV write failed:', kvErr.message);
+      }
+    }
+
     // ── Build email ──
     const reasonLabel = reason || 'General';
     const sanitize = (str) => str.trim().replace(/[<>]/g, '');
 
+    const pronounsLabel = pronouns?.trim() || 'Prefer not to say';
+
     const emailBody = [
       `Name: ${sanitize(name)}`,
+      `Pronouns: ${pronounsLabel}`,
       `Email: ${sanitize(email)}`,
       phone?.trim() ? `Phone: ${sanitize(phone)}` : null,
       `Reason: ${reasonLabel}`,
@@ -97,12 +131,11 @@ export async function onRequestPost(context) {
     ].filter(Boolean).join('\n');
 
     const emailHtml = [
-      `<p><strong>Name:</strong> ${sanitize(name)}</p>`,
+      `<p><strong>Name:</strong> ${sanitize(name)} <span style="color: #6b7280;">(${pronounsLabel})</span></p>`,
       `<p><strong>Email:</strong> ${sanitize(email)}</p>`,
       phone?.trim() ? `<p><strong>Phone:</strong> ${sanitize(phone)}</p>` : null,
       `<p><strong>Reason:</strong> ${reasonLabel}</p>`,
-      '<hr>',
-      `<p>${sanitize(message).replace(/\n/g, '<br>')}</p>`,
+      `<p style="margin-top: 1rem;">${sanitize(message).replace(/\n/g, '<br>')}</p>`,
     ].filter(Boolean).join('\n');
 
     // ── Send via SendGrid ──

@@ -8,7 +8,7 @@ export const site = {
   titleSuffix: "Austin Ball'rz Softball Team",
   tagline: 'LGBTQ+ Inclusive Softball in Austin, TX',
   url: 'https://www.austinballrz.com',
-  description: 'Austin Ball\'rz is an LGBTQ+ inclusive softball team playing in Softball Austin, part of the iPride Softball League. Founded in 2013.',
+  description: 'Austin Ball\'rz is an LGBTQ+ inclusive softball team in Austin, TX. All skill levels, gender identities, and backgrounds welcome. Playing in Softball Austin since 2013.',
   founded: 2013,
   location: 'Austin, TX',
   league: 'Softball Austin',

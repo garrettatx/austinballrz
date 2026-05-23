@@ -16,7 +16,7 @@ export const playing = {
   league: 'Softball Austin',
   leagueUrl: 'https://www.softballaustin.org/',
   joiningNote: 'Reach out and one of our coaches will walk you through it. You\'ll register through Softball Austin. There\'s a league registration fee and a team fee that covers practice fields, jerseys, and equipment.',
-  socialNote: 'We do social events outside of Sunday games too. It\'s a great way to meet people and be part of a community. Players and allies welcome.',
+  socialNote: 'We hang out outside of games too. Happy hours, watch parties, that kind of thing. Players and friends welcome.',
   divisions: [
     {
       name: 'D Division',
@@ -24,7 +24,7 @@ export const playing = {
     },
     {
       name: 'E Division',
-      description: 'For newer players or those still building their game. No experience needed. We\'re all learning and growing together.',
+      description: 'For newer players. No experience needed. We\'ll get you up to speed.',
     },
   ],
 } as const;
