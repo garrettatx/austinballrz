@@ -1,0 +1,508 @@
+---
+import AdminLayout from '../../../../components/admin/AdminLayout.astro';
+import AdminNav from '../../../../components/admin/AdminNav.astro';
+---
+
+<AdminLayout title="Photo Review" maxWidth="720px">
+  <AdminNav current="/admin/dashboard/photos/" />
+  <div class="photos-header">
+    <h1 class="photos-h1">Photo Review</h1>
+    <a href="/admin/photo/" class="photos-submit-link">+ Submit new</a>
+  </div>
+
+  <!-- Loading skeleton -->
+  <div id="photos-loading" class="photos-loading">
+    <div class="photos-skeleton-card">
+      <div class="photos-skeleton-thumb"></div>
+      <div class="photos-skeleton-lines">
+        <div class="photos-skeleton-bar" style="width: 60%;"></div>
+        <div class="photos-skeleton-bar short" style="width: 40%;"></div>
+      </div>
+    </div>
+    <div class="photos-skeleton-card">
+      <div class="photos-skeleton-thumb"></div>
+      <div class="photos-skeleton-lines">
+        <div class="photos-skeleton-bar" style="width: 45%;"></div>
+        <div class="photos-skeleton-bar short" style="width: 30%;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="photos-pending"></div>
+  <div id="photos-recent"></div>
+
+  <!-- Separate empty states for pending and recent -->
+  <div id="photos-empty-pending" style="display: none;" class="photos-empty-state">
+    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true" style="margin-bottom: 8px;">
+      <rect x="4" y="8" width="32" height="24" rx="4" stroke="#d1d5db" stroke-width="2" fill="none"/>
+      <circle cx="14" cy="18" r="3" stroke="#d1d5db" stroke-width="2" fill="none"/>
+      <path d="M4 28l10-8 6 4 10-8" stroke="#d1d5db" stroke-width="2" fill="none"/>
+    </svg>
+    <p>No pending photos.</p>
+    <p class="photos-empty-hint">Submitted photos awaiting review will appear here.</p>
+  </div>
+  <div id="photos-empty-recent" style="display: none;" class="photos-empty-state">
+    <p>No recent activity.</p>
+  </div>
+  <div id="photos-error" style="display: none;" class="photos-error-state"></div>
+
+  <Fragment slot="head">
+    <style is:global>
+      /* Header row */
+      .photos-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      .photos-h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+      }
+      .photos-submit-link {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: #42168A;
+        text-decoration: none;
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: background 0.15s;
+      }
+      .photos-submit-link:hover {
+        background: #f5f0fb;
+      }
+
+      /* Loading skeleton */
+      .photos-loading {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .photos-skeleton-card {
+        display: flex;
+        gap: 16px;
+        padding: 16px;
+        border: 1px solid #e2e2e6;
+        border-radius: 8px;
+        align-items: flex-start;
+      }
+      .photos-skeleton-thumb {
+        width: 200px;
+        height: 150px;
+        border-radius: 6px;
+        background: linear-gradient(90deg, #f0f0f4 25%, #e8e8ec 50%, #f0f0f4 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.4s ease-in-out infinite;
+        flex-shrink: 0;
+      }
+      .photos-skeleton-lines {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding-top: 4px;
+      }
+      .photos-skeleton-bar {
+        height: 14px;
+        border-radius: 4px;
+        background: linear-gradient(90deg, #f0f0f4 25%, #e8e8ec 50%, #f0f0f4 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.4s ease-in-out infinite;
+      }
+      .photos-skeleton-bar.short {
+        height: 10px;
+      }
+      @keyframes shimmer {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+      }
+
+      /* Fade-in for dynamic content */
+      @keyframes photosFadeIn {
+        from { opacity: 0; transform: translateY(4px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      /* Empty + error states */
+      .photos-empty-state {
+        text-align: center;
+        padding: 32px 0;
+        color: #9ca3af;
+        font-size: 0.875rem;
+      }
+      .photos-empty-hint {
+        font-size: 0.8125rem;
+        margin-top: 4px;
+        color: #d1d5db;
+      }
+      .photos-error-state {
+        text-align: center;
+        padding: 32px 0;
+        color: #991b1b;
+        font-size: 0.875rem;
+      }
+
+      /* Section labels */
+      .section-label {
+        font-size: 0.6875rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #6b7280;
+        margin-bottom: 12px;
+      }
+      .section-divider {
+        margin-top: 28px;
+        padding-top: 24px;
+        border-top: 1px solid #e2e2e6;
+      }
+
+      /* Pending photo cards */
+      .photo-card {
+        display: flex;
+        gap: 16px;
+        padding: 16px;
+        border: 1px solid #e2e2e6;
+        border-radius: 8px;
+        margin-bottom: 12px;
+        align-items: flex-start;
+        background: #ffffff;
+        animation: photosFadeIn 0.2s ease-out both;
+      }
+      .photo-thumb-link {
+        flex-shrink: 0;
+        border-radius: 6px;
+        overflow: hidden;
+        display: block;
+      }
+      .photo-thumb-link:focus-visible {
+        outline: 2px solid #42168A;
+        outline-offset: 2px;
+      }
+      .photo-card img {
+        width: 200px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 6px;
+        background: #f0f0f4;
+        display: block;
+        transition: transform 0.2s;
+      }
+      .photo-card img:hover {
+        transform: scale(1.04);
+      }
+      .photo-info {
+        flex: 1;
+        min-width: 0;
+      }
+      .photo-desc {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #1a1a2e;
+        margin-bottom: 4px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .photo-meta {
+        font-size: 0.75rem;
+        color: #6b7280;
+        margin-bottom: 4px;
+      }
+      .photo-caption {
+        font-size: 0.8125rem;
+        color: #1a1a2e;
+        margin-bottom: 4px;
+        line-height: 1.4;
+      }
+      .photo-caption-label {
+        font-size: 0.625rem;
+        font-weight: 600;
+        color: #9ca3af;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .photo-submitter {
+        font-size: 0.8125rem;
+        color: #1a1a2e;
+        margin-bottom: 4px;
+      }
+      .photo-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 10px;
+        align-items: center;
+      }
+      /* Shared action button base */
+      .photo-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #ffffff;
+        text-decoration: none;
+        padding: 0 20px;
+        height: 36px;
+        border: none;
+        border-radius: 6px;
+        line-height: 1;
+        font-family: inherit;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        transition: background 0.15s;
+        box-sizing: border-box;
+      }
+      .photo-btn-approve { background: #065f46; }
+      .photo-btn-approve:hover { background: #047857; }
+      .photo-btn-approve:disabled { opacity: 0.5; cursor: not-allowed; }
+      .photo-btn-review { background: #42168A; }
+      .photo-btn-review:hover { background: #331267; }
+      /* GitHub link: subtle secondary */
+      .photo-link-github {
+        font-size: 0.6875rem;
+        color: #9ca3af;
+        text-decoration: none;
+        margin-left: 4px;
+        transition: color 0.15s;
+      }
+      .photo-link-github:hover {
+        color: #42168A;
+      }
+
+      /* Status badges */
+      .photo-status {
+        display: inline-block;
+        font-size: 0.6875rem;
+        font-weight: 600;
+        padding: 2px 8px;
+        border-radius: 100px;
+        vertical-align: middle;
+      }
+      .status-open {
+        background: #fef3c7;
+        color: #92400e;
+      }
+      .status-merged {
+        background: #ecfdf5;
+        color: #065f46;
+      }
+      .status-closed {
+        background: #fef2f2;
+        color: #991b1b;
+      }
+
+      /* Recent items: compact list */
+      .recent-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 12px;
+        border-bottom: 1px solid #f0f0f4;
+        gap: 12px;
+        transition: background 0.15s;
+      }
+      .recent-item:hover {
+        background: #faf8fd;
+      }
+      .recent-item:last-child {
+        border-bottom: none;
+      }
+      .recent-item-left {
+        min-width: 0;
+        flex: 1;
+      }
+      .recent-item-desc {
+        font-size: 0.8125rem;
+        font-weight: 500;
+        color: #1a1a2e;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .recent-item-meta {
+        font-size: 0.6875rem;
+        color: #9ca3af;
+      }
+      .recent-list {
+        border: 1px solid #e2e2e6;
+        border-radius: 8px;
+        overflow: hidden;
+        background: #ffffff;
+        animation: photosFadeIn 0.2s ease-out both;
+      }
+
+      /* Focus states for keyboard navigation */
+      .photo-btn:focus-visible {
+        outline: 2px solid #42168A;
+        outline-offset: 2px;
+      }
+      .photo-link-github:focus-visible {
+        outline: 2px solid #42168A;
+        outline-offset: 2px;
+        border-radius: 2px;
+      }
+      .photos-submit-link:focus-visible {
+        outline: 2px solid #42168A;
+        outline-offset: 2px;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 480px) {
+        .photo-card {
+          flex-direction: column;
+          gap: 12px;
+        }
+        .photo-card img {
+          width: 100%;
+          height: auto;
+          max-height: 200px;
+        }
+      }
+    </style>
+  </Fragment>
+</AdminLayout>
+
+<script is:inline>
+(function() {
+  var pendingEl = document.getElementById('photos-pending');
+  var recentEl = document.getElementById('photos-recent');
+  var emptyPendingEl = document.getElementById('photos-empty-pending');
+  var emptyRecentEl = document.getElementById('photos-empty-recent');
+  var errorEl = document.getElementById('photos-error');
+  var loadingEl = document.getElementById('photos-loading');
+
+  function formatDate(iso) {
+    return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  }
+
+  function esc(str) {
+    if (!str) return '';
+    var el = document.createElement('span');
+    el.textContent = str;
+    return el.innerHTML;
+  }
+
+  function teamLabel(t) {
+    if (!t) return '';
+    var lower = t.toLowerCase();
+    if (lower === 'd') return 'D Team';
+    if (lower === 'e') return 'E Team';
+    if (lower === 'both') return 'Both Teams';
+    return t;
+  }
+
+  function statusBadge(state) {
+    if (state === 'merged') return '<span class="photo-status status-merged">Published</span>';
+    if (state === 'closed') return '<span class="photo-status status-closed">Rejected</span>';
+    return '<span class="photo-status status-open">Pending</span>';
+  }
+
+  function pendingCard(p, i) {
+    var showThumb = p.state === 'open' && p.image_url;
+    var captionHtml = '';
+    if (p.caption && p.caption !== p.description) {
+      captionHtml = '<div class="photo-caption"><span class="photo-caption-label">Site caption: </span>' + esc(p.caption) + '</div>';
+    }
+    var submitterHtml = p.submitted_by ? '<div class="photo-submitter"><span class="photo-caption-label">From: </span>' + esc(p.submitted_by) + '</div>' : '';
+    return '<div class="photo-card" style="animation-delay: ' + (i * 0.04) + 's;">' +
+      (showThumb ? '<a href="' + esc(p.review_url) + '" class="photo-thumb-link"><img src="' + esc(p.image_url) + '" alt="' + esc(p.description || 'Photo') + '" loading="lazy" width="200" height="150" /></a>' : '') +
+      '<div class="photo-info">' +
+        '<div class="photo-desc">' + esc(p.description || p.file || 'Untitled') + '</div>' +
+        '<div class="photo-meta">' + [teamLabel(p.team), p.year].filter(Boolean).join(' \u00b7 ') + ' \u00b7 submitted ' + formatDate(p.created_at) + '</div>' +
+        captionHtml +
+        submitterHtml +
+        '<div class="photo-actions">' +
+          '<button class="photo-btn photo-btn-approve" onclick="approvePhoto(' + p.number + ', this)">Approve</button>' +
+          '<a class="photo-btn photo-btn-review" href="' + esc(p.review_url) + '">Review</a>' +
+          '<a class="photo-link-github" href="' + esc(p.github_url) + '">GitHub</a>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function recentItem(p) {
+    var submitter = p.submitted_by ? ' \u00b7 ' + esc(p.submitted_by) : '';
+    return '<div class="recent-item">' +
+      '<div class="recent-item-left">' +
+        '<div class="recent-item-desc">' + esc(p.description || p.file || 'Untitled') + '</div>' +
+        '<div class="recent-item-meta">' + [teamLabel(p.team), p.year, formatDate(p.created_at)].filter(Boolean).join(' \u00b7 ') + submitter + '</div>' +
+      '</div>' +
+      statusBadge(p.state) +
+    '</div>';
+  }
+
+  async function load() {
+    try {
+      var res = await fetch('/api/admin/photos/');
+      if (!res.ok) throw new Error('Could not load photos.');
+      var data = await res.json();
+
+      loadingEl.style.display = 'none';
+
+      if (data.pending.length === 0 && data.recent.length === 0) {
+        emptyPendingEl.style.display = '';
+        return;
+      }
+
+      if (data.pending.length > 0) {
+        pendingEl.innerHTML = '<p class="section-label">Pending review (' + data.pending.length + ')</p>' +
+          data.pending.map(pendingCard).join('');
+      } else {
+        emptyPendingEl.style.display = '';
+      }
+
+      if (data.recent.length > 0) {
+        recentEl.innerHTML =
+          '<p class="section-label' + (data.pending.length > 0 ? ' section-divider' : '') + '">Recent (' + data.recent.length + ')</p>' +
+          '<div class="recent-list">' + data.recent.map(recentItem).join('') + '</div>';
+      } else if (data.pending.length > 0) {
+        /* Only show "no recent" if there are pending items (otherwise the pending empty handles it) */
+        emptyRecentEl.style.display = '';
+      }
+    } catch (err) {
+      loadingEl.style.display = 'none';
+      errorEl.innerHTML = esc(err.message) + '<br><span style="font-size: 0.8125rem; color: #6b7280;">Try refreshing the page.</span>';
+      errorEl.style.display = '';
+    }
+  }
+
+  // Quick approve from the dashboard
+  window.approvePhoto = async function(prNumber, btn) {
+    if (!confirm('Publish this photo to the site?')) return;
+    btn.disabled = true;
+    btn.textContent = 'Publishing...';
+    try {
+      var reviewUrl = '/api/photo-review/?pr=' + prNumber + '&token=' + encodeURIComponent(btn.closest('.photo-card').querySelector('.photo-btn-review').href.split('token=')[1]) + '&action=approve';
+      var res = await fetch(reviewUrl);
+      if (res.ok) {
+        var card = btn.closest('.photo-card');
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(-8px)';
+        card.style.transition = 'opacity 0.25s, transform 0.25s';
+        setTimeout(function() {
+          card.remove();
+          var remaining = document.querySelectorAll('.photo-card').length;
+          var label = document.querySelector('#photos-pending .section-label');
+          if (label) {
+            if (remaining > 0) {
+              label.textContent = 'Pending review (' + remaining + ')';
+            } else {
+              pendingEl.innerHTML = '';
+              emptyPendingEl.style.display = '';
+            }
+          }
+        }, 300);
+      } else {
+        btn.textContent = 'Failed';
+        setTimeout(function() { btn.textContent = 'Approve'; btn.disabled = false; }, 2000);
+      }
+    } catch (e) {
+      btn.textContent = 'Failed';
+      setTimeout(function() { btn.textContent = 'Approve'; btn.disabled = false; }, 2000);
+    }
+  };
+
+  load();
+})();
+</script>
