@@ -1,0 +1,420 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { site } from '../data/site';
+import { playing } from '../data/playing';
+import { breadcrumbSchema } from '../lib/schema';
+
+const breadcrumbs = [{ label: 'Join the Team' }];
+const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
+---
+
+<Layout
+  title={`Join the Ball'rz — New Player Guide | ${site.titleSuffix}`}
+  description="Everything you need to know about joining Austin's LGBTQ+ inclusive softball team. No experience required for E division. Here's how it works."
+  jsonLd={breadcrumbSchema(breadcrumbs)}
+>
+  <Header slot="header" />
+
+  <PageHeader
+    title="Join the Ball'rz"
+    description="Everything you need to know before your first practice."
+    breadcrumbs={breadcrumbs}
+  />
+
+  <section class="section-sm">
+    <div class="container" style="max-width: 48rem;">
+
+      <nav class="rounded-lg mb-8" style={`padding: var(--space-4); background: var(--color-light);`}>
+        <strong style="display: block; margin-bottom: var(--space-2); font-size: var(--text-sm); text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-muted);">On this page</strong>
+        <ul class="list-spaced" style="font-size: var(--text-sm);">
+          <li><a href="#who-we-are" class="text-[var(--color-accent)] hover:underline">Who we are</a></li>
+          <li><a href="#divisions" class="text-[var(--color-accent)] hover:underline">D vs E division explained</a></li>
+          <li><a href="#seasons" class="text-[var(--color-accent)] hover:underline">Spring vs fall season</a></li>
+          <li><a href="#commitment" class="text-[var(--color-accent)] hover:underline">What we expect</a></li>
+          <li><a href="#cost" class="text-[var(--color-accent)] hover:underline">What it costs</a></li>
+          <li><a href="#equipment" class="text-[var(--color-accent)] hover:underline">What to bring</a></li>
+          <li><a href="#how-to-join" class="text-[var(--color-accent)] hover:underline">How to join</a></li>
+          <li><a href="#player-form" class="text-[var(--color-accent)] hover:underline">Player interest form</a></li>
+        </ul>
+      </nav>
+
+      <div class="stack stack-lg">
+
+        <div id="who-we-are">
+          <h2 class="heading h3 mb-3">Who we are</h2>
+          <p class="mb-3">The Austin Ball'rz are an LGBTQ+ inclusive slowpitch softball team in <a href={playing.leagueUrl} class="text-[var(--color-accent)] hover:underline">{playing.league}</a>, part of the <a href="https://ipridesoftball.org/" class="text-[var(--color-accent)] hover:underline">iPride Softball</a> national league. We've been playing since 2013.</p>
+          <p>We're competitive but welcoming. Some of our players picked up a glove for the first time when they joined. Others played in college. What matters is showing up, being a good teammate, and wanting to get better.</p>
+        </div>
+
+        <div id="divisions">
+          <h2 class="heading h3 mb-3">What D and E division mean</h2>
+          <p class="mb-4">iPride uses a ratings system to keep games competitive and fair. Every player gets a skill rating on a 1-28 scale, and teams have a cap on their total team rating. This determines your division.</p>
+
+          <div class="rounded-lg mb-4" style={`padding: var(--space-5); background: var(--color-light);`}>
+            <h3 class="heading h4 mb-2">E Division (recreational)</h3>
+            <ul class="list-spaced">
+              <li><strong>Who it's for:</strong> New players, players returning after a long break, anyone still building their game</li>
+              <li><strong>No experience required.</strong> Many E players have never played organized softball.</li>
+              <li><strong>Player rating cap:</strong> 6 out of 28</li>
+              <li><strong>Team rating cap:</strong> 60 total across the roster</li>
+              <li><strong>What it's like:</strong> Learning the game, having fun, building skills. Still structured and competitive, just at a pace that works for newer players.</li>
+            </ul>
+          </div>
+
+          <div class="rounded-lg mb-4" style={`padding: var(--space-5); background: var(--color-light);`}>
+            <h3 class="heading h4 mb-2">D Division (competitive recreational)</h3>
+            <ul class="list-spaced">
+              <li><strong>Who it's for:</strong> Players with solid fundamentals who want more competitive games</li>
+              <li><strong>Player rating cap:</strong> 10 out of 28</li>
+              <li><strong>Team rating cap:</strong> 95 total across the roster</li>
+              <li><strong>What it's like:</strong> Players know the rules, can field and throw consistently, and are working on their game. Competitive but still community-first.</li>
+            </ul>
+          </div>
+
+          <p class="mb-3"><strong>How ratings work:</strong> When you join, a coach will assess your skills using <a href="https://cdn-app.teamlinkt.com/media/association_data/14356/site_data/images/library/documents/iPride_Ratings_Guidance_FDG_interim.pdf" class="text-[var(--color-accent)] hover:underline">iPride's rating guide</a>. The questions cover throwing, fielding, hitting, and game awareness. Ratings can go up or down between seasons as your skills develop.</p>
+          <p>Not sure where you'd fit? That's fine. Come to a practice and we'll figure it out together.</p>
+        </div>
+
+        <div id="seasons">
+          <h2 class="heading h3 mb-3">Spring vs fall season</h2>
+
+          <h3 class="heading h4 mb-2">Spring (February through June)</h3>
+          <ul class="list-spaced mb-4">
+            <li><strong>This is the competitive season.</strong> Teams that qualify can earn a bid to the <a href="https://ipridesoftball.org/" class="text-[var(--color-accent)] hover:underline">iPride Softball World Series</a>.</li>
+            <li>Practices start in February on weeknights at <a href={playing.fieldUrl} class="text-[var(--color-accent)] hover:underline">{playing.field}</a> or <a href={playing.practiceFieldUrl} class="text-[var(--color-accent)] hover:underline">{playing.practiceField}</a> in {playing.practiceCity}.</li>
+            <li>Games run Sundays through June.</li>
+            <li>Attendance at practices and games matters. You're expected to show up consistently.</li>
+          </ul>
+
+          <h3 class="heading h4 mb-2">Fall (September through November)</h3>
+          <ul class="list-spaced">
+            <li><strong>More relaxed.</strong> No World Series, so the stakes are lower.</li>
+            <li>Sunday games only. No weeknight practices.</li>
+            <li>Great time to join if you want to try softball without the full spring commitment.</li>
+            <li>Still structured with a schedule, standings, and rules. Not a pickup game.</li>
+          </ul>
+        </div>
+
+        <div id="commitment">
+          <h2 class="heading h3 mb-3">What we expect from players</h2>
+          <p class="mb-4">This is a team sport on a real roster. Here's what that means.</p>
+
+          <h3 class="heading h4 mb-2">You must be on the roster</h3>
+          <p class="mb-4">You can't just show up and play. Every player must be registered with Softball Austin, have a signed waiver, and be on the team roster before stepping on the field. This is a league rule.</p>
+
+          <h3 class="heading h4 mb-2">Attendance matters</h3>
+          <ul class="list-spaced mb-4">
+            <li><strong>Spring:</strong> Make every effort to attend practices and most games. We build lineups around who's available.</li>
+            <li><strong>Fall:</strong> More flexible, but commit to most games.</li>
+            <li><strong>Games are Sundays,</strong> typically 9 AM to 3 PM. Most weeks you play two games.</li>
+          </ul>
+
+          <h3 class="heading h4 mb-2">Why this matters</h3>
+          <p>We carry 12-18 players. If we can't field enough for a game, we forfeit. Forfeits cost the team extra money and are unfair to everyone who showed up. When you commit to the roster, your teammates are counting on you.</p>
+        </div>
+
+        <div id="cost">
+          <h2 class="heading h3 mb-3">What it costs</h2>
+          <ul class="list-spaced mb-3">
+            <li><strong>League player fee:</strong> $90 per season (Open Division)</li>
+            <li><strong>Team costs:</strong> Your team may collect for jerseys, practice fields, or socials. Ask your coach.</li>
+            <li><strong>Your gear:</strong> A glove ($30-80 for a starter) and cleats or turf shoes ($40-70). Bats are shared.</li>
+          </ul>
+          <p><strong>Realistic total for a new player:</strong> $150-200 for your first season including gear.</p>
+        </div>
+
+        <div id="equipment">
+          <h2 class="heading h3 mb-3">What to bring</h2>
+          <table style="width: 100%; border-collapse: collapse; font-size: var(--text-sm);">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--color-border);">
+                <th style="padding: var(--space-2) var(--space-3); text-align: left;">Item</th>
+                <th style="padding: var(--space-2) var(--space-3); text-align: left;">Required?</th>
+                <th style="padding: var(--space-2) var(--space-3); text-align: left;">Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: var(--space-2) var(--space-3);"><strong>Glove</strong></td><td style="padding: var(--space-2) var(--space-3);">Yes</td><td style="padding: var(--space-2) var(--space-3);">Teammates lend extras to new players.</td></tr>
+              <tr style="border-bottom: 1px solid var(--color-border); background: var(--color-light);"><td style="padding: var(--space-2) var(--space-3);"><strong>Cleats or turf shoes</strong></td><td style="padding: var(--space-2) var(--space-3);">Recommended</td><td style="padding: var(--space-2) var(--space-3);">No metal cleats. Rubber or turf.</td></tr>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: var(--space-2) var(--space-3);"><strong>Team jersey</strong></td><td style="padding: var(--space-2) var(--space-3);">For games</td><td style="padding: var(--space-2) var(--space-3);">Team arranges this.</td></tr>
+              <tr style="border-bottom: 1px solid var(--color-border); background: var(--color-light);"><td style="padding: var(--space-2) var(--space-3);"><strong>Bat</strong></td><td style="padding: var(--space-2) var(--space-3);">No</td><td style="padding: var(--space-2) var(--space-3);">Teams share. Must be USA Softball certified if you bring your own.</td></tr>
+              <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: var(--space-2) var(--space-3);"><strong>Water + sunscreen</strong></td><td style="padding: var(--space-2) var(--space-3);">Yes</td><td style="padding: var(--space-2) var(--space-3);">Austin. Summer. You know.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="how-to-join">
+          <h2 class="heading h3 mb-3">How to join</h2>
+          <ol class="list-spaced">
+            <li><strong>Fill out the form below.</strong> Tell us about yourself and your experience level.</li>
+            <li><strong>Come to a practice.</strong> We'll invite you out so you can meet the team and throw a ball around.</li>
+            <li><strong>Get rated.</strong> A coach does a quick skills assessment. Low-pressure, just helps us place you.</li>
+            <li><strong>Register.</strong> You'll register through <a href={playing.leagueUrl} class="text-[var(--color-accent)] hover:underline">Softball Austin</a> and pay the league fee.</li>
+            <li><strong>Show up.</strong> That's the hardest part and the most important part.</li>
+          </ol>
+        </div>
+
+        {/* ── Player Interest Form ── */}
+        <div id="player-form" style={`padding-top: var(--space-6); border-top: 2px solid var(--color-border);`}>
+          <h2 class="heading h3 mb-2">Player Interest Form</h2>
+          <p class="mb-4" style="color: var(--color-muted); font-size: var(--text-sm);">
+            This helps our coaches get to know you before your first practice. We use this info for roster planning, emergency contact during games, and to make sure we put you in the right spot. Nothing here is shared outside the team.
+          </p>
+
+          {/* Success */}
+          <div id="form-success" class="hidden rounded-lg mb-4" style={`padding: var(--space-4); background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46;`}>
+            <p class="font-semibold">You're in.</p>
+            <p style="font-size: var(--text-sm);">A coach will reach out within a few days to talk next steps.</p>
+          </div>
+
+          {/* Error */}
+          <div id="form-error" class="hidden rounded-lg mb-4" style={`padding: var(--space-4); background: #fef2f2; border: 1px solid #fecaca; color: #991b1b;`}>
+            <p id="form-error-text">Something went wrong. Please try again.</p>
+          </div>
+
+          <form id="join-form" class="stack stack-md">
+            {/* Honeypot */}
+            <div style="position: absolute; left: -9999px;" aria-hidden="true">
+              <label for="website_url">Website</label>
+              <input type="text" id="website_url" name="website_url" tabindex="-1" autocomplete="off" />
+            </div>
+
+            {/* ── About you ── */}
+            <fieldset style="border: none; padding: 0; margin: 0;">
+              <legend class="heading h4 mb-3">About you</legend>
+
+              <div class="stack stack-md">
+                <div>
+                  <label for="name" class="label mb-1" style="display: block; color: var(--color-dark);">Full name</label>
+                  <input type="text" id="name" name="name" required autocomplete="name" class="w-full rounded-lg" style={`padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); font-size: var(--text-base); font-family: var(--font-body);`} />
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2" style={`gap: var(--space-4);`}>
+                  <div>
+                    <label for="email" class="label mb-1" style="display: block; color: var(--color-dark);">Email</label>
+                    <input type="email" id="email" name="email" required autocomplete="email" class="w-full rounded-lg" style={`padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); font-size: var(--text-base); font-family: var(--font-body);`} />
+                  </div>
+                  <div>
+                    <label for="phone" class="label mb-1" style="display: block; color: var(--color-dark);">Phone</label>
+                    <input type="tel" id="phone" name="phone" required autocomplete="tel" class="w-full rounded-lg" style={`padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); font-size: var(--text-base); font-family: var(--font-body);`} />
+                  </div>
+                </div>
+
+                <div>
+                  <label for="pronouns" class="label mb-1" style="display: block; color: var(--color-dark);">Pronouns <span style="font-weight: 400; color: var(--color-muted);">(optional)</span></label>
+                  <select id="pronouns" name="pronouns" class="w-full rounded-lg" style={`padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); font-size: var(--text-base); font-family: var(--font-body); background: white;`}>
+                    <option value="">Prefer not to say</option>
+                    <option value="he/him">he/him</option>
+                    <option value="she/her">she/her</option>
+                    <option value="they/them">they/them</option>
+                    <option value="he/they">he/they</option>
+                    <option value="she/they">she/they</option>
+                    <option value="ze/zir">ze/zir</option>
+                    <option value="xe/xem">xe/xem</option>
+                    <option value="any pronouns">any pronouns</option>
+                    <option value="ask me">ask me</option>
+                  </select>
+                </div>
+              </div>
+            </fieldset>
+
+            {/* ── Experience ── */}
+            <fieldset style="border: none; padding: 0; margin: 0;">
+              <legend class="heading h4 mb-3">Your experience</legend>
+
+              <div class="stack stack-md">
+                <div>
+                  <label for="experience" class="label mb-1" style="display: block; color: var(--color-dark);">How would you describe your softball experience?</label>
+                  <select id="experience" name="experience" class="w-full rounded-lg" style={`padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); font-size: var(--text-base); font-family: var(--font-body); background: white;`}>
+                    <option value="none">Never played organized softball</option>
+                    <option value="beginner">Played casually (pickup games, gym class, a few times)</option>
+                    <option value="some">Played on a team before but it's been a while</option>
+                    <option value="experienced">Currently playing or played recently on an organized team</option>
+                    <option value="competitive">Played competitively (college, travel ball, high-level league)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label for="rating" class="label mb-1" style="display: block; color: var(--color-dark);">Do you know your iPride rating? <span style="font-weight: 400; color: var(--color-muted);">(optional)</span></label>
+                  <select id="rating" name="rating" class="w-full rounded-lg" style={`padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); font-size: var(--text-base); font-family: var(--font-body); background: white;`}>
+                    <option value="">I don't have one / not sure</option>
+                    <option value="1-3">1-3 (brand new)</option>
+                    <option value="4-6">4-6 (E division level)</option>
+                    <option value="7-10">7-10 (D division level)</option>
+                    <option value="11+">11+ (C division or above)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label for="division-interest" class="label mb-1" style="display: block; color: var(--color-dark);">Which division interests you?</label>
+                  <select id="division-interest" name="division_interest" class="w-full rounded-lg" style={`padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); font-size: var(--text-base); font-family: var(--font-body); background: white;`}>
+                    <option value="not sure">Not sure yet (that's fine)</option>
+                    <option value="E">E Division (recreational, no experience needed)</option>
+                    <option value="D">D Division (competitive recreational)</option>
+                    <option value="either">Open to either</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label for="season-interest" class="label mb-1" style="display: block; color: var(--color-dark);">Which season are you looking at?</label>
+                  <select id="season-interest" name="season_interest" class="w-full rounded-lg" style={`padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); font-size: var(--text-base); font-family: var(--font-body); background: white;`}>
+                    <option value="next">Next available season</option>
+                    <option value="spring">Spring 2027</option>
+                    <option value="fall">Fall 2026</option>
+                    <option value="not sure">Not sure yet</option>
+                  </select>
+                </div>
+              </div>
+            </fieldset>
+
+            {/* ── Emergency contact ── */}
+            <fieldset style="border: none; padding: 0; margin: 0;">
+              <legend class="heading h4 mb-2">Emergency contact</legend>
+              <p class="mb-3" style="font-size: var(--text-sm); color: var(--color-muted);">We play outdoors in Texas heat. Coaches need this in case of injury or medical emergency during practice or games.</p>
+
+              <div class="stack stack-md">
+                <div class="grid grid-cols-1 sm:grid-cols-2" style={`gap: var(--space-4);`}>
+                  <div>
+                    <label for="emergency-name" class="label mb-1" style="display: block; color: var(--color-dark);">Contact name</label>
+                    <input type="text" id="emergency-name" name="emergency_name" required class="w-full rounded-lg" style={`padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); font-size: var(--text-base); font-family: var(--font-body);`} />
+                  </div>
+                  <div>
+                    <label for="emergency-phone" class="label mb-1" style="display: block; color: var(--color-dark);">Contact phone</label>
+                    <input type="tel" id="emergency-phone" name="emergency_phone" required class="w-full rounded-lg" style={`padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); font-size: var(--text-base); font-family: var(--font-body);`} />
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+
+            {/* ── Anything else ── */}
+            <div>
+              <label for="notes" class="label mb-1" style="display: block; color: var(--color-dark);">Anything else we should know? <span style="font-weight: 400; color: var(--color-muted);">(optional)</span></label>
+              <textarea id="notes" name="notes" rows="3" placeholder="Positions you've played, injuries, scheduling constraints, questions, etc." class="w-full rounded-lg" style={`padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); font-size: var(--text-base); font-family: var(--font-body); resize: vertical;`}></textarea>
+            </div>
+
+            {/* Turnstile */}
+            {turnstileSiteKey && (
+              <div class="cf-turnstile" data-sitekey={turnstileSiteKey} style="min-height: 65px;"></div>
+            )}
+
+            <div>
+              <button type="submit" id="submit-btn" class="btn btn-primary w-full text-center">
+                Submit Player Interest
+              </button>
+            </div>
+          </form>
+        </div>
+
+        {/* ── Where we play ── */}
+        <div>
+          <h2 class="heading h3 mb-3">Where we play</h2>
+          <p>All games at <strong><a href={playing.fieldUrl} class="text-[var(--color-accent)] hover:underline">{playing.field}</a></strong>, 515 S. Pleasant Valley Road, Austin. <a href="https://www.softballaustin.org/info/krieg-fields/" class="text-[var(--color-accent)] hover:underline">Field maps and parking</a>.</p>
+        </div>
+
+        <div>
+          <h2 class="heading h3 mb-3">Questions?</h2>
+          <p><a href="/contact/" class="text-[var(--color-accent)] hover:underline">Send us a message</a> or find us on social. There are no dumb questions. Everyone on the team was new once.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+
+  {/* Turnstile script */}
+  {turnstileSiteKey && (
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer is:inline></script>
+  )}
+
+  <script is:inline>
+  (function() {
+    var form = document.getElementById('join-form');
+    var btn = document.getElementById('submit-btn');
+    var successEl = document.getElementById('form-success');
+    var errorEl = document.getElementById('form-error');
+    var errorText = document.getElementById('form-error-text');
+    if (!form || !btn) return;
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      var honeypot = document.getElementById('website_url');
+      if (honeypot && honeypot.value) {
+        successEl.classList.remove('hidden');
+        form.classList.add('hidden');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Submitting...';
+      errorEl.classList.add('hidden');
+
+      var turnstileToken = '';
+      var turnstileInput = form.querySelector('[name="cf-turnstile-response"]');
+      if (turnstileInput) turnstileToken = turnstileInput.value;
+
+      if (document.querySelector('.cf-turnstile') && !turnstileToken) {
+        errorText.textContent = 'Please complete the security check.';
+        errorEl.classList.remove('hidden');
+        btn.disabled = false;
+        btn.textContent = 'Submit Player Interest';
+        return;
+      }
+
+      try {
+        var res = await fetch('/api/contact/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: form.name.value,
+            pronouns: form.pronouns ? form.pronouns.value : '',
+            email: form.email.value,
+            phone: form.phone.value,
+            reason: 'New player interest',
+            message: [
+              'Experience: ' + form.experience.value,
+              'iPride rating: ' + (form.rating.value || 'Unknown'),
+              'Division interest: ' + form.division_interest.value,
+              'Season interest: ' + form.season_interest.value,
+              'Emergency contact: ' + form.emergency_name.value + ' / ' + form.emergency_phone.value,
+              form.notes.value ? 'Notes: ' + form.notes.value : '',
+            ].filter(Boolean).join('\n'),
+            turnstileToken: turnstileToken,
+            honeypot: honeypot ? honeypot.value : '',
+          }),
+        });
+
+        var data = await res.json();
+
+        if (data.success) {
+          successEl.classList.remove('hidden');
+          form.classList.add('hidden');
+          successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+          if (typeof window.gtag === 'function') {
+            window.gtag('event', 'generate_lead', {
+              currency: 'USD',
+              value: 0,
+              lead_type: 'new_player',
+            });
+          }
+        } else {
+          errorText.textContent = data.error || 'Something went wrong. Please try again.';
+          errorEl.classList.remove('hidden');
+          btn.disabled = false;
+          btn.textContent = 'Submit Player Interest';
+        }
+      } catch (err) {
+        errorText.textContent = 'Could not reach the server. Check your connection and try again.';
+        errorEl.classList.remove('hidden');
+        btn.disabled = false;
+        btn.textContent = 'Submit Player Interest';
+      }
+    });
+  })();
+  </script>
+</Layout>
