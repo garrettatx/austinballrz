@@ -311,7 +311,28 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
         {/* ── Where we play ── */}
         <div>
           <h2 class="heading h3 mb-3">Where we play</h2>
-          <p>All games at <strong><a href={playing.fieldUrl} class="text-[var(--color-accent)] hover:underline">{playing.field}</a></strong>, 515 S. Pleasant Valley Road, Austin. <a href="https://www.softballaustin.org/info/krieg-fields/" class="text-[var(--color-accent)] hover:underline">Field maps and parking</a>.</p>
+
+          <h3 class="heading h4 mb-2">Games: Krieg Softball Complex</h3>
+          <p class="mb-3">515 S. Pleasant Valley Road, Austin, TX 78741. <a href={playing.fieldUrl} class="text-[var(--color-accent)] hover:underline">Directions</a>.</p>
+
+          <div class="mb-4">
+            <button type="button" id="map-toggle" class="text-[var(--color-accent)] hover:underline" style="font-size: var(--text-sm); cursor: pointer; background: none; border: none; padding: 0; font-family: var(--font-body);">
+              View field map (fields 1-11) &darr;
+            </button>
+            <div id="map-container" class="hidden" style="margin-top: var(--space-3);">
+              <img
+                src="/images/krieg-fields-map.jpg"
+                alt="Aerial map of Krieg Softball Complex showing 11 numbered fields along S. Pleasant Valley Road in Austin. Fields 1-4 are in the southern section, fields 5-8 in the center, and fields 9-11 in the north. Volleyball courts are between fields 4 and 11."
+                class="rounded-lg"
+                style="width: 100%; max-width: 600px;"
+                loading="lazy"
+              />
+              <p style="font-size: var(--text-xs); color: var(--color-muted); margin-top: var(--space-1);">Map courtesy of <a href="https://www.softballaustin.org/info/krieg-fields/" class="hover:underline">Softball Austin</a></p>
+            </div>
+          </div>
+
+          <h3 class="heading h4 mb-2">Practices: Southeast Metro Field</h3>
+          <p>4511 Hwy 71 E, {playing.practiceCity}. <a href={playing.practiceFieldUrl} class="text-[var(--color-accent)] hover:underline">Directions</a>. <a href="https://parks.traviscountytx.gov/parks/southeast-metro" class="text-[var(--color-accent)] hover:underline">Park info and field map</a>.</p>
         </div>
 
         <div>
@@ -332,6 +353,19 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
 
   <script is:inline>
   (function() {
+    // Field map toggle
+    var mapBtn = document.getElementById('map-toggle');
+    var mapBox = document.getElementById('map-container');
+    if (mapBtn && mapBox) {
+      mapBtn.addEventListener('click', function() {
+        var isHidden = mapBox.classList.contains('hidden');
+        mapBox.classList.toggle('hidden');
+        mapBtn.innerHTML = isHidden
+          ? 'Hide field map &uarr;'
+          : 'View field map (fields 1-11) &darr;';
+      });
+    }
+
     var form = document.getElementById('join-form');
     var btn = document.getElementById('submit-btn');
     var successEl = document.getElementById('form-success');
