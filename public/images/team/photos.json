@@ -22,6 +22,12 @@
         "caption": "D Team - Spring 2026",
         "team": "d",
         "hero": true
+      },
+      {
+        "src": "2026/michael-and-john-e-team-spring-2026.jpg",
+        "alt": "Michael & John on the softball field, E Team spring 2026",
+        "caption": "Michael & John",
+        "team": "e"
       }
     ]
   },
