@@ -22,6 +22,12 @@
         "caption": "D Team - Spring 2026",
         "team": "d",
         "hero": true
+      },
+      {
+        "src": "2026/team-05-31-2026-e-team-spring-2026.jpg",
+        "alt": "Team - 05/31/2026 on the softball field, E Team spring 2026",
+        "caption": "Team - 05/31/2026",
+        "team": "e"
       }
     ]
   },
