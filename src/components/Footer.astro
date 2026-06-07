@@ -3,11 +3,11 @@ import { site, allPages } from '../data/site';
 ---
 
 <footer slot="footer">
-  <div class="ballrz-rainbow" style="height: 4px;" aria-hidden="true"></div>
+  <div class="ballrz-rainbow footer-rainbow" aria-hidden="true"></div>
 
-  <div style="background: var(--color-surface); color: rgba(255,255,255,0.7);">
+  <div class="footer-wrap">
     <div class="container section">
-      <div class="grid grid-cols-1 sm:grid-cols-3" style="gap: var(--space-8);">
+      <div class="grid grid-cols-1 sm:grid-cols-3 footer-grid">
         {/* Brand */}
         <div>
           <img
@@ -15,26 +15,23 @@ import { site, allPages } from '../data/site';
             alt={site.name}
             width="250"
             height="180"
-            style="width: 250px; filter: drop-shadow(0 0 4px rgba(255,255,255,0.3)) drop-shadow(0 0 8px rgba(255,255,255,0.15));"
-            class="mb-3"
+            class="footer-logo mb-3"
           />
-          <p style="font-size: var(--text-sm); line-height: 1.6;">{site.tagline}</p>
-          <p style="font-size: var(--text-xs); line-height: 1.6; margin-top: var(--space-2); color: rgba(255,255,255,0.5);">We welcome players of every sexual orientation, gender identity, gender expression, race, age, and ability.</p>
-          <p style="font-size: var(--text-sm); margin-top: var(--space-2);">Est. {site.founded} &middot; {site.location}</p>
-          <p style="font-size: var(--text-sm); margin-top: var(--space-1);">
-            Games: Sundays at <a href="https://maps.google.com/?q=Krieg+Field+Austin+TX" class="text-[var(--color-nav-inactive)] hover:text-white transition-colors underline">Krieg Field</a>
+          <p class="footer-tagline">{site.tagline}</p>
+          <p class="footer-welcome">We welcome players of every sexual orientation, gender identity, gender expression, race, age, and ability.</p>
+          <p class="footer-detail">Est. {site.founded} &middot; {site.location}</p>
+          <p class="footer-detail footer-detail--tight">
+            Games: Sundays at <a href="https://maps.google.com/?q=Krieg+Field+Austin+TX" class="footer-link underline">Krieg Field</a>
           </p>
         </div>
 
         {/* Links */}
         <div>
-          <p class="label" style="margin-bottom: var(--space-3); color: rgba(255,255,255,0.4);">Explore</p>
-          <ul style="display: flex; flex-direction: column; gap: var(--space-2);">
+          <p class="footer-label">Explore</p>
+          <ul class="footer-list">
             {allPages.map(item => (
               <li>
-                <a href={item.href} class="text-sm text-[var(--color-nav-inactive)] hover:text-white transition-colors">
-                  {item.label}
-                </a>
+                <a href={item.href} class="footer-link">{item.label}</a>
               </li>
             ))}
           </ul>
@@ -42,34 +39,22 @@ import { site, allPages } from '../data/site';
 
         {/* Connect */}
         <div>
-          <p class="label" style="margin-bottom: var(--space-3); color: rgba(255,255,255,0.4);">League</p>
-          <ul style="display: flex; flex-direction: column; gap: var(--space-2);">
-            <li>
-              <a href="https://www.softballaustin.org/" class="text-sm text-[var(--color-nav-inactive)] hover:text-white transition-colors">
-                Softball Austin
-              </a>
-            </li>
-            <li>
-              <a href="https://www.ipridesoftball.org/" class="text-sm text-[var(--color-nav-inactive)] hover:text-white transition-colors">
-                iPride Softball League
-              </a>
-            </li>
+          <p class="footer-label">League</p>
+          <ul class="footer-list">
+            <li><a href="https://www.softballaustin.org/" class="footer-link">Softball Austin</a></li>
+            <li><a href="https://www.ipridesoftball.org/" class="footer-link">iPride Softball League</a></li>
             {site.social.facebook && (
-              <li>
-                <a href={site.social.facebook} class="text-sm text-[var(--color-nav-inactive)] hover:text-white transition-colors">
-                  Ball'rz on Facebook
-                </a>
-              </li>
+              <li><a href={site.social.facebook} class="footer-link">Ball'rz on Facebook</a></li>
             )}
           </ul>
 
-          <div style="margin-top: var(--space-6);">
-            <a href="/contact/" class="btn" style="font-size: var(--text-sm); padding: var(--space-2) var(--space-4); background: var(--color-accent-light); color: #1a1a2e;">Come Play With Us</a>
+          <div class="footer-cta">
+            <a href="/contact/" class="btn footer-cta-btn">Come Play With Us</a>
           </div>
         </div>
       </div>
 
-      <div class="flex flex-col sm:flex-row justify-between items-center" style={`border-top: 1px solid rgba(255,255,255,0.1); margin-top: var(--space-8); padding-top: var(--space-6); gap: var(--space-4); font-size: var(--text-xs); color: rgba(255,255,255,0.4);`}>
+      <div class="flex flex-col sm:flex-row justify-between items-center footer-bottom">
         <p>&copy; {new Date().getFullYear()} {site.name}</p>
         <p>
           Website by <a href="https://prideandprairie.com/" class="text-white/60 hover:text-white transition-colors">Pride &amp; Prairie</a>
@@ -78,3 +63,78 @@ import { site, allPages } from '../data/site';
     </div>
   </div>
 </footer>
+
+<style>
+  .footer-rainbow {
+    height: 4px;
+  }
+  .footer-wrap {
+    background: var(--color-surface);
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .footer-grid {
+    gap: var(--space-8);
+  }
+  .footer-logo {
+    width: 250px;
+    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.3))
+            drop-shadow(0 0 8px rgba(255, 255, 255, 0.15));
+  }
+  .footer-tagline {
+    font-size: var(--text-base);
+    line-height: 1.6;
+  }
+  .footer-welcome {
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    margin-top: var(--space-2);
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .footer-detail {
+    font-size: var(--text-base);
+    margin-top: var(--space-2);
+  }
+  .footer-detail--tight {
+    margin-top: var(--space-1);
+  }
+  .footer-label {
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: var(--space-3);
+    color: rgba(255, 255, 255, 0.4);
+  }
+  .footer-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .footer-link {
+    font-size: var(--text-base);
+    color: var(--color-nav-inactive);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .footer-link:hover {
+    color: white;
+  }
+  .footer-cta {
+    margin-top: var(--space-6);
+  }
+  .footer-cta-btn {
+    font-size: var(--text-base);
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-accent-light);
+    color: #1a1a2e;
+  }
+  .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    gap: var(--space-4);
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.4);
+  }
+</style>

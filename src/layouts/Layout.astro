@@ -8,9 +8,10 @@ interface Props {
   ogType?: string;
   ogImage?: string;
   jsonLd?: object | object[];
+  noindex?: boolean;
 }
 
-const { title, description = site.description, ogType = 'website', ogImage = '/images/team/2023/team-gsws-minneapolis-2023.jpg', jsonLd } = Astro.props;
+const { title, description = site.description, ogType = 'website', ogImage = '/images/team/2023/team-gsws-minneapolis-2023.jpg', jsonLd, noindex = false } = Astro.props;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
 const ogImageUrl = new URL(ogImage, Astro.site).href;
 const ga4Id = 'G-LEV5K76WRK';
@@ -37,6 +38,7 @@ const ga4Id = 'G-LEV5K76WRK';
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <title>{title}</title>
   <meta name="description" content={description} />
+  {noindex && <meta name="robots" content="noindex, nofollow" />}
 
   <!-- Canonical -->
   <link rel="canonical" href={canonicalUrl.href} />
