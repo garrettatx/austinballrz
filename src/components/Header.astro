@@ -25,7 +25,7 @@ const currentPath = Astro.url.pathname;
                 ? 'text-white border-[var(--color-accent-light)]'
                 : 'text-[var(--color-nav-inactive)] hover:text-white border-transparent hover:border-white/30',
             ]}
-            style={`font-size: var(--text-xl); letter-spacing: 0.04em; padding-block: var(--space-2);`}
+            style={`font-size: var(--text-lg); letter-spacing: 0.04em; padding-block: var(--space-2);`}
             aria-current={currentPath === item.href ? 'page' : undefined}
           >
             {item.label}
