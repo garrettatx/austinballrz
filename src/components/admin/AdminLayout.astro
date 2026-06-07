@@ -1,7 +1,7 @@
 ---
 /**
- * AdminLayout — shared shell for all admin pages.
- * Provides branded header, rainbow bar, content slot, nav footer.
+ * AdminLayout — shared shell for admin dashboard pages.
+ * Provides branded header with site navigation, rainbow bar, content slot, nav footer.
  * Does NOT include analytics, OG tags, or global.css.
  *
  * Reusable: swap site.name, navigation, and brand colors per site.
@@ -15,6 +15,7 @@ interface Props {
 
 const { title, maxWidth = '520px' } = Astro.props;
 const currentYear = new Date().getFullYear();
+const currentPath = Astro.url.pathname;
 ---
 
 <!doctype html>
@@ -26,11 +27,27 @@ const currentYear = new Date().getFullYear();
   <meta name="robots" content="noindex, nofollow" />
   <style define:vars={{ maxWidth }}>
     @font-face { font-family: 'Barlow Condensed'; font-style: normal; font-weight: 700; font-display: swap; src: url('/fonts/barlow-condensed-700.woff2') format('woff2'); }
+    @font-face { font-family: 'Barlow Condensed'; font-style: normal; font-weight: 600; font-display: swap; src: url('/fonts/barlow-condensed-600.woff2') format('woff2'); }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #ffffff; color: #1a1a2e; line-height: 1.6; min-height: 100dvh; display: flex; flex-direction: column; -webkit-text-size-adjust: 100%; }
 
-    .admin-header { background: #263a5a; padding: 12px 20px; }
-    .admin-header a { color: white; text-decoration: none; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1.125rem; letter-spacing: 0.04em; text-transform: uppercase; }
+    .admin-header { background: #263a5a; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+    .admin-logo { color: white; text-decoration: none; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1.125rem; letter-spacing: 0.04em; text-transform: uppercase; }
+    .admin-nav { display: flex; align-items: center; gap: 16px; }
+    .admin-nav a {
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 0.9375rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.15s;
+      padding-bottom: 2px;
+      border-bottom: 2px solid transparent;
+    }
+    .admin-nav a:hover { color: white; }
+    .admin-nav a[aria-current="page"] { color: white; border-bottom-color: #b48ade; }
     .admin-rainbow { height: 4px; background: linear-gradient(90deg, #D92638, #E08A00, #D4AD00, #3DA812, #1094D4, #6A2BE0); }
 
     .admin-page { padding: 20px 20px 32px; max-width: var(--maxWidth); margin: 0 auto; flex: 1; width: 100%; }
@@ -38,9 +55,9 @@ const currentYear = new Date().getFullYear();
     .admin-footer { background: #263a5a; color: rgba(255,255,255,0.6); padding: 20px; margin-top: auto; }
     .admin-footer-inner { max-width: var(--maxWidth); margin: 0 auto; }
     .admin-footer nav { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 12px; }
-    .admin-footer a { font-size: 0.8rem; color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.15s; }
+    .admin-footer a { font-size: 0.875rem; color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.15s; }
     .admin-footer a:hover { color: white; }
-    .admin-footer .credit { font-size: 0.7rem; color: rgba(255,255,255,0.35); }
+    .admin-footer .credit { font-size: 0.75rem; color: rgba(255,255,255,0.35); }
 
     /* Fade-in for dynamically loaded content */
     @keyframes adminFadeIn {
@@ -49,6 +66,11 @@ const currentYear = new Date().getFullYear();
     }
     .admin-page { animation: adminFadeIn 0.25s ease-out; }
 
+    @media (max-width: 480px) {
+      .admin-header { flex-direction: column; align-items: flex-start; }
+      .admin-nav { gap: 12px; flex-wrap: wrap; }
+      .admin-nav a { font-size: 0.8125rem; }
+    }
     @media (max-width: 380px) {
       .admin-page { padding: 16px 16px 24px; }
     }
@@ -56,10 +78,22 @@ const currentYear = new Date().getFullYear();
   <slot name="head" />
 </head>
 <body>
-  <div class="admin-header">
-    <a href={site.url}>{site.name}</a>
-  </div>
-  <div class="admin-rainbow" aria-hidden="true"></div>
+  <header>
+    <div class="admin-header">
+      <a href={site.url} class="admin-logo">{site.name}</a>
+      <nav class="admin-nav" aria-label="Site navigation">
+        {navigation.map(item => (
+          <a
+            href={item.href}
+            aria-current={currentPath === item.href ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
+    </div>
+    <div class="admin-rainbow" aria-hidden="true"></div>
+  </header>
 
   <div class="admin-page">
     <slot />
@@ -67,7 +101,7 @@ const currentYear = new Date().getFullYear();
 
   <footer class="admin-footer">
     <div class="admin-footer-inner">
-      <nav>
+      <nav aria-label="Footer navigation">
         <a href={site.url}>Home</a>
         {navigation.map(item => (
           <a href={`${site.url}${item.href}`}>{item.label}</a>
