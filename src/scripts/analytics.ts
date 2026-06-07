@@ -1,13 +1,18 @@
 /**
  * Austin Ball'rz — GA4 Analytics (direct, no GTM)
  *
+ * GA4 ID is centralized in src/data/site.ts and injected via define:vars.
+ * The deferred loader (in Layout.astro and admin/photo/index.astro) delays
+ * gtag.js until first user interaction or 3 seconds, whichever comes first.
+ *
  * Events:
  *   page_view      — every Astro navigation (including View Transitions)
  *   nav_click      — header, mobile, footer nav link clicks
  *   cta_click      — hero buttons and other conversion-oriented links
- *   generate_lead  — contact form submission (with reason parameter)
+ *   generate_lead  — contact/join form submission (inline in contact.astro, join.astro)
  *   phone_click    — tel: link clicks (future-proofed)
  *   photo_view     — photo modal opened
+ *   photo_submit   — photo uploaded via /admin/photo/ (inline in admin/photo/index.astro)
  */
 
 export {};

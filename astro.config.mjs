@@ -8,7 +8,7 @@ export default defineConfig({
   site: 'https://www.austinballrz.com',
   trailingSlash: 'always',
   integrations: [sitemap({
-    filter: (page) => !page.includes('/admin/'),
+    filter: (page) => !page.includes('/admin/') && !page.includes('/join/'),
   })],
   vite: {
     plugins: [tailwindcss()],

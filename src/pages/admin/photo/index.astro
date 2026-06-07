@@ -1,6 +1,7 @@
 ---
 import { site, navigation } from '../../../data/site';
 
+const ga4Id = site.ga4Id;
 const currentYear = new Date().getFullYear();
 const allYears: string[] = [];
 for (let y = currentYear; y >= 2013; y--) {
@@ -95,6 +96,28 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
     .site-footer a:hover { color: white; }
     .site-footer .credit { font-size: 0.7rem; color: rgba(255,255,255,0.35); }
   </style>
+
+  <!-- GA4 — deferred until first interaction or 3s -->
+  <script is:inline define:vars={{ ga4Id }}>
+    (function(){
+      var d=false;
+      function g(){
+        if(d)return;d=true;clearTimeout(t);
+        window.dataLayer=window.dataLayer||[];
+        function gtag(){window.dataLayer.push(arguments);}
+        window.gtag=gtag;
+        gtag('js',new Date());
+        gtag('config',ga4Id,{send_page_view:true});
+        var f=document.createElement('script');
+        f.async=true;f.src='https://www.googletagmanager.com/gtag/js?id='+ga4Id;
+        document.head.appendChild(f);
+        e.forEach(function(v){document.removeEventListener(v,g,true);});
+      }
+      var e=['scroll','click','keydown','touchstart','mousemove'];
+      e.forEach(function(v){document.addEventListener(v,g,{capture:true,once:true,passive:true});});
+      var t=setTimeout(g,3000);
+    })();
+  </script>
 </head>
 <body>
   <div class="site-header">
@@ -527,6 +550,15 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
         msgSuccess.classList.add('visible');
         form.style.display = 'none';
         msgSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        // Track photo submission in GA4
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'photo_submit', {
+            photo_team: team,
+            photo_season: season,
+            photo_year: yearVal,
+          });
+        }
       } else {
         showError(result.error || 'Upload failed. Please try again.');
         submitBtn.disabled = false;

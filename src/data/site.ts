@@ -12,6 +12,7 @@ export const site = {
   founded: 2013,
   location: 'Austin, TX',
   league: 'Softball Austin',
+  ga4Id: 'G-LEV5K76WRK',
   social: {
     facebook: 'https://www.facebook.com/AustinBallrz',
   },
