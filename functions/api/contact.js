@@ -113,16 +113,28 @@ export async function onRequestPost(context) {
       }
     }
 
+    // ── Verify email configuration before building anything ──
+    if (!env.SENDGRID_API_KEY || !env.CONTACT_EMAIL_FROM || !env.CONTACT_EMAIL_TO) {
+      console.error('Email not configured: missing SENDGRID_API_KEY, CONTACT_EMAIL_FROM, or CONTACT_EMAIL_TO.');
+      return new Response(
+        JSON.stringify({ error: 'Could not send message. Please try again later.' }),
+        { status: 500, headers }
+      );
+    }
+
     // ── Build email ──
     const reasonLabel = reason || 'General';
-    const sanitize = (str) => str.trim().replace(/[<>]/g, '');
+    // Strip angle brackets to avoid injecting markup. sanitizeLine also collapses
+    // newlines for values that land in headers (subject, names) to prevent header injection.
+    const sanitize = (str) => String(str).trim().replace(/[<>]/g, '');
+    const sanitizeLine = (str) => sanitize(str).replace(/[\r\n]+/g, ' ');
 
     // Distinguish the dedicated join form from general contact messages
     // so the two are easy to tell apart in the inbox.
     const isJoinForm = source === 'join' || reasonLabel === 'New player interest';
     const subject = isJoinForm
-      ? `New Player: ${sanitize(name)}`
-      : `Contact Form (${reasonLabel}): ${sanitize(name)}`;
+      ? `New Player: ${sanitizeLine(name)}`
+      : `Contact Form (${sanitizeLine(reasonLabel)}): ${sanitizeLine(name)}`;
 
     const pronounsLabel = pronouns?.trim() || 'Prefer not to say';
 
@@ -145,10 +157,20 @@ export async function onRequestPost(context) {
       `<p style="margin-top: 1rem;">${sanitize(message).replace(/\n/g, '<br>')}</p>`,
     ].filter(Boolean).join('\n');
 
-    // ── Send via SendGrid ──
+    // ── Send team notification via SendGrid ──
     const toAddresses = env.CONTACT_EMAIL_TO
       .split(',')
-      .map((e) => ({ email: e.trim() }));
+      .map((e) => e.trim())
+      .filter(Boolean)
+      .map((e) => ({ email: e }));
+
+    if (toAddresses.length === 0) {
+      console.error('CONTACT_EMAIL_TO contained no valid addresses.');
+      return new Response(
+        JSON.stringify({ error: 'Could not send message. Please try again later.' }),
+        { status: 500, headers }
+      );
+    }
 
     const sgResponse = await fetch('https://api.sendgrid.com/v3/mail/send', {
       method: 'POST',
@@ -167,9 +189,11 @@ export async function onRequestPost(context) {
           email: env.CONTACT_EMAIL_FROM,
           name: "Austin Ball'rz Website",
         },
+        // Reply-To = the submitter, so a coach replying to this notification
+        // writes straight back to the person who filled out the form.
         reply_to: {
           email: sanitize(email),
-          name: sanitize(name),
+          name: sanitizeLine(name),
         },
         content: [
           { type: 'text/plain', value: emailBody },
@@ -199,23 +223,25 @@ export async function onRequestPost(context) {
         ? "Thanks for your interest in playing with the Austin Ball'rz. A coach will reach out within a few days about next steps."
         : "Thanks for reaching out to the Austin Ball'rz. We'll get back to you within a day or two.";
 
+      // Include the exact submission the team received, so the submitter and
+      // the coaches both hold the full original.
       const confirmText = [
-        `Hi ${sanitize(name)},`,
+        `Hi ${sanitizeLine(name)},`,
         '',
         confirmIntro,
         '',
-        'For your records, here is what you sent:',
+        'Here is a copy of what you submitted:',
         '',
-        sanitize(message),
+        emailBody,
         '',
         "— Austin Ball'rz",
       ].join('\n');
 
       const confirmHtml = [
-        `<p>Hi ${sanitize(name)},</p>`,
+        `<p>Hi ${sanitizeLine(name)},</p>`,
         `<p>${confirmIntro}</p>`,
-        `<p style="color: #6b7280;">For your records, here is what you sent:</p>`,
-        `<blockquote style="margin: 0; padding-left: 1rem; border-left: 3px solid #e5e7eb; color: #374151;">${sanitize(message).replace(/\n/g, '<br>')}</blockquote>`,
+        `<p style="color: #6b7280;">Here is a copy of what you submitted:</p>`,
+        emailHtml,
         `<p>— Austin Ball'rz</p>`,
       ].join('\n');
 
@@ -229,9 +255,11 @@ export async function onRequestPost(context) {
         },
         body: JSON.stringify({
           personalizations: [
-            { to: [{ email: sanitize(email), name: sanitize(name) }], subject: confirmSubject },
+            { to: [{ email: sanitize(email), name: sanitizeLine(name) }], subject: confirmSubject },
           ],
           from: { email: env.CONTACT_EMAIL_FROM, name: "Austin Ball'rz" },
+          // Reply-To = the team, so if the submitter replies to their
+          // confirmation it reaches the coaches, not an unmonitored address.
           reply_to: { email: replyToTeam },
           content: [
             { type: 'text/plain', value: confirmText },

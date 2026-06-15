@@ -34,13 +34,13 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
           <h2 id="contact-form-top" class="heading h4 mb-4">Send Us a Message</h2>
 
           {/* Success message (hidden by default) */}
-          <div id="form-success" class="hidden rounded-lg mb-4" style={`padding: var(--space-4); background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46;`}>
+          <div id="form-success" class="hidden rounded-lg mb-4" role="status" aria-live="polite" tabindex="-1" style={`padding: var(--space-4); background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46;`}>
             <p class="font-semibold">Message sent.</p>
             <p style="font-size: var(--text-sm);">We'll get back to you within a day or two.</p>
           </div>
 
           {/* Error message (hidden by default) */}
-          <div id="form-error" class="hidden rounded-lg mb-4" style={`padding: var(--space-4); background: #fef2f2; border: 1px solid #fecaca; color: #991b1b;`}>
+          <div id="form-error" class="hidden rounded-lg mb-4" role="alert" aria-live="assertive" tabindex="-1" style={`padding: var(--space-4); background: #fef2f2; border: 1px solid #fecaca; color: #991b1b;`}>
             <p id="form-error-text">Something went wrong. Please try again.</p>
           </div>
 
@@ -51,8 +51,10 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
               <input type="text" id="website_url" name="website_url" tabindex="-1" autocomplete="off" />
             </div>
 
+            <p style="font-size: var(--text-sm); color: var(--color-muted);"><span aria-hidden="true" style="color: #b91c1c;">*</span> Required field</p>
+
             <div>
-              <label for="name" class="label mb-1" style="display: block; color: var(--color-dark);">Name</label>
+              <label for="name" class="label mb-1" style="display: block; color: var(--color-dark);">Name <span aria-hidden="true" style="color: #b91c1c;">*</span></label>
               <input
                 type="text"
                 id="name"
@@ -84,7 +86,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
             </div>
 
             <div>
-              <label for="email" class="label mb-1" style="display: block; color: var(--color-dark);">Email</label>
+              <label for="email" class="label mb-1" style="display: block; color: var(--color-dark);">Email <span aria-hidden="true" style="color: #b91c1c;">*</span></label>
               <input
                 type="email"
                 id="email"
@@ -97,7 +99,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
             </div>
 
             <div>
-              <label for="phone" class="label mb-1" style="display: block; color: var(--color-dark);">Phone</label>
+              <label for="phone" class="label mb-1" style="display: block; color: var(--color-dark);">Phone <span aria-hidden="true" style="color: #b91c1c;">*</span></label>
               <input
                 type="tel"
                 id="phone"
@@ -124,7 +126,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
             </div>
 
             <div>
-              <label for="message" class="label mb-1" style="display: block; color: var(--color-dark);">Message</label>
+              <label for="message" class="label mb-1" style="display: block; color: var(--color-dark);">Message <span aria-hidden="true" style="color: #b91c1c;">*</span></label>
               <textarea
                 id="message"
                 name="message"
@@ -252,6 +254,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
           successEl.classList.remove('hidden');
           form.classList.add('hidden');
           successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          successEl.focus();
 
           // Track conversion
           if (typeof window.gtag === 'function') {
