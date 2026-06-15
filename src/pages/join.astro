@@ -31,31 +31,32 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
       <nav class="rounded-lg mb-8" style={`padding: var(--space-4); background: var(--color-light);`}>
         <strong style="display: block; margin-bottom: var(--space-2); font-size: var(--text-sm); text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-muted);">On this page</strong>
         <ul class="list-spaced" style="font-size: var(--text-sm);">
-          <li><a href="#who-we-are" class="text-[var(--color-accent)] hover:underline">Who we are</a></li>
-          <li><a href="#divisions" class="text-[var(--color-accent)] hover:underline">D vs E division explained</a></li>
-          <li><a href="#seasons" class="text-[var(--color-accent)] hover:underline">Spring vs fall season</a></li>
-          <li><a href="#commitment" class="text-[var(--color-accent)] hover:underline">What we expect</a></li>
-          <li><a href="#cost" class="text-[var(--color-accent)] hover:underline">What it costs</a></li>
-          <li><a href="#equipment" class="text-[var(--color-accent)] hover:underline">What to bring</a></li>
-          <li><a href="#how-to-join" class="text-[var(--color-accent)] hover:underline">How to join</a></li>
-          <li><a href="#player-form" class="text-[var(--color-accent)] hover:underline">Player interest form</a></li>
+          <li><a href="#who-we-are" class="text-[var(--color-accent)] hover:underline">Who We Are</a></li>
+          <li><a href="#divisions" class="text-[var(--color-accent)] hover:underline">D vs. E Division Explained</a></li>
+          <li><a href="#seasons" class="text-[var(--color-accent)] hover:underline">Spring vs. Fall Season</a></li>
+          <li><a href="#commitment" class="text-[var(--color-accent)] hover:underline">What We Expect</a></li>
+          <li><a href="#cost" class="text-[var(--color-accent)] hover:underline">What It Costs</a></li>
+          <li><a href="#equipment" class="text-[var(--color-accent)] hover:underline">What to Bring</a></li>
+          <li><a href="#how-to-join" class="text-[var(--color-accent)] hover:underline">How to Join</a></li>
+          <li><a href="#player-form" class="text-[var(--color-accent)] hover:underline">Player Interest Form</a></li>
         </ul>
       </nav>
 
       <div class="stack stack-lg">
 
         <div id="who-we-are">
-          <h2 class="heading h3 mb-3">Who we are</h2>
+          <h2 class="heading h3 mb-3">Who We Are</h2>
           <p class="mb-3">The Austin Ball'rz are an LGBTQ+ inclusive slowpitch softball team in <a href={playing.leagueUrl} class="text-[var(--color-accent)] hover:underline">{playing.league}</a>, part of the <a href="https://ipridesoftball.org/" class="text-[var(--color-accent)] hover:underline">iPride Softball</a> national league. We've been playing since 2013.</p>
+          <p class="mb-3">All genders, orientations, and allies are welcome.</p>
           <p>We're competitive but welcoming. Some of our players picked up a glove for the first time when they joined. Others played in college. What matters is showing up, being a good teammate, and wanting to get better.</p>
         </div>
 
         <div id="divisions">
-          <h2 class="heading h3 mb-3">What D and E division mean</h2>
+          <h2 class="heading h3 mb-3">What D and E Division Mean</h2>
           <p class="mb-4">iPride uses a ratings system to keep games competitive and fair. Every player gets a skill rating on a 1-28 scale, and teams have a cap on their total team rating. This determines your division.</p>
 
           <div class="rounded-lg mb-4" style={`padding: var(--space-5); background: var(--color-light);`}>
-            <h3 class="heading h4 mb-2">E Division (recreational)</h3>
+            <h3 class="heading h4 mb-2">E Division (Recreational)</h3>
             <ul class="list-spaced">
               <li><strong>Who it's for:</strong> New players, players returning after a long break, anyone still building their game</li>
               <li><strong>No experience required.</strong> Many E players have never played organized softball.</li>
@@ -66,7 +67,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
           </div>
 
           <div class="rounded-lg mb-4" style={`padding: var(--space-5); background: var(--color-light);`}>
-            <h3 class="heading h4 mb-2">D Division (competitive recreational)</h3>
+            <h3 class="heading h4 mb-2">D Division (Competitive Recreational)</h3>
             <ul class="list-spaced">
               <li><strong>Who it's for:</strong> Players with solid fundamentals who want more competitive games</li>
               <li><strong>Player rating cap:</strong> 10 out of 28</li>
@@ -80,9 +81,9 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
         </div>
 
         <div id="seasons">
-          <h2 class="heading h3 mb-3">Spring vs fall season</h2>
+          <h2 class="heading h3 mb-3">Spring vs. Fall Season</h2>
 
-          <h3 class="heading h4 mb-2">Spring (February through June)</h3>
+          <h3 class="heading h4 mb-2">Spring (February Through June)</h3>
           <ul class="list-spaced mb-4">
             <li><strong>This is the competitive season.</strong> Teams that qualify can earn a bid to the <a href="https://ipridesoftball.org/" class="text-[var(--color-accent)] hover:underline">iPride Softball World Series</a>.</li>
             <li>Practices start in February on weeknights at <a href={playing.fieldUrl} class="text-[var(--color-accent)] hover:underline">{playing.field}</a> or <a href={playing.practiceFieldUrl} class="text-[var(--color-accent)] hover:underline">{playing.practiceField}</a> in {playing.practiceCity}.</li>
@@ -90,7 +91,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
             <li>Attendance at practices and games matters. You're expected to show up consistently.</li>
           </ul>
 
-          <h3 class="heading h4 mb-2">Fall (September through November)</h3>
+          <h3 class="heading h4 mb-2">Fall (September Through November)</h3>
           <ul class="list-spaced">
             <li><strong>More relaxed.</strong> No World Series, so the stakes are lower.</li>
             <li>Sunday games only. No weeknight practices.</li>
@@ -100,35 +101,35 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
         </div>
 
         <div id="commitment">
-          <h2 class="heading h3 mb-3">What we expect from players</h2>
+          <h2 class="heading h3 mb-3">What We Expect From Players</h2>
           <p class="mb-4">This is a team sport on a real roster. Here's what that means.</p>
 
-          <h3 class="heading h4 mb-2">You must be on the roster</h3>
+          <h3 class="heading h4 mb-2">You Must Be on the Roster</h3>
           <p class="mb-4">You can't just show up and play. Every player must be registered with Softball Austin, have a signed waiver, and be on the team roster before stepping on the field. This is a league rule.</p>
 
-          <h3 class="heading h4 mb-2">Attendance matters</h3>
+          <h3 class="heading h4 mb-2">Attendance Matters</h3>
           <ul class="list-spaced mb-4">
             <li><strong>Spring:</strong> Make every effort to attend practices and most games. We build lineups around who's available.</li>
             <li><strong>Fall:</strong> More flexible, but commit to most games.</li>
             <li><strong>Games are Sundays,</strong> typically 9 AM to 3 PM. Most weeks you play two games.</li>
           </ul>
 
-          <h3 class="heading h4 mb-2">Why this matters</h3>
+          <h3 class="heading h4 mb-2">Why This Matters</h3>
           <p>We carry 12-18 players. If we can't field enough for a game, we forfeit. Forfeits cost the team extra money and are unfair to everyone who showed up. When you commit to the roster, your teammates are counting on you.</p>
         </div>
 
         <div id="cost">
-          <h2 class="heading h3 mb-3">What it costs</h2>
+          <h2 class="heading h3 mb-3">What It Costs</h2>
           <ul class="list-spaced mb-3">
-            <li><strong>League player fee:</strong> $90 per season (Open Division)</li>
-            <li><strong>Team costs:</strong> Your team may collect for jerseys, practice fields, or socials. Ask your coach.</li>
+            <li><strong>League fee:</strong> $90 per season, paid to Softball Austin.</li>
+            <li><strong>Team fee:</strong> $40-60 per season. The amount varies with the number of practices, field rental, jerseys, and equipment.</li>
             <li><strong>Your gear:</strong> A glove ($30-80 for a starter) and cleats or turf shoes ($40-70). Bats are shared.</li>
           </ul>
-          <p><strong>Realistic total for a new player:</strong> $150-200 for your first season including gear.</p>
+          <p><strong>Realistic total for a new player:</strong> $200-300 for your first season including gear.</p>
         </div>
 
         <div id="equipment">
-          <h2 class="heading h3 mb-3">What to bring</h2>
+          <h2 class="heading h3 mb-3">What to Bring</h2>
           <table style="width: 100%; border-collapse: collapse; font-size: var(--text-sm);">
             <thead>
               <tr style="border-bottom: 2px solid var(--color-border);">
@@ -148,7 +149,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
         </div>
 
         <div id="how-to-join">
-          <h2 class="heading h3 mb-3">How to join</h2>
+          <h2 class="heading h3 mb-3">How to Join</h2>
           <ol class="list-spaced">
             <li><strong>Fill out the form below.</strong> Tell us about yourself and your experience level.</li>
             <li><strong>Come to a practice.</strong> We'll invite you out so you can meet the team and throw a ball around.</li>
@@ -185,7 +186,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
 
             {/* ── About you ── */}
             <fieldset style="border: none; padding: 0; margin: 0;">
-              <legend class="heading h4 mb-3">About you</legend>
+              <legend class="heading h4 mb-3">About You</legend>
 
               <div class="stack stack-md">
                 <div>
@@ -224,7 +225,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
 
             {/* ── Experience ── */}
             <fieldset style="border: none; padding: 0; margin: 0;">
-              <legend class="heading h4 mb-3">Your experience</legend>
+              <legend class="heading h4 mb-3">Your Experience</legend>
 
               <div class="stack stack-md">
                 <div>
@@ -273,7 +274,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
 
             {/* ── Emergency contact ── */}
             <fieldset style="border: none; padding: 0; margin: 0;">
-              <legend class="heading h4 mb-2">Emergency contact</legend>
+              <legend class="heading h4 mb-2">Emergency Contact</legend>
               <p class="mb-3" style="font-size: var(--text-sm); color: var(--color-muted);">We play outdoors in Texas heat. Coaches need this in case of injury or medical emergency during practice or games.</p>
 
               <div class="stack stack-md">
@@ -311,7 +312,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
 
         {/* ── Where we play ── */}
         <div>
-          <h2 class="heading h3 mb-3">Where we play</h2>
+          <h2 class="heading h3 mb-3">Where We Play</h2>
 
           <h3 class="heading h4 mb-2">Games: Krieg Softball Complex</h3>
           <p class="mb-3">515 S. Pleasant Valley Road, Austin, TX 78741. <a href={playing.fieldUrl} class="text-[var(--color-accent)] hover:underline">Directions</a>.</p>
@@ -334,6 +335,11 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
 
           <h3 class="heading h4 mb-2">Practices: Southeast Metro Field</h3>
           <p>4511 Hwy 71 E, {playing.practiceCity}. <a href={playing.practiceFieldUrl} class="text-[var(--color-accent)] hover:underline">Directions</a>. <a href="https://parks.traviscountytx.gov/parks/southeast-metro" class="text-[var(--color-accent)] hover:underline">Park info and field map</a>.</p>
+        </div>
+
+        <div>
+          <h2 class="heading h3 mb-3">More Than Games</h2>
+          <p>We hang out off the field too. Happy hours, watch parties, team socials. Players and friends are welcome.</p>
         </div>
 
         <div>
