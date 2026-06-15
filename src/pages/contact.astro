@@ -6,7 +6,6 @@ import PageNav from '../components/PageNav.astro';
 import PageHeader from '../components/PageHeader.astro';
 import PhotoRow from '../components/PhotoRow.astro';
 import { site } from '../data/site';
-import { playing } from '../data/playing';
 import { breadcrumbSchema } from '../lib/schema';
 
 const breadcrumbs = [{ label: 'Contact' }];
@@ -152,7 +151,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
 
           {/* Hint to scroll down on mobile */}
           <p class="lg:hidden text-center" style="margin-top: var(--space-3); font-size: var(--text-sm);">
-            <a href="#playing-info" style="color: var(--color-muted);">Info about playing, seasons & joining &darr;</a>
+            <a href="#playing-info" style="color: var(--color-muted);">Want to play or sponsor? &darr;</a>
           </p>
         </div>
 
@@ -162,30 +161,12 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
           <div>
             <h2 class="heading h4 mb-3">Want to Play?</h2>
             <p class="mb-3">
-              We've had a team every season since 2013. {playing.seasons} {playing.gameDay} Games are at <a href={playing.fieldUrl} class="text-[var(--color-accent)] hover:underline">{playing.field}</a> in {playing.fieldCity}.
+              We've had a team every season since 2013. New and experienced players are both welcome.
             </p>
-
-            <h3 class="heading h4 mb-2">Skill Levels</h3>
-            <ul class="list-spaced mb-3">
-              {playing.divisions.map(div => (
-                <li><strong>{div.name}</strong> — {div.description}</li>
-              ))}
-            </ul>
-
-            <h3 class="heading h4 mb-2">Practice</h3>
-            <p class="mb-3">
-              During the spring season, we practice on weeknights at <a href={playing.fieldUrl} class="text-[var(--color-accent)] hover:underline">{playing.field}</a> or <a href={playing.practiceFieldUrl} class="text-[var(--color-accent)] hover:underline">{playing.practiceField}</a> in {playing.practiceCity}. We practice when we have a game the following weekend. Fall is more casual — just Sunday games, no weeknight practices.
+            <p class="mb-4">
+              Our new player guide covers divisions, seasons, costs, what to bring, and how to join.
             </p>
-
-            <h3 class="heading h4 mb-2">Joining</h3>
-            <p class="mb-3">
-              {playing.joiningNote}
-            </p>
-
-            <h3 class="heading h4 mb-2">More Than Games</h3>
-            <p>
-              {playing.socialNote}
-            </p>
+            <a href="/join/" class="btn btn-primary">Read the Join Guide</a>
           </div>
 
           <div>
