@@ -6,13 +6,23 @@
  * gtag.js until first user interaction or 3 seconds, whichever comes first.
  *
  * Events:
- *   page_view      — every Astro navigation (including View Transitions)
+ *   page_view      — initial load via gtag config (send_page_view). The
+ *                    astro:page-load re-send below only fires if Astro View
+ *                    Transitions / ClientRouter is enabled. It is NOT today:
+ *                    every navigation is a full page load, so the gtag config
+ *                    handles pageviews natively. Block kept for future-proofing.
  *   nav_click      — header, mobile, footer nav link clicks
  *   cta_click      — hero buttons and other conversion-oriented links
- *   generate_lead  — contact/join form submission (inline in contact.astro, join.astro)
+ *   form_start     — first field focus on a form (inline in contact.astro, join.astro)
+ *   generate_lead  — contact/join form submission success (inline in contact.astro, join.astro)
+ *   form_error     — form submission failure; error_type: turnstile | server | network
  *   phone_click    — tel: link clicks (future-proofed)
  *   photo_view     — photo modal opened
  *   photo_submit   — photo uploaded via /admin/photo/ (inline in admin/photo/index.astro)
+ *
+ * Form events carry form_id (join_form | contact_form) and form_name. generate_lead
+ * on the join form also carries experience_level, division_interest, season_interest.
+ * Register these params as custom dimensions in GA4 to use them in reports.
  */
 
 export {};

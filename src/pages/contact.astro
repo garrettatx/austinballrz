@@ -201,6 +201,20 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
     var errorText = document.getElementById('form-error-text');
     if (!form || !btn) return;
 
+    function track(name, params) {
+      if (typeof window.gtag === 'function') window.gtag('event', name, params);
+    }
+    var FORM_ID = 'contact_form';
+    var FORM_NAME = 'Contact';
+
+    // form_start — first interaction with any field, once per page load
+    var started = false;
+    form.addEventListener('focusin', function() {
+      if (started) return;
+      started = true;
+      track('form_start', { form_id: FORM_ID, form_name: FORM_NAME, page_path: window.location.pathname });
+    });
+
     form.addEventListener('submit', async function(e) {
       e.preventDefault();
 
@@ -226,6 +240,8 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
       if (document.querySelector('.cf-turnstile') && !turnstileToken) {
         errorText.textContent = 'Please complete the security check.';
         errorEl.classList.remove('hidden');
+        errorEl.focus();
+        track('form_error', { form_id: FORM_ID, form_name: FORM_NAME, error_type: 'turnstile' });
         btn.disabled = false;
         btn.textContent = 'Send Message';
         return;
@@ -257,22 +273,26 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
           successEl.focus();
 
           // Track conversion
-          if (typeof window.gtag === 'function') {
-            window.gtag('event', 'generate_lead', {
-              currency: 'USD',
-              value: 0,
-              lead_type: form.reason.value,
-            });
-          }
+          track('generate_lead', {
+            currency: 'USD',
+            value: 0,
+            lead_type: form.reason.value,
+            form_id: FORM_ID,
+            form_name: FORM_NAME,
+          });
         } else {
           errorText.textContent = data.error || 'Something went wrong. Please try again.';
           errorEl.classList.remove('hidden');
+          errorEl.focus();
+          track('form_error', { form_id: FORM_ID, form_name: FORM_NAME, error_type: 'server' });
           btn.disabled = false;
           btn.textContent = 'Send Message';
         }
       } catch (err) {
         errorText.textContent = 'Could not send message. Please try again.';
         errorEl.classList.remove('hidden');
+        errorEl.focus();
+        track('form_error', { form_id: FORM_ID, form_name: FORM_NAME, error_type: 'network' });
         btn.disabled = false;
         btn.textContent = 'Send Message';
       }

@@ -27,12 +27,17 @@ Deployed to Cloudflare Pages. Source at github.com/garrettatx/austinballrz.
 GA4 ID is centralized in `site.ts` as `site.ga4Id`. The deferred loader delays gtag.js until
 first user interaction or 3 seconds. Events are documented in `src/scripts/analytics.ts`.
 
-Key events: `page_view`, `nav_click`, `cta_click`, `generate_lead`, `photo_submit`, `photo_view`.
+Key events: `page_view`, `nav_click`, `cta_click`, `form_start`, `generate_lead`, `form_error`, `photo_submit`, `photo_view`.
 
-Form tracking:
-- Contact form → `generate_lead` (inline in contact.astro)
-- Join form → `generate_lead` with `lead_type: 'new_player'` (inline in join.astro)
+Form tracking (both forms carry `form_id` and `form_name`):
+- `form_start` → first field focus, once per page load
+- Contact form → `generate_lead` with `lead_type` from the reason dropdown (inline in contact.astro)
+- Join form → `generate_lead` with `lead_type: 'new_player'` plus `experience_level`, `division_interest`, `season_interest` (inline in join.astro)
+- `form_error` on submit failure → `error_type`: `turnstile` | `server` | `network`
 - Photo upload → `photo_submit` (inline in admin/photo/index.astro)
+
+Register `form_id`, `form_name`, `lead_type`, `error_type`, `experience_level`, `division_interest`,
+`season_interest` as custom dimensions in GA4, and mark `generate_lead` as a Key Event.
 
 ## Page Types
 

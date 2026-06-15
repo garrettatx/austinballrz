@@ -86,9 +86,9 @@ const ga4Id = site.ga4Id;
         document.head.appendChild(f);
         e.forEach(function(v){document.removeEventListener(v,g,true);});
       }
-      var e=['scroll','click','keydown','touchstart','mousemove'];
+      var e=['scroll','click','keydown','touchstart','mousemove','visibilitychange'];
       e.forEach(function(v){document.addEventListener(v,g,{capture:true,once:true,passive:true});});
-      var t=setTimeout(g,3000);
+      var t=setTimeout(g,2000);
     })();
   </script>
 </head>
