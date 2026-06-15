@@ -213,8 +213,6 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
                     <option value="they/them">they/them</option>
                     <option value="he/they">he/they</option>
                     <option value="she/they">she/they</option>
-                    <option value="ze/zir">ze/zir</option>
-                    <option value="xe/xem">xe/xem</option>
                     <option value="any pronouns">any pronouns</option>
                     <option value="ask me">ask me</option>
                   </select>
@@ -273,18 +271,18 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
 
             {/* ── Emergency contact ── */}
             <fieldset style="border: none; padding: 0; margin: 0;">
-              <legend class="heading h4 mb-2">Emergency Contact</legend>
-              <p class="mb-3" style="font-size: var(--text-sm); color: var(--color-muted);">We play outdoors in Texas heat. Coaches need this in case of injury or medical emergency during practice or games.</p>
+              <legend class="heading h4 mb-2">Emergency Contact <span style="font-weight: 400; font-size: var(--text-sm); color: var(--color-muted);">(optional)</span></legend>
+              <p class="mb-3" style="font-size: var(--text-sm); color: var(--color-muted);">We play outdoors in Texas heat. Share this now or when you register. Coaches use it in case of injury during practice or games.</p>
 
               <div class="stack stack-md">
                 <div class="grid grid-cols-1 sm:grid-cols-2" style={`gap: var(--space-4);`}>
                   <div>
                     <label for="emergency-name" class="label mb-1" style="display: block; color: var(--color-dark);">Contact name</label>
-                    <input type="text" id="emergency-name" name="emergency_name" required class="w-full rounded-lg" style={`padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); font-size: var(--text-base); font-family: var(--font-body);`} />
+                    <input type="text" id="emergency-name" name="emergency_name" class="w-full rounded-lg" style={`padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); font-size: var(--text-base); font-family: var(--font-body);`} />
                   </div>
                   <div>
                     <label for="emergency-phone" class="label mb-1" style="display: block; color: var(--color-dark);">Contact phone</label>
-                    <input type="tel" id="emergency-phone" name="emergency_phone" required class="w-full rounded-lg" style={`padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); font-size: var(--text-base); font-family: var(--font-body);`} />
+                    <input type="tel" id="emergency-phone" name="emergency_phone" class="w-full rounded-lg" style={`padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); font-size: var(--text-base); font-family: var(--font-body);`} />
                   </div>
                 </div>
               </div>
@@ -420,7 +418,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
               'iPride rating: ' + (form.rating.value || 'Unknown'),
               'Division interest: ' + form.division_interest.value,
               'Season interest: ' + form.season_interest.value,
-              'Emergency contact: ' + form.emergency_name.value + ' / ' + form.emergency_phone.value,
+              (form.emergency_name.value || form.emergency_phone.value) ? 'Emergency contact: ' + form.emergency_name.value + ' / ' + form.emergency_phone.value : '',
               form.notes.value ? 'Notes: ' + form.notes.value : '',
             ].filter(Boolean).join('\n'),
             turnstileToken: turnstileToken,
