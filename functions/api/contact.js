@@ -20,7 +20,7 @@ export async function onRequestPost(context) {
 
   try {
     const body = await request.json();
-    const { name, pronouns, email, phone, reason, message, turnstileToken, honeypot } = body;
+    const { name, pronouns, email, phone, reason, message, source, turnstileToken, honeypot } = body;
 
     // ── Honeypot (silent success for bots) ──
     if (honeypot) {
@@ -117,6 +117,13 @@ export async function onRequestPost(context) {
     const reasonLabel = reason || 'General';
     const sanitize = (str) => str.trim().replace(/[<>]/g, '');
 
+    // Distinguish the dedicated join form from general contact messages
+    // so the two are easy to tell apart in the inbox.
+    const isJoinForm = source === 'join' || reasonLabel === 'New player interest';
+    const subject = isJoinForm
+      ? `New Player: ${sanitize(name)}`
+      : `Contact Form (${reasonLabel}): ${sanitize(name)}`;
+
     const pronounsLabel = pronouns?.trim() || 'Prefer not to say';
 
     const emailBody = [
@@ -153,7 +160,7 @@ export async function onRequestPost(context) {
         personalizations: [
           {
             to: toAddresses,
-            subject: `Austin Ball'rz Contact: ${reasonLabel} — ${sanitize(name)}`,
+            subject,
           },
         ],
         from: {
@@ -178,6 +185,66 @@ export async function onRequestPost(context) {
         JSON.stringify({ error: 'Could not send message. Please try again later.' }),
         { status: 500, headers }
       );
+    }
+
+    // ── Confirmation email to the submitter (best-effort) ──
+    // Separate send so we control Reply-To (routes back to the team) and never
+    // expose internal recipient addresses. Failure here must not fail the request.
+    try {
+      const confirmSubject = isJoinForm
+        ? "Thanks for your interest — Austin Ball'rz"
+        : "We got your message — Austin Ball'rz";
+
+      const confirmIntro = isJoinForm
+        ? "Thanks for your interest in playing with the Austin Ball'rz. A coach will reach out within a few days about next steps."
+        : "Thanks for reaching out to the Austin Ball'rz. We'll get back to you within a day or two.";
+
+      const confirmText = [
+        `Hi ${sanitize(name)},`,
+        '',
+        confirmIntro,
+        '',
+        'For your records, here is what you sent:',
+        '',
+        sanitize(message),
+        '',
+        "— Austin Ball'rz",
+      ].join('\n');
+
+      const confirmHtml = [
+        `<p>Hi ${sanitize(name)},</p>`,
+        `<p>${confirmIntro}</p>`,
+        `<p style="color: #6b7280;">For your records, here is what you sent:</p>`,
+        `<blockquote style="margin: 0; padding-left: 1rem; border-left: 3px solid #e5e7eb; color: #374151;">${sanitize(message).replace(/\n/g, '<br>')}</blockquote>`,
+        `<p>— Austin Ball'rz</p>`,
+      ].join('\n');
+
+      const replyToTeam = toAddresses[0]?.email || env.CONTACT_EMAIL_FROM;
+
+      const confirmResponse = await fetch('https://api.sendgrid.com/v3/mail/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${env.SENDGRID_API_KEY}`,
+        },
+        body: JSON.stringify({
+          personalizations: [
+            { to: [{ email: sanitize(email), name: sanitize(name) }], subject: confirmSubject },
+          ],
+          from: { email: env.CONTACT_EMAIL_FROM, name: "Austin Ball'rz" },
+          reply_to: { email: replyToTeam },
+          content: [
+            { type: 'text/plain', value: confirmText },
+            { type: 'text/html', value: confirmHtml },
+          ],
+        }),
+      });
+
+      if (!confirmResponse.ok) {
+        console.error('Confirmation email failed:', confirmResponse.status, await confirmResponse.text());
+      }
+    } catch (confirmErr) {
+      console.error('Confirmation email error:', confirmErr.message);
     }
 
     return new Response(

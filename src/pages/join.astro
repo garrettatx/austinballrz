@@ -413,6 +413,7 @@ const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
             email: form.email.value,
             phone: form.phone.value,
             reason: 'New player interest',
+            source: 'join',
             message: [
               'Experience: ' + form.experience.value,
               'iPride rating: ' + (form.rating.value || 'Unknown'),
