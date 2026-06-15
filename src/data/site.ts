@@ -23,6 +23,7 @@ export const site = {
  * Used by Header and mobile nav components.
  */
 export const navigation = [
+  { label: 'Join', href: '/join/' },
   { label: 'History', href: '/history/' },
   { label: 'Achievements', href: '/achievements/' },
   { label: 'Photos', href: '/photos/' },
@@ -32,6 +33,7 @@ export const navigation = [
 
 /** All pages in site order — used for footer links and prev/next navigation */
 export const allPages = [
+  { label: 'Join', href: '/join/' },
   { label: 'History', href: '/history/' },
   { label: 'Achievements', href: '/achievements/' },
   { label: 'Photos', href: '/photos/' },

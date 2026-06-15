@@ -20,7 +20,7 @@ Deployed to Cloudflare Pages. Source at github.com/garrettatx/austinballrz.
 - `src/layouts/Layout.astro` — Main layout (GA4, OG tags, global.css, noindex prop)
 - `src/components/admin/AdminLayout.astro` — Standalone admin layout (no global.css, own GA4)
 - `src/scripts/analytics.ts` — GA4 event tracking (nav clicks, CTA clicks, photo views)
-- `astro.config.mjs` — Sitemap filter excludes `/admin/` and `/join/`
+- `astro.config.mjs` — Sitemap filter excludes `/admin/`
 
 ## GA4 Analytics
 
@@ -40,7 +40,6 @@ Form tracking:
 All pages in `src/data/site.ts` navigation + allPages arrays.
 
 ### Orphan/unlisted pages (noindex, excluded from sitemap)
-- `/join/` — New player guide, shared directly with prospective players
 - `/admin/` — Admin tools hub (uses main Layout with Header/Footer)
 - `/admin/photo/` — Photo submission (standalone HTML, has own GA4)
 - `/admin/dashboard/*` — Login-gated admin tools (AdminLayout, no GA4)
